@@ -1,0 +1,139 @@
+<template>
+  <div id="app">
+    <top-title></top-title>
+    <router-view/>
+    <ul id="nav" v-if="!isNav">
+      <li v-for="(i,index) in navList" :key="index">
+        <router-link :to="i.link">
+          <img class="ativeUrl" :src="i.ativeUrl" alt="">
+          <img :src="i.url" alt="">
+          <span>{{i.name}}</span>
+        </router-link>
+      </li>
+    </ul>
+  </div>
+</template>
+<script>
+export default {
+  name: 'App',
+  data(){
+    return {
+      navList: [{
+        name: '首页',
+        url: require('@/assets/index.png'),
+        ativeUrl: require('@/assets/index1.png'),
+        link: '/index'
+      },{
+        name: '特价车',
+        url: require('@/assets/sale.png'),
+        ativeUrl: require('@/assets/sale1.png'),
+        link: '/sale'
+      },{
+        name: '咨讯',
+        url: require('@/assets/information.png'),
+        ativeUrl: require('@/assets/information1.png'),
+        link: '/information'
+      },{
+        name: '车险',
+        url: require('@/assets/insurance.png'),
+        ativeUrl: require('@/assets/insurance1.png'),
+        link: '/insurance'
+      },{
+        name: '我的',
+        url: require('@/assets/my.png'),
+        ativeUrl: require('@/assets/my1.png'),
+        link: '/my'
+      }]
+    }
+  },
+  mounted(){
+    console.log(this.$route.meta)
+  },
+  computed:{
+    isNav(){
+      return this.$route.meta.hideNav
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.bd{
+  height: .026667rem;
+  left: 0;right: 0;bottom: 0;
+  background: #F2F4F7;
+  margin: 0 .4rem;
+}
+.t600{
+  font-family:PingFang SC;
+  font-weight:600;
+}
+#app{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  padding-top: 1.173333rem;
+  #nav{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.306667rem;
+    display: flex;
+    padding-top: .133333rem;
+    justify-content: space-between;
+    border-top: 1px solid #ececec;
+    li{
+      flex: 1;
+      position: relative;
+      padding-top: .666667rem;
+      .router-link-active{
+        .ativeUrl{
+          z-index: 1;
+        }
+        span{
+          color: #2E6BE6;
+        }
+      }
+      a{
+        display: block;
+        height: 100%;
+        text-align: center;
+        text-decoration: none;
+        color: #8F9BB3;
+        font-size: .32rem;
+      }
+      img{
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: .64rem;
+        height: .64rem;
+      }
+    }
+  }
+}
+.container{
+  margin: auto;
+  width: 9.2rem;
+}
+.line{
+  background: #F2F4F7;
+  height: .213333rem;
+}
+.shadow{
+  border-radius: .133333rem;
+  background: #fff;
+  box-shadow: 0 -0.01rem 0.2rem 0 rgba(46,107,230,0.19);
+}
+</style>
