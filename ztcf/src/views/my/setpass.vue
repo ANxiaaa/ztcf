@@ -56,8 +56,10 @@
           label-class="inputName t600"
           v-model="newPhone"
           label="新手机号:"
+          @input="jc"
           placeholder="请输入您的新手机号"
         />
+        <span class="jiance">{{jcphone}}</span>
         <div class="bd"></div>
       </van-cell-group>
       <van-cell-group>
@@ -68,11 +70,11 @@
           label="验证码:"
           placeholder="请输入您收到的验证码"
         />
-        <yanzhengma :old-phone="oldPhone" :phone="newPhone" style="position: absolute;right: .4rem;top: 0;bottom: 0;margin: auto;border: none;"></yanzhengma>
+        <yanzhengma v-if="repeat" :old-phone="oldPhone" :phone="newPhone" style="position: absolute;right: .4rem;top: 0;bottom: 0;margin: auto;border: none;"></yanzhengma>
         <div class="bd"></div>
       </van-cell-group>
     </div>
-    <btn :style="btnStyle" name="确认修改" :click="sub"></btn>
+    <btn :disabled="yzm.length != 6 || userData.phone != oldPhone" :style="btnStyle" name="确认修改" :click="sub"></btn>
   </div>
 </template>
 
@@ -91,6 +93,7 @@ export default {
     return {
       dxts: false,
       yjts: false,
+      time: null,
       btnStyle: {
         position: 'absolute',
         top: `${660 / 75}rem`,
@@ -103,15 +106,13 @@ export default {
       changePhone: false,
       oldPhone: '',
       newPhone: '',
-      yzm: ''
+      yzm: '',
+      jcphone: '',
+      repeat: false
     }
   },
   methods:{
-    sendCode(){
-      return false
-    },
     sub(){
-      console.log(this.oldPhone)
       if(!this.changePhone){
         if(this.newPass === '' || this.againPass === '' || this.oldPass === ''){
             this.Toast.fail('请输入密码!')
@@ -120,14 +121,52 @@ export default {
                 message: '必须包含一个大写，一个小写字母，且长度为8到16位!',
                 duration: 2000
             })
-        }else if(this.newPass !== this.againPass){
+        }else if(this.newPass != this.againPass){
             this.Toast.fail('两次密码输入不一致!')
         }else{
             console.log(this.newPass)
             console.log(this.pass)
         }
+      }else{
+        if(!/^1[3456789]\d{9}$/.test(this.newPhone)){
+          this.Toast.fail('请输入正确的新手机号')
+          return
+        }
+        if(this.repeat && this.userData.phone == this.oldPhone){
+          let data = {
+            phone: this.oldPhone,
+            newPhone: this.newPhone,
+            sendCode: this.yzm
+          }
+          console.log(data)
+          this.$api.user.updatePhone(data).then(res=>{
+            console.log(res)
+            if(res.code == 200){
+              localStorage.removeItem('isLogin')
+              this.$router.push('/my')
+            }
+          })
+        }
       }
     },
+    jc(a){
+      clearTimeout(this.time)
+      this.jcphone = ''
+      this.repeat = false
+      if(a.length === 11){
+        console.log(a)
+        this.time = setTimeout(() => {
+          this.$api.user.checkPhoneExist(this.newPhone).then(res=>{
+            if(res.code === 200){
+              this.jcphone = '手机号未占用'
+              this.repeat = true
+            }else{
+              this.jcphone = res.msg
+            }
+          })
+        }, 100);
+      }
+    }
   },
   mounted(){
     let title
@@ -167,7 +206,14 @@ p{
     color: #D95A41
   }
 }
-
+.jiance{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: .8rem;
+  height: .4rem;
+  margin: auto;
+}
 </style>
 <style scoped>
 .setpass{
@@ -178,6 +224,7 @@ p{
   border: none;
 }
 >>> .inputName{
-  color: #999
+  color: #999;
+  position: relative
 }
 </style>

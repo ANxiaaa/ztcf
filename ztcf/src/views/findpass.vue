@@ -78,7 +78,7 @@ export default {
         },
         userData(){
             let data = this.$store.getters.userData
-            return data
+            return Object.assign({}, data)
         }
     }
 }

@@ -7,7 +7,7 @@
         </div>
         <div class="isLogin">
           <div class="login" v-if="isLogin">
-            <p class="t600">{{userData.nikeName}}</p>
+            <p class="t600">{{userData.nickName}}</p>
             <p class="t600 t2">邀请码: {{userData.referralCode}}</p>
           </div>
           <div v-else>
@@ -132,7 +132,7 @@ export default {
         pic: require('@/assets/my/guanyu.png'),
         name: '关于郑泰',
         click: this.tosetting
-      }],
+      }]
     }
   },
   methods:{
@@ -165,15 +165,17 @@ export default {
     }
   },
   mounted(){
-    this.$store.commit('changeTitle','个人中心')
-    // localStorage.removeItem('isLogin')
-    localStorage.isLogin = '1'
-    if(localStorage.login){
-      this.$api.login.getMemberInfo().then(res=>{
-        console.log(res)
-        localStorage.userData = JSON.stringify(res.data)
-      })
+    this.$store.commit('changeTitle', '个人中心')
+    let userData
+    if(localStorage.userData){
+      userData = JSON.parse(localStorage.userData)
+      this.$store.commit('changeUserData', userData)
     }
+    // localStorage.removeItem('isLogin')
+    // localStorage.removeItem('userData')
+    // localStorage.isLogin = '1'
+    // localStorage.removeItem('isLogin')
+
   },
   computed:{
     isLogin(){
@@ -181,10 +183,8 @@ export default {
     },
     userData(){
       let data = this.$store.getters.userData
-      data.nikeName = '郑泰客服用户'
-      data.referralCode = "asd123"
-      data.headImg = "https://qlogo2.store.qq.com/qzone/704912509/704912509/100?1564718244"
-      return data
+      return Object.assign({}, data)
+      // return data
     }
   }
 }

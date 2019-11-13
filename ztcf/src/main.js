@@ -19,7 +19,6 @@ Vue.component('topTitle', topTitle)
 Vue.prototype.Toast = Toast
 Vue.prototype.global = global
 
-
 /* eslint-disable no-new */
 new Vue({
   store,

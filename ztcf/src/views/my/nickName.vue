@@ -1,7 +1,7 @@
 <template>
   <div class="setpass">
     <p class="t600">
-      <span class="phone">您当前的昵称为:<span>{{userData.nikeName}}</span></span>
+      <span class="phone">您当前的昵称为:<span>{{userData.nickName}}</span></span>
     </p>
     <van-cell-group>
       <van-field clearable v-model="nike" placeholder="请输入昵称" />
@@ -26,6 +26,20 @@ export default {
   methods:{
     sub(){
       console.log(this.nike)
+      if(!this.nike){
+        this.Toast.fail('昵称不能为空')
+        return
+      }
+      if(!/^[\u4e00-\u9fa5A-Za-z0-9-_]*$/.test(this.nike)){
+        this.Toast.fail('不能包含特殊字符')
+        return
+      }
+      this.$api.user.updateNickName(this.nike).then(res=>{
+        console.log(res)
+        if(res.code === 200){
+          
+        }
+      })
     },
   },
   mounted(){

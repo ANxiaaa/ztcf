@@ -3,7 +3,7 @@ export default {
         appTitle: '郑泰科技',
         back: false,
         isLogin: false,
-        userData: JSON.parse(localStorage.userData)
+        userData: {}
     },
     getters: {
         appTitle(state){
@@ -16,7 +16,6 @@ export default {
             return state.isLogin
         },
         userData(state){
-            console.log(111)
             return state.userData
         },
     },
@@ -25,8 +24,10 @@ export default {
             state.appTitle = data
         },
         changeLogin(state, data){
-            console.log(111, data)
             state.isLogin = data
+        },
+        changeUserData(state, data){
+            state.userData = data
         },
     },
     actions: {

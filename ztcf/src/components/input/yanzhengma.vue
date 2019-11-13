@@ -29,7 +29,7 @@ export default {
     computed:{
         userData(){
             let data = this.$store.getters.userData
-            return data
+            return Object.assign({}, data)
         }
     },
     methods: {
@@ -52,6 +52,10 @@ export default {
             }
             if(!/^1[3456789]\d{9}$/.test(this.phone)){
                 this.Toast.fail('请输入正确的新手机号')
+                return
+            }
+            if(this.oldPhone === this.phone){
+                this.Toast.fail('手机号码重复')
                 return
             }
             this.loading = true

@@ -27,13 +27,13 @@ export default [
         component: resolve => require(['@/views/my/personal'], resolve)
     },
     {
-        path: '/nikeName', // 修改昵称
-        name: 'NikeName',
+        path: '/nickName', // 修改昵称
+        name: 'nickName',
         meta: {
             hideNav: true,
             back: true
         },
-        component: resolve => require(['@/views/my/nikeName'], resolve)
+        component: resolve => require(['@/views/my/nickName'], resolve)
     },
     {
         path: '/authentication', // 实名认证
@@ -61,5 +61,14 @@ export default [
             back: true
         },
         component: resolve => require(['@/views/my/setAddress'], resolve)
+    },
+    {
+        path: '/toadvisory', // 在线咨询
+        name: 'Toadvisory',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/my/toadvisory'], resolve)
     },
 ]

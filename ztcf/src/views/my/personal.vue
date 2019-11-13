@@ -7,9 +7,9 @@
       <img class="crm" :src="require('@/assets/htx.png')" alt="">
     </div>
     <div class="mt">
-      <goto-list bindtap :click="toNike" name="昵称" :val="userData.nikeName"></goto-list>
+      <goto-list bindtap :click="toNike" name="昵称" :val="userData.nickName"></goto-list>
       <goto-list bindtap :click="toPhone" name="手机号" :val="userData.phone"></goto-list>
-      <goto-list bindtap name="邮箱" :val="userData.nikeName"></goto-list>
+      <goto-list bindtap name="邮箱" :val="userData.nickName"></goto-list>
       <goto-list name="推荐码" :val="userData.referralCode"></goto-list>
     </div>
     <div class="line"></div>
@@ -58,7 +58,7 @@ export default {
       this.$router.push('/setpass?title=更改手机号')
     },
     toNike(){
-      this.$router.push('/nikeName')
+      this.$router.push('/nickName')
     },
     toshiming(){
       this.$router.push('/authentication')
@@ -73,10 +73,7 @@ export default {
   computed:{
     userData(){
       let data = this.$store.getters.userData
-      data.nikeName = '郑泰客服用户'
-      data.referralCode = "asd123"
-      data.headImg = "https://qlogo2.store.qq.com/qzone/704912509/704912509/100?1564718244"
-      return data
+      return Object.assign({}, data)
     }
   }
 }
