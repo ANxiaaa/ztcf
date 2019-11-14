@@ -73,6 +73,7 @@ export default {
                 let _this = this
                 if(res.code == 200){
                     localStorage.isLogin = '1'
+                    localStorage.getuser = '1'
                     this.Toast({
                         message: '登录成功',
                         onOpened(){

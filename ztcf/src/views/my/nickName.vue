@@ -35,9 +35,10 @@ export default {
         return
       }
       this.$api.user.updateNickName(this.nike).then(res=>{
-        console.log(res)
         if(res.code === 200){
-          
+          this.$router.go(-1)
+          localStorage.getuser = '1'
+          this.Toast('修改成功')
         }
       })
     },

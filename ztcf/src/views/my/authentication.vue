@@ -5,14 +5,14 @@
     <goto-list input name="证件号" placeholder="请输入您的证件号"></goto-list>
     <div class="t600 sfz">
         <b>证件照片:</b>
-        <div>
+        <div class="zhengjian">
           <img :src="require('@/assets/my/zhengmian.png')" alt="">
-          <input @change="changeImg" type="file" accept="image/*" capture="camera">
+          <van-uploader :after-read="zhengmianread" :preview-full-image="false" v-model="zhengmian" capture="camera" :max-count="1" image-fit/>
         </div>
         <p>人像面</p>
-        <div>
+        <div class="zhengjian">
           <img :src="require('@/assets/my/beimian.png')" alt="">
-          <input type="file" accept="image/*" capture="camera">
+          <van-uploader :after-read="beimianread" :preview-full-image="false" v-model="beimian" capture="camera" :max-count="1" image-fit/>
         </div>
         <p>国徽面</p>
       <btn name="保存"></btn>
@@ -32,11 +32,15 @@ export default {
   },
   data () {
     return {
-
+      zhengmian: [],
+      beimian: []
     }
   },
   methods:{
-    changeImg(a){
+    zhengmianread(a){
+      console.log(a.getfile)
+    },
+    beimianread(a){
       console.log(a)
     }
   },
@@ -68,7 +72,7 @@ export default {
 }
 .sfz{
   padding-bottom: .32rem;
-  div{
+  .zhengjian{
     margin: auto;
     position: relative;
     width: 8.533333rem;
@@ -77,15 +81,6 @@ export default {
       height: 100%;
       width: 100%;
       display: block;
-    }
-    input{
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      // top: 0;right: 0;left: 0;bottom: 0;
-      opacity: 0;
     }
   }
   p{
@@ -96,5 +91,25 @@ export default {
     text-align: center;
     margin-bottom: .4rem;
   }
+  .van-uploader{
+    position: absolute;
+    top: 0;left: 0;right: 0;bottom: 0;
+    width: auto;height: auto;
+  }
+}
+</style>
+<style scoped>
+>>> .van-uploader >>> input{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+>>> .van-uploader, >>> .van-uploader__upload, >>>.van-uploader__preview, >>>.van-uploader__preview-image{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+>>> .van-uploader .van-uploader__upload{
+  opacity: 0;
 }
 </style>

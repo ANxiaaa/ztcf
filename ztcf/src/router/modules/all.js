@@ -1,4 +1,3 @@
-import { getUserData } from '@/utils/getUserData'
 export default [
     {
         path: '/index', // 首页
@@ -23,11 +22,7 @@ export default [
     {
         path: '/my', // 个人中心
         name: 'My',
-        component: resolve => require(['@/views/my'], resolve),
-        beforeEnter: (to, from, next) => {
-            getUserData()
-            next()
-        }
+        component: resolve => require(['@/views/my'], resolve)
     },
     {
         path: '/',

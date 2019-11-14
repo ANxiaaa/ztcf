@@ -27,7 +27,7 @@ export default {
             state.isLogin = data
         },
         changeUserData(state, data){
-            state.userData = data
+            state.userData = Object.assign({}, data)
         },
     },
     actions: {

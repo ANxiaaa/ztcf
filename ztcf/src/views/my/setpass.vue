@@ -144,6 +144,7 @@ export default {
             if(res.code == 200){
               localStorage.removeItem('isLogin')
               this.$router.push('/my')
+              this.Toast('修改成功请重新登录!')
             }
           })
         }

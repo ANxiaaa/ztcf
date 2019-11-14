@@ -166,16 +166,6 @@ export default {
   },
   mounted(){
     this.$store.commit('changeTitle', '个人中心')
-    let userData
-    if(localStorage.userData){
-      userData = JSON.parse(localStorage.userData)
-      this.$store.commit('changeUserData', userData)
-    }
-    // localStorage.removeItem('isLogin')
-    // localStorage.removeItem('userData')
-    // localStorage.isLogin = '1'
-    // localStorage.removeItem('isLogin')
-
   },
   computed:{
     isLogin(){
@@ -184,7 +174,6 @@ export default {
     userData(){
       let data = this.$store.getters.userData
       return Object.assign({}, data)
-      // return data
     }
   }
 }
