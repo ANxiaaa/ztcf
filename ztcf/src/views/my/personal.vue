@@ -1,10 +1,9 @@
 <template>
   <div class="personal">
-    <div class="headImg" @click="changeImg">
+    <div class="headImg" @click="gouphead">
       <div class="box">
         <img class="head" :src="userData.headImg" alt="">
       </div>
-      <img class="crm" :src="require('@/assets/htx.png')" alt="">
     </div>
     <div class="mt">
       <goto-list bindtap :click="toNike" name="昵称" :val="userData.nickName"></goto-list>
@@ -17,13 +16,6 @@
       <goto-list bindtap :click="toshiming" name="实名认证" :val="userData.authentication"></goto-list>
       <goto-list bindtap :click="toshouhuo" name="收货地址" :val="userData.city"></goto-list>
     </div>
-    <van-action-sheet
-      @select="selectClick"
-      v-model="show"
-      :actions="actions"
-      cancel-text="取消"
-      @cancel="onCancel"
-    />
   </div>
 </template>
 
@@ -37,22 +29,12 @@ export default {
   },
   data () {
     return {
-      show: false,
-      actions: [
-        { name: '拍照' },
-        { name: '从相册中选择' }
-      ]
+
     }
   },
   methods:{
-    selectClick(item, index){
-      console.log(item, index)
-    },
-    changeImg(){
-      this.show = true;
-    },
-    onCancel() {
-      this.show = false;
+    gouphead(){
+      this.$router.push('/upHead')
     },
     toPhone(){
       this.$router.push('/setpass?title=更改手机号')

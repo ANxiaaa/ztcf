@@ -30,3 +30,12 @@ export const updatePhone = params => {
         params
     })
 }
+
+// 修改头像
+export const updateHeadPortrait = data => {
+    return axios({
+        url: '/member/updateHeadPortrait',
+        method: 'put',
+        data
+    })
+}

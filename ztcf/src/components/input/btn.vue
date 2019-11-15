@@ -26,7 +26,6 @@ export default {
     },
     methods: {
         down(a){
-            console.log(this.disabled)
             if(!this.disabled){
                 a.target.style.background = '#1f42a1'
             }

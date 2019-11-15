@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="dingdan container shadow">
-        <my-title :data="myDingdan"></my-title>
+        <my-title :click="toDingdan" :data="myDingdan"></my-title>
         <ul>
           <li v-for="i in dingdanList" :key="i.name">
             <img :src="i.pic" alt="">
@@ -136,6 +136,9 @@ export default {
     }
   },
   methods:{
+    toDingdan(){
+      this.$router.push('/order')
+    },
     tosetting(){
       this.$router.push('/setting')
     },

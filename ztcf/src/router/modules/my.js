@@ -1,4 +1,6 @@
+import order from './order' // 订单
 export default [
+    ...order,
     {
         path: '/setting', // 设置
         name: 'Setting',
@@ -70,5 +72,14 @@ export default [
             back: true
         },
         component: resolve => require(['@/views/my/toadvisory'], resolve)
+    },
+    {
+        path: '/upHead', // 更改头像
+        name: 'UpHead',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/my/upHead'], resolve)
     },
 ]

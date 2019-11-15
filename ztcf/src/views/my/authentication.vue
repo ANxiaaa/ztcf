@@ -7,12 +7,12 @@
         <b>证件照片:</b>
         <div class="zhengjian">
           <img :src="require('@/assets/my/zhengmian.png')" alt="">
-          <van-uploader :after-read="zhengmianread" :preview-full-image="false" v-model="zhengmian" capture="camera" :max-count="1" image-fit/>
+          <up-img @getfile="zhengmianread"></up-img>
         </div>
         <p>人像面</p>
         <div class="zhengjian">
           <img :src="require('@/assets/my/beimian.png')" alt="">
-          <van-uploader :after-read="beimianread" :preview-full-image="false" v-model="beimian" capture="camera" :max-count="1" image-fit/>
+          <up-img @getfile="beimianread"></up-img>
         </div>
         <p>国徽面</p>
       <btn name="保存"></btn>
@@ -24,11 +24,13 @@
 import { mapState } from 'vuex'
 import gotoList from '@/components/list/gotoList'
 import btn from '@/components/input/btn'
+import upImg from '@/components/input/upImg'
 export default {
   name: 'authentication',
   components:{
     gotoList,
-    btn
+    btn,
+    upImg
   },
   data () {
     return {
@@ -38,7 +40,7 @@ export default {
   },
   methods:{
     zhengmianread(a){
-      console.log(a.getfile)
+      console.log(a)
     },
     beimianread(a){
       console.log(a)
@@ -91,25 +93,5 @@ export default {
     text-align: center;
     margin-bottom: .4rem;
   }
-  .van-uploader{
-    position: absolute;
-    top: 0;left: 0;right: 0;bottom: 0;
-    width: auto;height: auto;
-  }
-}
-</style>
-<style scoped>
->>> .van-uploader >>> input{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
->>> .van-uploader, >>> .van-uploader__upload, >>>.van-uploader__preview, >>>.van-uploader__preview-image{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
->>> .van-uploader .van-uploader__upload{
-  opacity: 0;
 }
 </style>

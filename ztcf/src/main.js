@@ -9,7 +9,8 @@ import topTitle from './components/topTitle.vue'
 import store from './store'
 import api from './http'
 import global from '@/utils/global'
-
+import Croppa from 'vue-croppa';
+import 'vue-croppa/dist/vue-croppa.css';
 // vant
 import { Toast } from 'vant';
 Vue.use(Vant)
@@ -18,6 +19,8 @@ Vue.config.productionTip = false
 Vue.component('topTitle', topTitle)
 Vue.prototype.Toast = Toast
 Vue.prototype.global = global
+
+Vue.use(Croppa)
 
 /* eslint-disable no-new */
 new Vue({
