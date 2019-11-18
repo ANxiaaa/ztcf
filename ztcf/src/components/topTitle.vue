@@ -32,7 +32,8 @@ export default {
 <style scoped lang="scss">
 div{
     height: 1.173333rem;
-    position: absolute;
+    position: fixed;
+    background: #fff;
     top: 0;
     left: 0;
     right: 0;

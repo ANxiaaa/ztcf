@@ -113,10 +113,11 @@ export default function $axios(options) {
               err.message = '请求错误'
               break
             case 401:
+              localStorage.removeItem('getuser')
               err.message = '未授权，请登录'
+              break
               // sessionStorage.setItem('user', '')
               // router.push('/login')
-              break
             case 403:
               err.message = '拒绝访问'
               // sessionStorage.setItem('user', '')

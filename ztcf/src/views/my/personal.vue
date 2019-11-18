@@ -2,7 +2,7 @@
   <div class="personal">
     <div class="headImg" @click="gouphead">
       <div class="box">
-        <img class="head" :src="userData.headImg" alt="">
+        <img class="head" :src="baseUrl + userData.headImg" alt="">
       </div>
     </div>
     <div class="mt">
@@ -22,6 +22,7 @@
 <script>
 import { mapState } from 'vuex'
 import gotoList from '@/components/list/gotoList'
+import { baseUrl } from '@/utils/global'
 export default {
   name: 'personal',
   components:{
@@ -56,6 +57,9 @@ export default {
     userData(){
       let data = this.$store.getters.userData
       return Object.assign({}, data)
+    },
+    baseUrl(){
+      return baseUrl
     }
   }
 }

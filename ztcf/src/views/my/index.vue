@@ -3,7 +3,7 @@
     <div :style="bg">
       <div class="title container" @click="login">
         <div class="touxiang">
-          <img :src="userData.headImg" alt="">
+          <img :src="baseUrl + userData.headImg" alt="">
         </div>
         <div class="isLogin">
           <div class="login" v-if="isLogin">
@@ -66,6 +66,7 @@
 <script>
 import myTitle from '@/components/myTitle'
 import { mapState } from 'vuex'
+import { baseUrl } from '@/utils/global'
 export default {
   name: 'my',
   components:{
@@ -91,7 +92,7 @@ export default {
       },
       dingdanList: [{
         pic: require('@/assets/my/dd1.png'),
-        name: '代付款'
+        name: '待付款'
       },{
         pic: require('@/assets/my/dd2.png'),
         name: '接单中'
@@ -177,6 +178,9 @@ export default {
     userData(){
       let data = this.$store.getters.userData
       return Object.assign({}, data)
+    },
+    baseUrl(){
+      return baseUrl
     }
   }
 }

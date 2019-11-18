@@ -21,6 +21,7 @@ Vue.prototype.Toast = Toast
 Vue.prototype.global = global
 
 Vue.use(Croppa)
+localStorage.getuser = '1'
 
 /* eslint-disable no-new */
 new Vue({

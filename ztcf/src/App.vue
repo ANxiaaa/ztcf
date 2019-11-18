@@ -81,11 +81,13 @@ export default {
   top: 0;
   padding-top: 1.173333rem;
   #nav{
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     height: 1.306667rem;
+    background: #fff;
+    z-index: 10;
     display: flex;
     padding-top: .133333rem;
     justify-content: space-between;
