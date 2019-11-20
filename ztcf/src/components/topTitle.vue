@@ -37,6 +37,8 @@ div{
     top: 0;
     left: 0;
     right: 0;
+    z-index: 30;
+    border-bottom: .013333rem solid #ececec;
     span{
         position: absolute;
         height: 100%;
@@ -52,7 +54,6 @@ div{
         line-height: 1.173333rem;
         text-align: center;
         // font-weight: normal;
-        border-bottom: .013333rem solid #ececec;
     }
 }
 </style>

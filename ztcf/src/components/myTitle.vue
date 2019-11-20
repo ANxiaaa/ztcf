@@ -43,7 +43,7 @@ export default {
                     i.style.background = 'none'
                 }
             })
-        },
+        }
     }
 }
 </script>

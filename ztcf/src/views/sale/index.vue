@@ -2,14 +2,14 @@
   <div class="sale" ref="scroll">
     <div style="width: 10rem;margin: auto">
       <div calss="container">
-        <van-search @click="tosearch" placeholder="品牌/车型/车系" shape="round" disabled input-align="center"/>
+        <van-search @click="tosearch('搜索')" placeholder="品牌/车型/车系" shape="round" disabled input-align="center"/>
       </div>
-      <div class="more container">
+      <div @click="tosearch(0)" class="more container">
         <img :src="moreImg" alt="">
       </div>
       <div class="goods">
         <ul class="t600" :style="{width: (goodsList.length * 272) / 75 + 'rem'}">
-          <li v-for="(i, index) in goodsList" :key="index">
+          <li @touchstart="down" @touchend="up" @click="toCarMsg(0)" v-for="(i, index) in goodsList" :key="index">
             <img :src="i.pic" alt="">
             <h6>{{i.txt}}</h6>
             <p>¥{{i.sale}} <del>¥{{i.yuanjia}}</del></p>
@@ -23,7 +23,7 @@
         <p class="t600"><img :src="require('@/assets/hot.png')" alt="">热门品牌</p>
         <div>
           <ul class="hotList t600" :style="{width: (hotList.length * 140) / 75 + 'rem'}">
-            <li v-for="(i, index) in hotList" :key="index">
+            <li @touchstart="down" @touchend="up" v-for="(i, index) in hotList" :key="index">
               <img :src="i.pic" alt="">
               <span>{{i.brand}}</span>
             </li>
@@ -99,8 +99,25 @@ export default {
     }
   },
   methods:{
-    tosearch(){
-      this.$router.push('/saleSearch')
+    tosearch(a){
+      this.$router.push('/saleSearch?title=' + a)
+    },
+    toCarMsg(id){
+      this.$router.push('/carMsg?id=' + id)
+    },
+    down(a){
+      a.path.forEach(i=>{
+        if(i.tagName === 'LI'){
+            i.style.background = '#ececec'
+        }
+      })
+    },
+    up(a){
+      a.path.forEach(i=>{
+        if(i.tagName === 'LI'){
+            i.style.background = 'none'
+        }
+      })
     }
   },
   mounted(){
@@ -192,12 +209,13 @@ export default {
     }
   }
   .hotList{
-    margin-top: .4rem;
+    margin-top: .15rem;
     display: flex;
     justify-content: start;
     margin-left: .133333rem;
     padding-bottom: .4rem;
     li{
+      padding: .13rem 0 .1rem;
       width: 1.866667rem;
       text-align: center;
       color: #666;

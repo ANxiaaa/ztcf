@@ -1,5 +1,5 @@
 <template>
-    <button @touchstart="down" :disabled="disabled" @click="click" @touchend="up" class="w600">{{name}}</button>
+    <button @touchstart="down" @touchend="up" :disabled="disabled" @click="click" class="w600">{{name}}</button>
 </template>
 
 <script>

@@ -175,7 +175,7 @@ export default {
         price: '20万',
         sale: '15万',
         rate: 5
-      },]
+      }]
     }
   },
   methods:{

@@ -5,7 +5,41 @@
                 <p>{{paixu.text}}<img :src="require('@/assets/xiasanjiao.png')" alt=""></p>
                 <div @click.stop class="box" v-show="paixu.show">
                     <div class="an">
-                        <input :class="{active: i.active}" type="button" v-for="(i, index) in paixu.items" @click.stop="changeBtn(paixu.items, index)" :key="i.val" :value="i.text">
+                        <input :class="{active: i.active}" type="button" v-for="(i, index) in paixu.items" @click.stop="changeBtn(paixu.items, index)" :key="i.text" :value="i.text">
+                    </div>
+                </div>
+            </li>
+            <li class="jibie" :class="{active: jibie.show}" @click.stop="changeShow(jibie)">
+                <p>{{jibie.text}}<img :src="require('@/assets/xiasanjiao.png')" alt=""></p>
+                <div @click.stop class="box" v-show="jibie.show">
+                    <div class="an">
+                        <div class="jibielist" v-for="(i, index) in jibie.items" :class="{active: i.active}" @click.stop="changeBtn(jibie.items, index)" :key="i.text">
+                            <img :src="i.active?i.pic1:i.pic" alt="">
+                            {{i.text}}
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="jiage" :class="{active: jiage.show}" @click.stop="changeShow(jiage)">
+                <p>{{jiage.text}}<img :src="require('@/assets/xiasanjiao.png')" alt=""></p>
+                <div @click.stop class="box" v-show="jiage.show">
+                    <div class="an">
+                        <input :class="{active: i.active}" type="button" v-for="(i, index) in jiage.items" @click.stop="changeBtn(jiage.items, index)" :key="i.text" :value="i.text">
+                    </div>
+                </div>
+            </li>
+            <li class="shaixuan" :class="{active: shaixuan.show}" @click.stop="changeShow(shaixuan)">
+                <p>{{shaixuan.text}}<img :src="require('@/assets/xiasanjiao.png')" alt=""></p>
+                <div @click.stop class="box" v-show="shaixuan.show">
+                    <div v-for="i in shaixuan.items" :key="i.text">
+                        <span class="t600">{{i.text}}</span>
+                        <div class="an">
+                            <input :class="{active: a.active}" type="button" v-for="(a, index) in i.list" @click.stop="changeBtn(i.list, index)" :key="a.text" :value="a.text">
+                        </div>
+                    </div>
+                    <div class="sxbtn container t600">
+                        <button @touchstart="deldown" @click="del" @touchend="delup" class="del">删除</button>
+                        <button @click="save" @touchstart="savedown" @touchend="saveup" class="save">保存</button>
                     </div>
                 </div>
             </li>
@@ -51,23 +85,33 @@ export default {
                 items: [{
                     text: '不限',
                     val: 0,
-                    active: true
+                    active: true,
+                    pic: require('@/assets/sale/filter/bx.png'),
+                    pic1: require('@/assets/sale/filter/bx1.png')
                 },{
                     text: '跑车',
                     val: 0,
-                    active: false
+                    active: false,
+                    pic: require('@/assets/sale/filter/pc.png'),
+                    pic1: require('@/assets/sale/filter/pc1.png')
                 },{
                     text: '轿车',
                     val: 0,
-                    active: false
+                    active: false,
+                    pic: require('@/assets/sale/filter/jc.png'),
+                    pic1: require('@/assets/sale/filter/jc1.png')
                 },{
                     text: '皮卡',
                     val: 0,
-                    active: false
+                    active: false,
+                    pic: require('@/assets/sale/filter/pk.png'),
+                    pic1: require('@/assets/sale/filter/pk1.png')
                 },{
                     text: 'SUV',
                     val: 0,
-                    active: false
+                    active: false,
+                    pic: require('@/assets/sale/filter/suv.png'),
+                    pic1: require('@/assets/sale/filter/suv1.png')
                 },]
             },
             jiage:{
@@ -76,7 +120,7 @@ export default {
                 items: [{
                     text: '不限',
                     val: 0,
-                    active: false
+                    active: true
                 },{
                     text: '10万以下',
                     val: 1,
@@ -223,42 +267,60 @@ export default {
         }
     },
     methods: {
-        down(a){
-            a.path.forEach(i=>{
-                if(i.className === 'myTitle'){
-                    i.style.background = '#ececec'
-                }
-            })
+        deldown(a){
+            console.log(a)
+            a.target.style.color = '#c00'
         },
-        up(a){
-            a.path.forEach(i=>{
-                if(i.className === 'myTitle'){
-                    i.style.background = 'none'
-                }
-            })
+        delup(a){
+            a.target.style.color = '#b3b3b3'
+        },
+        savedown(a){
+            a.target.style.backgroundColor = '#1f42a1'
+        },
+        saveup(a){
+            a.target.style.background = '#4771E6'
         },
         changeShow(a){
-            this.$set(a,'show',!a.show)
+            let oheight = (this.$refs.list.offsetTop + this.$refs.list.offsetHeight) + 'px'
+            this.top = oheight
+            if(!a.show){
+                this.$set(this.paixu,'show',false)
+                this.$set(this.jibie,'show',false)
+                this.$set(this.jiage,'show',false)
+                this.$set(this.shaixuan,'show',false)
+            }
+            this.$set(a,'show', !a.show)
         },
         changeBtn(a, index){
-            console.log(a)
-            for(let i = 0;i < a.length;i ++){
-                this.$set(a[i],'active',false)
+            console.log(a, index)
+            if(!a[index].active){
+                for(let i = 0;i < a.length;i ++){
+                    this.$set(a[i],'active',false)
+                }
             }
-            this.$set(a[index],'active',true)
+            this.$set(a[index],'active',!a[index].active)
+        },
+        del(){
+            for(let i = 0;i < this.shaixuan.items.length; i ++){
+                let list = this.shaixuan.items[i].list
+                for(let j = 0;j < list.length;j ++){
+                    this.$set(list[j], 'active', false)
+                }
+            }
+        },
+        save(){
+            let data = {};
+            for(let i = 0;i < this.shaixuan.items.length; i ++){
+                let list = this.shaixuan.items[i].list
+                let items = this.shaixuan.items[i].name
+                for(let j = 0;j < list.length;j ++){
+                    if(list[j].active){
+                        data[items] = list[j].val
+                    }
+                }
+            }
+            console.log(data)
         }
-    },
-    mounted(){
-        console.log(this.$refs)
-        let oheight = (this.$refs.list.offsetTop + this.$refs.list.offsetHeight) + 'px'
-        this.top = oheight
-    },
-    computed:{
-        // top(){
-        //     console.log(this.$refs)
-        //     let oheight = (this.$refs.list.offsetTop + this.$refs.list.offsetHeight) / 75 + 'rem'
-        //     console.log(oheight)
-        // }
     }
 }
 </script>
@@ -271,15 +333,16 @@ export default {
     ul{
         position: relative;
         display: flex;
-        z-index: 1;
+        z-index: 11;
         li.active p{
-            color: #2E6BE6
+            color: #2E6BE6;
         }
         li{
             flex: 1;
             height: 100%;
             text-align: center;
             p{
+                font-size: .32rem;
                 line-height: .986667rem;
                 img{
                     height: .213333rem;
@@ -301,11 +364,11 @@ export default {
                         width: 2.8rem;
                         margin-left: .4rem;
                         margin-bottom: .4rem;
+                        font-size: .32rem;
+                        color: #999;
                         background: none;
                         border-radius: .373333rem;
                         border: .026667rem solid currentColor;
-                        font-size: .32rem;
-                        color: #999;
                     }
                     input.active{
                         color: #4771E6;
@@ -319,9 +382,55 @@ export default {
         position: absolute;
         bottom: 0;
         width: 100%;
+        z-index: 10;
     }
 }
-li.paixu{
-
+li.shaixuan{
+    span{
+        text-align: left;
+        display: block;
+        margin-bottom: .4rem;
+        margin-left: .4rem;
+        font-size:.373333rem;
+        line-height: 1;
+        color: #333;
+    }
+    .sxbtn{
+        margin-top: .3rem;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .266667rem;
+        button{
+            width: 4.266667rem;
+            height: 1.173333rem;
+            border-radius: .586667rem;
+            background: none;
+            border: .026667rem solid currentColor;
+            font-size: .426667rem;
+            font-weight: 500;
+            color: #b3b3b3;
+        }
+        .save{
+            background: #4771E6;
+            border-color: #4771E6;
+            color: #fff;
+        }
+    }
+}
+.jibielist{
+    width: 2.8rem;
+    margin-left: .4rem;
+    margin-bottom: .4rem;
+    font-size: .32rem;
+    color: #999;
+    img{
+        width: 1.333333rem;
+        height: .8rem;
+        display: block;
+        margin: auto;
+    }
+}
+.jibielist.active{
+    color: #4771E6;
 }
 </style>

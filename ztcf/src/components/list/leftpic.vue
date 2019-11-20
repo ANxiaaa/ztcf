@@ -14,6 +14,7 @@
                     <strong >特价: ¥{{list.sale}}</strong>
                     <span>降率: {{list.rate}}%</span>
                 </p>
+                <i></i>
             </div>
         </li>
     </ul>
@@ -40,6 +41,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+ul{
+    position: relative;
+}
 .container{
     height: 3.253333rem;
     padding-bottom: .453333rem;
@@ -92,6 +96,13 @@ export default {
             background: rgba($color: #175CE6, $alpha: .1);
             color: #175CE6;
         }
+    }
+    i{
+        position: absolute;
+        bottom: .453333rem;left: 0;right: 0;
+        height: .026667rem;
+        border-radius: .013333rem;
+        background: #F2F4F7;
     }
 }
 </style>
