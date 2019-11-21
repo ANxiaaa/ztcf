@@ -1,40 +1,40 @@
 <template>
     <div class="searchFilter">
         <ul ref="list">
-            <li class="paixu" :class="{active: paixu.show}" @click.stop="changeShow(paixu)">
+            <li class="paixu" :class="{active: paixu.show || paixu.active}" @click.stop="changeShow(paixu)">
                 <p>{{paixu.text}}<img :src="require('@/assets/xiasanjiao.png')" alt=""></p>
                 <div @click.stop class="box" v-show="paixu.show">
                     <div class="an">
-                        <input :class="{active: i.active}" type="button" v-for="(i, index) in paixu.items" @click.stop="changeBtn(paixu.items, index)" :key="i.text" :value="i.text">
+                        <input :class="{active: i.active}" type="button" v-for="(i, index) in paixu.items" @click.stop="changeBtn(paixu, paixu.items, index)" :key="i.text" :value="i.text">
                     </div>
                 </div>
             </li>
-            <li class="jibie" :class="{active: jibie.show}" @click.stop="changeShow(jibie)">
+            <li class="jibie" :class="{active: jibie.show || jibie.active}" @click.stop="changeShow(jibie)">
                 <p>{{jibie.text}}<img :src="require('@/assets/xiasanjiao.png')" alt=""></p>
                 <div @click.stop class="box" v-show="jibie.show">
                     <div class="an">
-                        <div class="jibielist" v-for="(i, index) in jibie.items" :class="{active: i.active}" @click.stop="changeBtn(jibie.items, index)" :key="i.text">
+                        <div class="jibielist" v-for="(i, index) in jibie.items" :class="{active: i.active}" @click.stop="changeBtn(jibie, jibie.items, index)" :key="i.text">
                             <img :src="i.active?i.pic1:i.pic" alt="">
                             {{i.text}}
                         </div>
                     </div>
                 </div>
             </li>
-            <li class="jiage" :class="{active: jiage.show}" @click.stop="changeShow(jiage)">
+            <li class="jiage" :class="{active: jiage.show || jiage.active}" @click.stop="changeShow(jiage)">
                 <p>{{jiage.text}}<img :src="require('@/assets/xiasanjiao.png')" alt=""></p>
                 <div @click.stop class="box" v-show="jiage.show">
                     <div class="an">
-                        <input :class="{active: i.active}" type="button" v-for="(i, index) in jiage.items" @click.stop="changeBtn(jiage.items, index)" :key="i.text" :value="i.text">
+                        <input :class="{active: i.active}" type="button" v-for="(i, index) in jiage.items" @click.stop="changeBtn(jiage, jiage.items, index)" :key="i.text" :value="i.text">
                     </div>
                 </div>
             </li>
-            <li class="shaixuan" :class="{active: shaixuan.show}" @click.stop="changeShow(shaixuan)">
+            <li class="shaixuan" :class="{active: shaixuan.show || shaixuan.active}" @click.stop="changeShow(shaixuan)">
                 <p>{{shaixuan.text}}<img :src="require('@/assets/xiasanjiao.png')" alt=""></p>
                 <div @click.stop class="box" v-show="shaixuan.show">
                     <div v-for="i in shaixuan.items" :key="i.text">
                         <span class="t600">{{i.text}}</span>
                         <div class="an">
-                            <input :class="{active: a.active}" type="button" v-for="(a, index) in i.list" @click.stop="changeBtn(i.list, index)" :key="a.text" :value="a.text">
+                            <input :class="{active: a.active}" type="button" v-for="(a, index) in i.list" @click.stop="changeBtn(shaixuan, i.list, index)" :key="a.text" :value="a.text">
                         </div>
                     </div>
                     <div class="sxbtn container t600">
@@ -44,7 +44,7 @@
                 </div>
             </li>
         </ul>
-        <div class="ashadow" :style="{ top }" v-show="paixu.show || jibie.show || jiage.show || shaixuan.show"></div>
+        <div @click="close" class="ashadow" :style="{ top }" v-show="paixu.show || jibie.show || jiage.show || shaixuan.show"></div>
     </div>
 </template>
 
@@ -291,14 +291,28 @@ export default {
             }
             this.$set(a,'show', !a.show)
         },
-        changeBtn(a, index){
-            console.log(a, index)
-            if(!a[index].active){
-                for(let i = 0;i < a.length;i ++){
-                    this.$set(a[i],'active',false)
-                }
+        changeBtn(box, a, index){
+            // let show = this.paixu.show || this.jibie.show || this.jiage.show || this.shaixuan.show
+            // console.log(show)
+            if(this.shaixuan.show){
+                a.forEach(i=>{
+                    this.$set(i,'active',false)
+                })
+            }else {
+                if(this.paixu.active)this.$set(this.paixu,'active',false)
+                if(this.jibie.active)this.$set(this.jibie,'active',false)
+                if(this.jiage.active)this.$set(this.jiage,'active',false)
+                if(this.shaixuan.active)this.$set(this.shaixuan,'active',false)
+                this.clearbtn(this.paixu)
+                this.clearbtn(this.jibie)
+                this.clearbtn(this.jiage)
             }
             this.$set(a[index],'active',!a[index].active)
+        },
+        clearbtn(a){
+            a.items.forEach(i=>{
+                this.$set(i, 'active', false)
+            })
         },
         del(){
             for(let i = 0;i < this.shaixuan.items.length; i ++){
@@ -320,6 +334,20 @@ export default {
                 }
             }
             console.log(data)
+        },
+        close(){
+            console.log(this.paixu.items.some(i=>i.active))
+            if(!this.shaixuan.show){
+                if(this.paixu.items.some(i=>i.active))this.$set(this.paixu, 'active', true)
+                if(this.jibie.items.some(i=>i.active))this.$set(this.jibie, 'active', true)
+                if(this.jiage.items.some(i=>i.active))this.$set(this.jiage, 'active', true)
+            }else {
+                this.del()
+            }
+            this.$set(this.paixu, 'show', false)
+            this.$set(this.jibie, 'show', false)
+            this.$set(this.jiage, 'show', false)
+            this.$set(this.shaixuan, 'show', false)
         }
     }
 }

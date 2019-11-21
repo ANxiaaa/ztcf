@@ -1,9 +1,9 @@
 <template>
   <div class="sale" ref="scroll">
-    <div style="width: 10rem;margin: auto">
-      <div calss="container">
+      <div>
         <van-search @click="tosearch('搜索')" placeholder="品牌/车型/车系" shape="round" disabled input-align="center"/>
       </div>
+    <div style="width: 10rem;margin: auto">
       <div @click="tosearch(0)" class="more container">
         <img :src="moreImg" alt="">
       </div>
@@ -140,6 +140,7 @@ export default {
   position: absolute;
   bottom: 1.306667rem;
   top: 1.173333rem;
+  width: 100%;
 }
 .more{
   height: 2.666667rem;

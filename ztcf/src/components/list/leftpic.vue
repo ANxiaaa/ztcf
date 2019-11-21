@@ -14,8 +14,8 @@
                     <strong >特价: ¥{{list.sale}}</strong>
                     <span>降率: {{list.rate}}%</span>
                 </p>
-                <i></i>
             </div>
+            <i></i>
         </li>
     </ul>
 </template>
@@ -90,6 +90,7 @@ ul{
         strong{
             font-weight: 500;
             color: #D95A41;
+            font-size: .4rem;
         }
         span{
             margin-left: .16rem;
