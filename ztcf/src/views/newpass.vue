@@ -11,7 +11,7 @@
             <btmborder type="password" @getData="getPass" name="确认新密码" placeholder="请再次输入您的密码"></btmborder>
         </div>
         <div class="cz"></div>
-        <btn name="确认" :click="sub"></btn>
+        <btn name="确认" @click="sub"></btn>
         <p class="xieyi" @click="changexieyi">
             <img :src="!xieyi?require('@/assets/no.png'):require('@/assets/yes.png')" alt="">
             <span class="txt">我已阅读<span>《郑泰车服服务协议》</span></span>

@@ -22,10 +22,10 @@ export default {
             type: String,
             default: ''
         },
-        click: {
-            type: Function,
-            default: function (){}
-        },
+        // click: {
+        //     type: Function,
+        //     default: function (){}
+        // },
         bindtap: {
             type: Boolean,
             default: false
@@ -68,6 +68,9 @@ export default {
                 }
             })
         },
+        click(){
+            this.$emit('click')
+        }
     }
 }
 </script>

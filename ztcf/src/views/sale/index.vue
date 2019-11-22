@@ -23,7 +23,7 @@
         <p class="t600"><img :src="require('@/assets/hot.png')" alt="">热门品牌</p>
         <div>
           <ul class="hotList t600" :style="{width: (hotList.length * 140) / 75 + 'rem'}">
-            <li @touchstart="down" @touchend="up" v-for="(i, index) in hotList" :key="index">
+            <li @touchstart="down" @touchend="up" v-for="(i, index) in hotList" @click="topinpai" :key="index">
               <img :src="i.pic" alt="">
               <span>{{i.brand}}</span>
             </li>
@@ -105,6 +105,9 @@ export default {
     toCarMsg(id){
       this.$router.push('/carMsg?id=' + id)
     },
+    topinpai(id){
+      this.$router.push('/saleBrand?id=' + id)
+    },
     down(a){
       a.path.forEach(i=>{
         if(i.tagName === 'LI'){
@@ -126,8 +129,10 @@ export default {
     this.$refs.scroll.onscroll = ()=>{
       if(this.$refs.sel.offsetTop <= this.$refs.scroll.scrollTop){
         sideBar.style.opacity = '1'
+        sideBar.style.right = '0'
       }else{
         sideBar.style.opacity = '0'
+        sideBar.style.right = `-${50 / 75}rem`
       }
     }
   }
@@ -237,6 +242,7 @@ export default {
 <style scoped>
 >>> .van-index-bar__sidebar{
   opacity: 0;
-  transition: opacity .5s;
+  /* right: -100%; */
+  transition: opacity .5s, right .5s;
 }
 </style>

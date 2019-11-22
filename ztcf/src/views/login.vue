@@ -14,7 +14,7 @@
             <span class="left" @click="$router.push('/register')">短信验证码登录</span>
             <span class="right" @click="$router.push('/findpass')">忘记密码？</span>
         </div>
-        <btn name="登录" :click="sub"></btn>
+        <btn name="登录" @click="sub"></btn>
         <p class="xieyi" @click="changexieyi">
             <img :src="!xieyi?require('@/assets/no.png'):require('@/assets/yes.png')" alt="">
             <span class="txt">我已阅读<span>《郑泰车服服务协议》</span></span>

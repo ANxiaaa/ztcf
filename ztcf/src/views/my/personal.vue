@@ -6,15 +6,15 @@
       </div>
     </div>
     <div class="mt">
-      <goto-list bindtap :click="toNike" name="昵称" :val="userData.nickName"></goto-list>
-      <goto-list bindtap :click="toPhone" name="手机号" :val="userData.phone"></goto-list>
+      <goto-list bindtap @click="toNike" name="昵称" :val="userData.nickName"></goto-list>
+      <goto-list bindtap @click="toPhone" name="手机号" :val="userData.phone"></goto-list>
       <goto-list bindtap name="邮箱" :val="userData.nickName"></goto-list>
       <goto-list name="推荐码" :val="userData.referralCode"></goto-list>
     </div>
     <div class="line"></div>
     <div class="aa">
-      <goto-list bindtap :click="toshiming" name="实名认证" :val="userData.authentication"></goto-list>
-      <goto-list bindtap :click="toshouhuo" name="收货地址" :val="userData.city"></goto-list>
+      <goto-list bindtap @click="toshiming" name="实名认证" :val="userData.authentication"></goto-list>
+      <goto-list bindtap @click="toshouhuo" name="收货地址" :val="userData.city"></goto-list>
     </div>
   </div>
 </template>

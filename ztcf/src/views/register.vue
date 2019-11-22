@@ -15,7 +15,7 @@
         <div class="cz">
             <span class="left" @click="$router.go(-1)">账号密码登录</span>
         </div>
-        <btn :disabled="yzm.length !== 6" :style="yzm.length !== 6?'background: #666':''" :click="sub" name="登录"></btn>
+        <btn :disabled="yzm.length !== 6" :style="yzm.length !== 6?'background: #666':''" @click="sub" name="登录"></btn>
         <p class="xieyi" @click="changexieyi">
             <img :src="!xieyi?require('@/assets/no.png'):require('@/assets/yes.png')" alt="">
             <span class="txt">我已阅读<span>《郑泰车服服务协议》</span></span>

@@ -16,7 +16,7 @@
       </van-cell-group>
       <div class="bd"></div>
     </div>
-    <btn :style="btnStyle" :click="sub" name="保存"></btn>
+    <btn :style="btnStyle" @click="sub" name="保存"></btn>
   </div>
 </template>
 

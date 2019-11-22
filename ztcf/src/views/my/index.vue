@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="dingdan container shadow">
-        <my-title :click="toDingdan" :data="myDingdan"></my-title>
+        <my-title @click="toDingdan" :data="myDingdan"></my-title>
         <ul>
           <li v-for="i in dingdanList" :key="i.name">
             <img :src="i.pic" alt="">

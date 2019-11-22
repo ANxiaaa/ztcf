@@ -30,7 +30,7 @@
         />
       </van-cell-group>
     </div>
-    <btn name="提交" :click="sub"></btn>
+    <btn name="提交" @click="sub"></btn>
     <van-popup v-model="showPhone" round class="showPhone t600">
       <p>13455554444</p>
       <van-cell clickable title="拨打电话"/>

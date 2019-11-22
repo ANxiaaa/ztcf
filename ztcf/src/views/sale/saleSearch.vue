@@ -1,9 +1,9 @@
 <template>
-  <div class="saleSearch">
+  <div :class="{ oh }" class="saleSearch">
     <form v-if="isSearch" action="/">
       <van-search @search="search" placeholder="品牌/车型/车系" v-model="searchData" shape="round"/>
     </form>
-    <search-filter v-show="!isSearch || showRes"></search-filter>
+    <search-filter @getOh="getOh" v-show="!isSearch || showRes"></search-filter>
     <div v-if="!isSearch || showRes" class="container list">
       <van-list
         v-model="loading"
@@ -32,10 +32,14 @@ export default {
       loading: false,
       finished: false,
       showRes: false,
-      searchList: []
+      searchList: [],
+      oh: false
     }
   },
   methods:{
+    getOh(a){
+      this.oh = a
+    },
     search(val){
       console.log(val)
       this.showRes = true
@@ -128,5 +132,8 @@ export default {
 }
 .list{
   margin-top: .3rem;
+}
+.oh{
+  overflow: hidden !important;
 }
 </style>

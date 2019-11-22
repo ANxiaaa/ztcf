@@ -10,10 +10,10 @@ export default {
             type: String,
             default: ''
         },
-        click: {
-            type: Function,
-            default: new Function
-        },
+        // click: {
+        //     type: Function,
+        //     default: new Function
+        // },
         disabled: {
             type: Boolean,
             default: false
@@ -35,6 +35,9 @@ export default {
                 a.target.style.background = '#4771E6'
             }
         },
+        click(){
+            this.$emit('click')
+        }
     }
 }
 </script>

@@ -4,7 +4,7 @@
     <div class="msg t600">
       <div class="container">
         <p class="price">特价: 15万<span>官方指导价: 20万</span></p>
-        <p class="jianglv"><span>降率: 5%</span><b>详细参数</b></p>
+        <p class="jianglv"><span>降率: 5%</span><b @click="tocanshu(0)">详细参数</b></p>
         <p class="name">宝马 3 系 2019款3251 运动曜夜版</p>
         <p class="time">活动时间: 2019.10.13-2019.12.12</p>
       </div>
@@ -67,7 +67,7 @@
         <img :src="require('@/assets/dianhua.png')" alt="">
         <span>电话</span>
       </p>
-      <btn name="线上下单"></btn>
+      <btn @click="toxiadan(0)" name="线上下单"></btn>
     </div>
   </div>
 </template>
@@ -87,7 +87,13 @@ export default {
     }
   },
   methods:{
-
+    tocanshu(id){
+      this.$router.push('/carParam?id=' + id)
+    },
+    toxiadan(id){
+      console.log(id)
+      // this.$router.push('/carParam?id=' + id)
+    }
   },
   mounted(){
     this.$store.commit('changeTitle', '车辆详情')
@@ -222,6 +228,7 @@ export default {
     color: #666;
     line-height: .56rem;
     margin-top: .293333rem;
+    text-indent: 2em;
   }
 }
 .bottomBtn{
@@ -232,11 +239,12 @@ export default {
   display: flex;
   align-items: center;
   p{
-    margin-right: .4rem;
+    margin-right: .5rem;
     text-align: center;
     font-weight: 500;
     font-size: .32rem;
     color: #8F9BB3;
+    margin-top: .066667rem;
     img{
       width: .48rem;
       height: .48rem;

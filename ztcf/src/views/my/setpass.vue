@@ -74,7 +74,7 @@
         <div class="bd"></div>
       </van-cell-group>
     </div>
-    <btn :disabled="yzm.length != 6 || userData.phone != oldPhone" :style="btnStyle" name="确认修改" :click="sub"></btn>
+    <btn :disabled="yzm.length != 6 || userData.phone != oldPhone" :style="btnStyle" name="确认修改" @click="sub"></btn>
   </div>
 </template>
 

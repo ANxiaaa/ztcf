@@ -45,7 +45,6 @@ ul{
     position: relative;
 }
 .container{
-    height: 3.253333rem;
     padding-bottom: .453333rem;
     display: flex;
     justify-content: space-around;
@@ -54,6 +53,7 @@ ul{
         width: 3.733333rem;
         height: 100%;
         margin-right: .2rem;
+        margin-bottom: .453333rem;
     }
     h5{
         font-size:.426667rem;

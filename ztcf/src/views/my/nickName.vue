@@ -7,7 +7,7 @@
       <van-field clearable v-model="nike" placeholder="请输入昵称" />
       <div class="bd"></div>
     </van-cell-group>
-    <btn name="保存" :click="sub"></btn>
+    <btn name="保存" @click="sub"></btn>
   </div>
 </template>
 

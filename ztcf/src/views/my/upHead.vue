@@ -16,7 +16,7 @@
     show-loading
     ></croppa>
     <p class="t600" @click="edit">更改头像</p>
-    <btn name="保存" :click="save"></btn>
+    <btn name="保存" @click="save"></btn>
   </div>
 </template>
 
