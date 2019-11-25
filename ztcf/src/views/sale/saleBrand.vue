@@ -4,7 +4,7 @@
       <div v-for="(i, index) in 4" :key="index" :index="1">
         <van-index-anchor class="listTop t600"><p class="container">一汽奥迪</p></van-index-anchor>
         <ul class="list">
-          <li class="container" @click="toxinghao">
+          <li class="container" @click="toxinghao(0)">
             <div class="t600">
               <img :src="require('@/assets/sale/goods.png')" alt="">
               <div>
@@ -93,7 +93,9 @@ export default {
     }
   },
   methods:{
-
+    toxinghao(id){
+      this.$router.push('/saleArctic?id=' + id)
+    }
   },
   mounted(){
     this.$store.commit('changeTitle', '选择车系')

@@ -18,10 +18,6 @@ export default {
                 fw: 600, //加粗
                 color: '' //字体颜色
             }
-        },
-        click: {
-            type: Function,
-            default: function(){}
         }
     },
     data () {
@@ -43,6 +39,9 @@ export default {
                     i.style.background = 'none'
                 }
             })
+        },
+        click(){
+            this.$emit('click')
         }
     }
 }

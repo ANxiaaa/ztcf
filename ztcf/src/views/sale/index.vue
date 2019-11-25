@@ -23,7 +23,7 @@
         <p class="t600"><img :src="require('@/assets/hot.png')" alt="">热门品牌</p>
         <div>
           <ul class="hotList t600" :style="{width: (hotList.length * 140) / 75 + 'rem'}">
-            <li @touchstart="down" @touchend="up" v-for="(i, index) in hotList" @click="topinpai" :key="index">
+            <li @touchstart="down" @touchend="up" v-for="(i, index) in hotList" @click="topinpai(0)" :key="index">
               <img :src="i.pic" alt="">
               <span>{{i.brand}}</span>
             </li>

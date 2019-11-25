@@ -68,7 +68,7 @@ export default {
         "======`-.____`-.___\\_____/___.-`____.-'======",
         "                   `=---='",
         "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
-        "         佛祖保佑       永无BUG"
+        "         佛祖保佑              永无BUG"
     ].join('\n'));
   },
   computed:{
@@ -160,4 +160,9 @@ export default {
   background: #fff;
   box-shadow: 0 -0.01rem 0.2rem 0 rgba(46,107,230,0.19);
 }
+.van-tab__pane, .van-tabs__content{
+  min-height: 85vh
+}
+</style>
+<style>
 </style>

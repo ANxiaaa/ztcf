@@ -138,6 +138,7 @@ export default {
   },
   methods:{
     toDingdan(){
+      console.log(1)
       this.$router.push('/order')
     },
     tosetting(){

@@ -44,4 +44,13 @@ export default [
         },
         component: resolve => require(['@/views/sale/saleBrand'], resolve)
     },
+    {
+        path: '/saleArctic', // 特价车品牌选择车型
+        name: 'sSaleArctic',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/sale/saleArctic'], resolve)
+    },
 ]
