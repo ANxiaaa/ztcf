@@ -92,7 +92,7 @@ export default {
   margin: 0 .4rem;
 }
 .t600{
-  font-family:PingFang SC;
+  font-family: '微软雅黑', Arial;
   font-weight:600;
 }
 #app{

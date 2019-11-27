@@ -5,6 +5,7 @@ import store from '@/store'
 import all from './modules/all' // 一级页面、注册登录找回密码页面
 import my from './modules/my' // 个人中心的子级页面
 import sale from './modules/sale' // 特价车的子级页面
+import insurance from './modules/insurance' // 保险的子级页面
 
 Vue.use(Router)
 let router = new Router({
@@ -12,7 +13,8 @@ let router = new Router({
   routes: [
     ...all,
     ...my,
-    ...sale
+    ...sale,
+    ...insurance
   ]
 })
 router.beforeEach((to, from, next) => {

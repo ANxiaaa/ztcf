@@ -2,7 +2,7 @@
   <div class="insurance">
     <div :style="bg">
       <div class="box container shadow">
-        <div class="xinghao">
+        <div class="xinghao" @click="toInsureAdd">
           <b class="t600">车辆型号:</b>
           <p class="t600" :style="!carData.xinghao?{color: '#b3b3b3'}:{color: '#333'}">{{!carData.xinghao?'请选择车辆型号':carData.xinghao}}<span>></span></p>
         </div>
@@ -127,18 +127,21 @@ export default {
     },
     onChange(picker, value, index) {
       this.carData.zi = value
+    },
+    toInsureAdd(){
+      this.$router.push('/insureAddCar')
     }
   },
   mounted(){
     this.$store.commit('changeTitle','车险报价')
-  }
+  },
 }
 </script>
 
 <style scoped lang="scss">
 .insurance{
   height: calc(100% - 1.306667rem);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .box{
   height: 4.933333rem;
