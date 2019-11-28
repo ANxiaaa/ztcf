@@ -2,24 +2,30 @@
   <div class="insurance">
     <div :style="bg">
       <div class="box container shadow">
-        <div class="xinghao" @click="toInsureAdd">
-          <b class="t600">车辆型号:</b>
-          <p class="t600" :style="!carData.xinghao?{color: '#b3b3b3'}:{color: '#333'}">{{!carData.xinghao?'请选择车辆型号':carData.xinghao}}<span>></span></p>
-        </div>
-        <div class="chepai">
-          <b>车牌号:</b>
-          <div>
-            <label class="l1" @click="show = true">
-              <span>{{carData.zi}}</span>
-              <img :src="require('@/assets/insurance/down.png')" alt="">
-            </label>
-            <p class="t600" :style="carData.shangpai?{color: '#b3b3b3'}:{color: '#333'}">
-              <input name="num" :disabled="carData.shangpai" type="text" placeholder="请输入车牌号码" v-model="carData.num" @change="getByteLen" @keyup="get" @input="input" ref="input">
-            </p>
-            <label class="l2" @click="changeshangpai"><img :src="!carData.shangpai?require('@/assets/no.png'):require('@/assets/yes.png')" alt="">未上牌</label>
+        <div>
+          <div class="xinghao" @click="toInsureAdd">
+            <b class="t600">车辆型号:</b>
+            <p class="t600" :style="!carData.xinghao?{color: '#b3b3b3'}:{color: '#333'}">{{!carData.xinghao?'请选择车辆型号':carData.xinghao}}<span>></span></p>
+          </div>
+          <div class="chepai">
+            <b>车牌号:</b>
+            <div>
+              <label class="l1" @click="show = true">
+                <span>{{carData.zi}}</span>
+                <img :src="require('@/assets/insurance/down.png')" alt="">
+              </label>
+              <p class="t600" :style="carData.shangpai?{color: '#b3b3b3'}:{color: '#333'}">
+                <input name="num" :disabled="carData.shangpai" type="text" placeholder="请输入车牌号码" v-model="carData.num" @change="getByteLen" @input="input" ref="input">
+              </p>
+              <label class="l2" @click="changeshangpai"><img :src="!carData.shangpai?require('@/assets/no.png'):require('@/assets/yes.png')" alt="">未上牌</label>
+            </div>
+          </div>
+          <div class="guoqi" v-show="showTime">
+            <b class="t600">到期时间:</b>
+            <p class="t600" :style="carData.shangpai?{color: '#b3b3b3'}:{color: '#333'}">{{carData.time}}</p>
           </div>
         </div>
-        <btn name="确认报价"></btn>
+        <btn @click="toVague" style="margin-top: .746667rem;" name="确认报价"></btn>
       </div>
       <div class="liucheng container">
         <p class="lcTitle">
@@ -70,8 +76,10 @@ export default {
         xinghao: '',
         zi: '豫',
         num: '',
-        shangpai: false //false 未上牌  true 上牌
+        shangpai: false, //false 未上牌  true 上牌
+        time: '2019年12月12日'
       },
+      showTime: false,
       liuchengList: [{
         title: '添加车辆信息，点击确认报价',
         name: '输入车辆相关信息，查看模糊报价。'
@@ -92,6 +100,9 @@ export default {
     }
   },
   methods:{
+    toVague(){
+      this.$router.push('/vague')
+    },
     changeshangpai(){
       this.carData.shangpai = !this.carData.shangpai;
     },
@@ -102,9 +113,7 @@ export default {
       for (let i = 0; i < val.length; i++) {
         let a = val.charAt(i);
         if (!/.*[\u4e00-\u9fa5]+.*$/.test(a) && !/\s+/.test(a)) {
-          console.log(a)
           if(len >= 6){
-            console.log(len)
             break
           }
           len ++;
@@ -113,17 +122,16 @@ export default {
       }
       return res;
     },
-    input() {
+    input(a) {
       var input = this.$refs.input;
-      input.addEventListener('input',function(){
-        this.search = input.value;
-        console.log(this.search)
-      },false)
-    },
-    get() {
-      console.log(this.carData.num)
-      let res = this.getByteLen(this.carData.num).toUpperCase()
-      this.carData.num = res
+      let res = this.getByteLen(input.value).toUpperCase()
+      this.$set(this.carData, 'num', res)
+      if(res.length === 6){
+        // 查询保险过期时间接口, 成功了返回对应时间
+        this.showTime = true
+      }else{
+        this.showTime = false
+      }
     },
     onChange(picker, value, index) {
       this.carData.zi = value
@@ -144,7 +152,6 @@ export default {
   overflow-y: auto;
 }
 .box{
-  height: 4.933333rem;
   padding: .666667rem .4rem;
   b{
     font-weight: 500;
@@ -160,7 +167,6 @@ export default {
       font-weight: 500;
       position: relative;
       flex: 1;
-      font-size:.373333rem;
       line-height: .62rem;
       margin-left: .1rem;
       border-bottom: .013333rem solid #F2F4F7;
@@ -176,7 +182,6 @@ export default {
   .chepai{
     margin-top: .4rem;
     display: flex;
-    margin-bottom: .746667rem;
     div{
       flex: 1;
       padding-left: .35rem;
@@ -277,6 +282,16 @@ export default {
     .leftLine{
       position: absolute
     }
+  }
+}
+.guoqi{
+  margin-top: .4rem;
+  display: flex;
+  justify-content: space-between;
+  p{
+    flex: 1;
+    padding-left: .35rem;
+    border-bottom: .013333rem solid #F2F4F7;
   }
 }
 .xuanze{
