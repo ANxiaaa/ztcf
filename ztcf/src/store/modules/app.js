@@ -3,7 +3,9 @@ export default {
         appTitle: '郑泰科技',
         back: false,
         isLogin: false,
-        userData: {}
+        userData: {},
+        allCar: [],
+        allIndexList: []
     },
     getters: {
         appTitle(state){
@@ -18,6 +20,12 @@ export default {
         userData(state){
             return state.userData
         },
+        allCar(state){
+            return state.allCar
+        },
+        allIndexList(state){
+            return state.allCar
+        },
     },
     mutations: {
         changeTitle(state, data){
@@ -28,6 +36,12 @@ export default {
         },
         changeUserData(state, data){
             state.userData = Object.assign({}, data)
+        },
+        changeAllCar(state, data){
+            state.allCar = data
+        },
+        changeAllIndexList(state, data){
+            state.allCar = data
         },
     },
     actions: {

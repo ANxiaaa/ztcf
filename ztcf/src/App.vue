@@ -47,6 +47,15 @@ export default {
     }
   },
   mounted(){
+    this.$api.carList.allOneCar().then(res=>{
+      let arr = []
+      res.data.forEach(i=>{
+        arr.push(i.initial)
+      })
+      let indexList = [...new Set(arr)].sort()
+      this.$store.commit('changeAllCar',res.data)
+      this.$store.commit('changeAllIndexList',indexList)
+    })
     console.log(this.$route.meta)
     console.log([
         "                   _ooOoo_",
