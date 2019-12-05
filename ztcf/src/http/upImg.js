@@ -3,6 +3,7 @@ import axios from 'axios'
 export const upLoaderImg = (file, url, method) => {
     //file为 你读取成功的回调文件信息
     //new 一个FormData格式的参数
+    console.log(file)
     let params = new FormData()
     params.append('file', file)
     let config = {

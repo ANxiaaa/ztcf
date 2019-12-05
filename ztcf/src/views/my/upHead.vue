@@ -21,13 +21,11 @@
 </template>
 
 <script>
-import upImg from '@/components/input/upImg'
 import btn from '@/components/input/btn'
 import { baseUrl } from '@/utils/global'
 export default {
   name: 'upHead',
   components:{
-    upImg,
     btn
   },
   data () {
