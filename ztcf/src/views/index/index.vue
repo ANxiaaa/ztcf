@@ -202,8 +202,7 @@ export default {
 }
 .title{
   padding: .36rem 0;
-  // font-size: .48rem;
-  font-size: .266667rem;
+  font-size: .48rem;
   color: #fff;
 }
 .topBar{

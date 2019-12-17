@@ -137,7 +137,7 @@ export default {
       this.carData.zi = value
     },
     toInsureAdd(){
-      this.$router.push('/insureAddCar')
+      this.$router.push('/insureAddCar?title=all')
     }
   },
   mounted(){

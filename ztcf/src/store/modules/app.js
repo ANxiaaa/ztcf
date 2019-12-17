@@ -24,7 +24,7 @@ export default {
             return state.allCar
         },
         allIndexList(state){
-            return state.allCar
+            return state.allIndexList
         },
     },
     mutations: {
@@ -41,7 +41,7 @@ export default {
             state.allCar = data
         },
         changeAllIndexList(state, data){
-            state.allCar = data
+            state.allIndexList = data
         },
     },
     actions: {

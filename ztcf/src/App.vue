@@ -48,11 +48,13 @@ export default {
   },
   mounted(){
     this.$api.carList.allOneCar().then(res=>{
+      console.log(res.data)
       let arr = []
       res.data.forEach(i=>{
-        arr.push(i.initial)
+          arr.push(i.initial)
       })
       let indexList = [...new Set(arr)].sort()
+      console.log(indexList)
       this.$store.commit('changeAllCar',res.data)
       this.$store.commit('changeAllIndexList',indexList)
     })
