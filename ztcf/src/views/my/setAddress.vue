@@ -32,8 +32,11 @@ export default {
   },
   data () {
     return {
+      // 地址
       add: true,
+      // 默认
       moren: false,
+      // 按钮样式
       btnStyle: {
         position: 'absolute',
         top: `${910 / 75}rem`,
@@ -43,6 +46,7 @@ export default {
     }
   },
   methods:{
+    // 提交
     sub(){
       console.log(1)
     }
@@ -51,6 +55,7 @@ export default {
     this.$store.commit('changeTitle','收货地址')
   },
   computed:{
+    // 用户信息
     userData(){
       let data = this.$store.getters.userData
       return Object.assign({}, data)

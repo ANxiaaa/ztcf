@@ -39,9 +39,11 @@ export default {
     }
   },
   methods:{
+    // 正面图片
     zhengmianread(a){
       console.log(a)
     },
+    // 背面图片
     beimianread(a){
       console.log(a)
     }

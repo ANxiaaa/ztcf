@@ -1,7 +1,7 @@
 <template>
   <div class="insureAddCar">
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <car-one></car-one>
+      <car-one @toCarTwo="toCarTwo"></car-one>
     </van-list>
   </div>
 </template>
@@ -18,8 +18,9 @@ export default {
   },
   data () {
     return {
-      indexList: [],
+      // 是否加载
       loading: false,
+      // 是否成功
       finished: false
     }
   },
@@ -30,16 +31,25 @@ export default {
         this.loading = false
         this.finished = true
       }, 0);
+    },
+    // 跳转选择车系
+    toCarTwo(data){
+      console.log(data)
+      let params = { parentId: data.id }
+      this.$api.carList.allTwoCar(params).then(res=>{
+        if(res.code == 200){
+          this.$store.commit('changeAllCarTwo',res.data)
+          this.$router.push('/insureCarTwo')
+        }else{
+          this.Toast.fail('获取失败, 请重试!')
+        }
+      })
     }
   },
   mounted(){
-    console.log(this.allCar)
     this.$store.commit('changeTitle','选择品牌')
   },
   computed: {
-    allCar(){
-      return this.$store.getters.allCar
-    }
   }
 }
 </script>

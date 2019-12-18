@@ -1,6 +1,6 @@
 <template>
-  <div class="order">
-    <van-tabs v-model="active" swipeable :line-width="40 / 75 + 'rem'" :line-height="8 / 75 + 'rem'" color="#4771E6" sticky @change="changeOrder" title-active-color="#4771E6" title-inactive-color="#666">
+  <div class="carThree">
+    <van-tabs v-model="active" swipeable :line-width="40 / 75 + 'rem'" :line-height="8 / 75 + 'rem'" color="#4771E6" sticky @change="change" title-active-color="#4771E6" title-inactive-color="#666">
       <van-tab v-for="(i, index) in orderList" :title="i.name" :key="index">
         <ul>
           <li></li>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'order',
+  name: 'carThree',
   components:{
 
   },
@@ -30,33 +30,23 @@ export default {
       },{
         name: '接单中',
         id: 2
-      },{
-        name: '出单中',
-        id: 3
-      },{
-        name: '已出单',
-        id: 4
-      },{
-        name: '取消订单',
-        id: 5
       }],
-      
     }
   },
   methods:{
-    // 改变订单
-    changeOrder(a,b){
+    // 改变选择
+    change(a,b){
       console.log(a,b)
     }
   },
   mounted(){
-    this.$store.commit('changeTitle','我的订单')
+    
   }
 }
 </script>
 
 <style scoped lang="scss">
-.order{
+.carThree{
   height: 100%;
 }
 </style>

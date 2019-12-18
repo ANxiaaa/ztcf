@@ -74,10 +74,12 @@ export default {
   },
   data () {
     return {
+      // 背景
       bg: {
         background: `url(${require('@/assets/my/indexTop.png')}) no-repeat`,
         backgroundSize: '100% 3.733333rem',
       },
+      // 收藏
       shoucang: [{
         url: require('@/assets/my/shoucang.png'),
         name: '我的收藏',
@@ -85,11 +87,13 @@ export default {
         url: require('@/assets/my/jilu.png'),
         name: '浏览记录',
       }],
+      // 订单
       myDingdan: {
         name: '我的订单',
         fs: 32,
         lh: 1
       },
+      // 订单状态
       dingdanList: [{
         pic: require('@/assets/my/dd1.png'),
         name: '待付款'
@@ -106,17 +110,21 @@ export default {
         pic: require('@/assets/my/dd5.png'),
         name: '取消订单'
       }],
+      // 车库
       myCar: {
         name: '我的车库',
         fs: 32,
         lh: 1
       },
+      // 默认车辆
       car: [{
         pic: require('@/assets/my/car.png'),
         num: '豫ABZ539',
         xh: '奥迪A3系2019款豪华版'
       }],
+      // 邀请
       yaoqing: require('@/assets/my/yaoqing.png'),
+      // 功能
       gongnengList:[{
         pic: require('@/assets/my/xiaoxi.png'),
         name: '消息通知',
@@ -137,16 +145,20 @@ export default {
     }
   },
   methods:{
+    // 跳转订单
     toDingdan(){
       console.log(1)
       this.$router.push('/order')
     },
+    // 跳转设置
     tosetting(){
       this.$router.push('/setting')
     },
+    // 跳转咨讯
     toadvisory(){
       this.$router.push('/toadvisory')
     },
+    // 点击反馈
     down(a,b,c){
       a.path.forEach(i=>{
         if(i.tagName === 'LI'){
@@ -161,10 +173,11 @@ export default {
         }
       })
     },
+    // 判定登录
     login(){
-      if(!this.isLogin){
-        this.$router.push('/login')
-      }else{
+      if(!this.isLogin){ // 登录
+        this.$router.push('/register')
+      }else{ // 个人中心
         this.$router.push('/personal')
       }
     }
@@ -173,13 +186,16 @@ export default {
     this.$store.commit('changeTitle', '个人中心')
   },
   computed:{
+    // 登录状态
     isLogin(){
       return localStorage.isLogin
     },
+    // 用户信息
     userData(){
       let data = this.$store.getters.userData
       return Object.assign({}, data)
     },
+    // 通用路径
     baseUrl(){
       return baseUrl
     }

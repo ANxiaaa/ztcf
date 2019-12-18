@@ -93,25 +93,37 @@ export default {
     return {
       dxts: false,
       yjts: false,
+      // 定时器容器
       time: null,
+      // 按钮样式
       btnStyle: {
         position: 'absolute',
         top: `${660 / 75}rem`,
         left: 0,
         right: 0
       },
+      // 老密码
       oldPass: '',
+      // 新密码
       newPass: '',
+      // 再次输入密码
       againPass: '',
+      // 更改手机
       changePhone: false,
+      // 老手机
       oldPhone: '',
+      // 新手机
       newPhone: '',
+      // 验证码
       yzm: '',
+      // 检测手机
       jcphone: '',
+      // 未占用
       repeat: false
     }
   },
   methods:{
+    // 提交
     sub(){
       if(!this.changePhone){
         if(this.newPass === '' || this.againPass === '' || this.oldPass === ''){
@@ -150,6 +162,7 @@ export default {
         }
       }
     },
+    // 检测
     jc(a){
       clearTimeout(this.time)
       this.jcphone = ''

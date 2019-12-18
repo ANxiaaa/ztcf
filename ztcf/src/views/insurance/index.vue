@@ -66,12 +66,14 @@ export default {
   },
   data () {
     return {
-      bg: {
+      bg: { // 背景
         background: `url(${require('@/assets/insurance/indexTop.png')}) no-repeat`,
         backgroundSize: '100% 4.32rem',
         paddingTop: 230 / 75 + 'rem'
       },
+      // 显示
       show: false,
+      // 汽车信息
       carData: {
         xinghao: '',
         zi: '豫',
@@ -79,7 +81,9 @@ export default {
         shangpai: false, //false 未上牌  true 上牌
         time: '2019年12月12日'
       },
+      // 到期时间显示
       showTime: false,
+      // 下面字的显示内容
       liuchengList: [{
         title: '添加车辆信息，点击确认报价',
         name: '输入车辆相关信息，查看模糊报价。'
@@ -96,20 +100,23 @@ export default {
         title: '添加车辆信息，点击确认报价',
         name: '输入车辆相关信息，查看模糊报价。'
       }],
+      // 省份
       columns: ['京','津','冀','晋','蒙','辽','吉','黑','沪','苏','浙','皖','闽','赣','鲁','豫','鄂','湘','粤','桂','琼','渝','川','贵','云','藏','陕','甘','青','宁','新']
     }
   },
   methods:{
+    // 跳转车险报价
     toVague(){
       this.$router.push('/vague')
     },
+    // 改变是否上牌
     changeshangpai(){
       this.carData.shangpai = !this.carData.shangpai;
     },
+    // 限制长度
     getByteLen(val) {
       let len = 0;
       let res = '';
-      // let re = ;
       for (let i = 0; i < val.length; i++) {
         let a = val.charAt(i);
         if (!/.*[\u4e00-\u9fa5]+.*$/.test(a) && !/\s+/.test(a)) {
@@ -122,10 +129,12 @@ export default {
       }
       return res;
     },
+    // 监听输入框改变
     input(a) {
       var input = this.$refs.input;
       let res = this.getByteLen(input.value).toUpperCase()
       this.$set(this.carData, 'num', res)
+      // 如果车牌号长度等于 6 查询
       if(res.length === 6){
         // 查询保险过期时间接口, 成功了返回对应时间
         this.showTime = true
@@ -133,11 +142,28 @@ export default {
         this.showTime = false
       }
     },
+    // 更改字
     onChange(picker, value, index) {
       this.carData.zi = value
     },
+    // 跳转添加车辆
     toInsureAdd(){
-      this.$router.push('/insureAddCar?title=all')
+      this.$api.carList.allOneCar().then(res=>{
+        console.log(res.data)
+        if(res.code == 200){
+          let arr = []
+          res.data.forEach(i=>{
+              arr.push(i.initial)
+          })
+          let indexList = [...new Set(arr)].sort()
+          console.log(indexList)
+          this.$store.commit('changeAllCar',res.data)
+          this.$store.commit('changeAllIndexList',indexList)
+          this.$router.push('/insureAddCar')
+        }else{
+          this.Toast.fail('获取失败, 请重试!')
+        }
+      })
     }
   },
   mounted(){

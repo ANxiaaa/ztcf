@@ -60,11 +60,11 @@ export default {
   },
   data () {
     return {
-      bg: {
+      bg: { // 背景图片
         background: `url(${require('@/assets/index/indexTop.png')}) no-repeat`,
         backgroundSize: '100% 2.666667rem',
       },
-      findList:[{
+      findList:[{ // api查询
         name: '违章查询',
         url: require('@/assets/index/find/wzcx.png')
       },{
@@ -95,13 +95,14 @@ export default {
         name: '违章查询',
         url: require('@/assets/index/find/wzcx.png')
       }],
-      xufeiList: [{
+      xufeiList: [{ // 两个按钮
         name: 'GPS续费',
         url: require('@/assets/index/find/xufei1.png')
       },{
         name: '车险估价',
         url: require('@/assets/index/find/xufei2.png')
       }],
+      // 图片
       ad: [require('@/assets/index/ad.png')],
       yingjian:{
         title: {
@@ -109,7 +110,7 @@ export default {
           name: '车载硬件'
         }
       },
-      yingjianList:[{
+      yingjianList:[{ // 商品
         url: require('@/assets/index/yingjianlist.png'),
         price: 369,
         oldprice: 369
@@ -126,7 +127,7 @@ export default {
         price: 369,
         oldprice: 369
       }],
-      tjcList: [{
+      tjcList: [{ // 特价车推荐
         url: require('@/assets/index/tjclist.png'),
         title: '2019款DBS superlrggrra',
         label: ['奥迪-A3','2019款'],
@@ -179,6 +180,7 @@ export default {
     }
   },
   methods:{
+    // 点击反馈
     down(a){
       a.target.style.background = '#073694'
     },

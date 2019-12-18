@@ -34,18 +34,23 @@ export default {
     }
   },
   methods:{
+    // 跳转修改头像
     gouphead(){
       this.$router.push('/upHead')
     },
+    // 跳转修改手机
     toPhone(){
       this.$router.push('/setpass?title=更改手机号')
     },
+    // 跳转修改昵称
     toNike(){
       this.$router.push('/nickName')
     },
+    // 跳转实名
     toshiming(){
       this.$router.push('/authentication')
     },
+    // 跳转收货地址
     toshouhuo(){
       this.$router.push('/addressList')
     }

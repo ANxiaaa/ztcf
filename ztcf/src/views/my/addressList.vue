@@ -30,6 +30,7 @@ export default {
     this.$store.commit('changeTitle','收货地址')
   },
   computed:{
+    // 用户数据
     userData(){
       let data = this.$store.getters.userData
       return Object.assign({}, data)

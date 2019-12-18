@@ -24,6 +24,7 @@ export default {
     }
   },
   methods:{
+    // 提交
     sub(){
       console.log(this.nike)
       if(!this.nike){
@@ -47,6 +48,7 @@ export default {
     this.$store.commit('changeTitle','修改昵称')
   },
   computed:{
+    // 用户信息
     userData(){
       let data = this.$store.getters.userData
       return data

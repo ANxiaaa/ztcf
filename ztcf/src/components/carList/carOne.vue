@@ -3,7 +3,7 @@
         <van-index-bar :index-list="indexList">
             <div v-for="(i, index) in all" :key="index">
                 <van-index-anchor :index="i.index"/>
-                <van-cell clickable v-for="a in i.list" :key="a.initial">
+                <van-cell @click="toCarTwo(a)" clickable v-for="a in i.list" :key="a.initial">
                     <template slot="title">
                         <img :src="a.logo" alt="">
                         <span class="custom-title">{{a.name}}</span>
@@ -26,24 +26,14 @@ export default {
         }
     },
     methods: {
-        down(a){
-            a.path.forEach(i=>{
-                if(i.className === 'myTitle'){
-                    i.style.background = '#ececec'
-                }
-            })
-        },
-        up(a){
-            a.path.forEach(i=>{
-                if(i.className === 'myTitle'){
-                    i.style.background = 'none'
-                }
-            })
-        },
+        // 选择二级车辆
+        toCarTwo(data){
+            this.$emit('toCarTwo', data)
+        }
     },
     mounted(){
+        // 格式化数据
         this.all = this.indexList.map(i => {
-            console.log(i)
             return {
                 index: i,
                 list: this.allCar.filter(a=>a.initial == i)
@@ -52,10 +42,12 @@ export default {
         console.log(this.all)
     },
     computed: {
+        // 所有车辆
         allCar(){
             let data = this.$store.getters.allCar
             return data
         },
+        // 所有车辆存在的首字母
         indexList(){
             let data = this.$store.getters.allIndexList
             return data
@@ -64,14 +56,6 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-.carSelect{
-    width: 10rem;
-    margin: auto;
-    position: relative;
-    font-weight: 500;
-}
-</style>
 <style scoped>
 >>> .van-cell__title{
     height: 1rem;
@@ -80,8 +64,15 @@ export default {
 >>> .van-cell{
     line-height: 1rem;
 }
+>>> .van-cell__title span{
+    font-size: .266667rem
+}
 >>> .van-cell img{
     height: 1rem;
     margin-right: .6rem;
+}
+>>> .van-index-bar__index{
+    font-size: .45rem;
+    line-height: .6rem
 }
 </style>
