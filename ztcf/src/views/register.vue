@@ -13,7 +13,7 @@
             </btmborder>
         </div>
         <div class="cz">
-            <span class="left" @click="$router.go(-1)">账号密码登录</span>
+            <span v-if="false" class="left" @click="$router.go(-1)">账号密码登录</span>
         </div>
         <btn :disabled="yzm.length !== 6" :style="yzm.length !== 6?'background: #666':''" @click="sub" name="登录"></btn>
         <p class="xieyi" @click="changexieyi">

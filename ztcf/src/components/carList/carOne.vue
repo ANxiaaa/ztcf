@@ -65,7 +65,7 @@ export default {
     line-height: 1rem;
 }
 >>> .van-cell__title span{
-    font-size: .266667rem
+    font-size: .373333rem
 }
 >>> .van-cell img{
     height: 1rem;

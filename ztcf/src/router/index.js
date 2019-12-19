@@ -25,6 +25,8 @@ router.beforeEach((to, from, next) => {
         store.commit('changeUserData', res.data)
         localStorage.getuser = ''
       }
+    }).catch(()=>{
+      localStorage.removeItem('isLogin')
     })
   }
   next()
