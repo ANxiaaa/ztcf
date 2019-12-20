@@ -27,6 +27,15 @@ export default [
         component: resolve => require(['@/views/insurance/insureCarThree'], resolve)
     },
     {
+        path: '/insureCarMsg', // 保险添加车辆的车辆信息
+        name: 'InsureCarMsg',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/insurance/insureCarMsg'], resolve)
+    },
+    {
         path: '/vague', // 模糊报价
         name: 'Vague',
         meta: {

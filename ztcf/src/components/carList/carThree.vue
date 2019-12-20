@@ -3,7 +3,7 @@
     <van-tabs v-model="active" :line-width="40 / 75 + 'rem'" :line-height="8 / 75 + 'rem'" color="#4771E6" sticky @change="change" title-active-color="#4771E6" title-inactive-color="#666">
       <van-tab v-for="(i, index) in yearList" :title="i.name" :key="index">
         <ul>
-          <li v-for="(item, idx) in allCarThree" :key="idx" v-if="item.yeartype == activeYear || active == 0">
+          <li @touchstart="down" @touchend="up" @click="toMsg(item)" v-for="(item, idx) in allCarThree" :key="idx" v-if="item.yeartype == activeYear || active == 0">
             <img :src="item.logo" alt="">
             <div>
               <h4>{{item.name}}</h4>
@@ -37,11 +37,27 @@ export default {
     }
   },
   methods:{
+    // 点击反馈
+    down(a){
+      a.path.forEach(i=>{
+        if(i.tagName === 'LI'){
+          i.style.background = '#ececec'
+        }
+      })
+    },
+    up(a){
+      a.path.forEach(i=>{
+        if(i.tagName === 'LI'){
+          i.style.background = '#fff'
+        }
+      })
+    },
     // 改变选择
     change(a,b){
-      console.log(a,b)
       this.activeYear = b.slice(0, 4)
-      console.log(this.activeYear)
+    },
+    toMsg(item){
+      this.$emit('toMsg', item)
     }
   },
   mounted(){

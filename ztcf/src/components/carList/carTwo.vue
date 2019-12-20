@@ -24,21 +24,6 @@ export default {
         }
     },
     methods: {
-        // 点击反馈
-        down(a){
-            a.path.forEach(i=>{
-                if(i.className === 'myTitle'){
-                    i.style.background = '#ececec'
-                }
-            })
-        },
-        up(a){
-            a.path.forEach(i=>{
-                if(i.className === 'myTitle'){
-                    i.style.background = 'none'
-                }
-            })
-        },
         // 跳转三级车型
         toCarThree(data){
             this.$emit('toCarThree', data)
