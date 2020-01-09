@@ -3,7 +3,7 @@
     <div :style="bg">
       <p class="title t600 container">欢迎来到郑泰车服!</p>
       <div class="topBar container">
-        <div v-if="true">
+        <div v-if="true" @click.stop="addCar">
           <p class="t600">用车生活更方便快捷</p>
           <button @touchstart="down" @touchend="up" class="t600">添加爱车</button>
           <img :src="require('@/assets/index/topBarCar.png')" alt="">
@@ -186,6 +186,11 @@ export default {
     },
     up(a){
       a.target.style.background = '#2E6BE6'
+    },
+    // 添加汽车
+    addCar(){
+      console.log(1)
+      this.$router.push('/indexAddCar')
     }
   },
   mounted(){

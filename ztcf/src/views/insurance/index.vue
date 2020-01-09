@@ -5,7 +5,9 @@
         <div>
           <div class="xinghao" @click="toInsureAdd">
             <b class="t600">车辆型号:</b>
-            <p class="t600" :style="!carData.xinghao?{color: '#b3b3b3'}:{color: '#333'}">{{!carData.xinghao?'请选择车辆型号':carData.xinghao}}<span>></span></p>
+            <p class="t600" :style="!carData.xinghao?{color: '#b3b3b3'}:{color: '#333'}">
+              <strong>{{!carData.xinghao?'请选择车辆型号':carData.xinghao}}</strong>
+              <span>></span></p>
           </div>
           <div class="chepai">
             <b>车牌号:</b>
@@ -168,7 +170,12 @@ export default {
   },
   mounted(){
     this.$store.commit('changeTitle','车险报价')
-  },
+    if(this.$route.query.carName){
+      console.log(this.$route.query.carName)
+      this.$set(this.carData, 'xinghao', this.$route.query.carName)
+      console.log(this.carData)
+    }
+  }
 }
 </script>
 
@@ -196,6 +203,14 @@ export default {
       line-height: .62rem;
       margin-left: .1rem;
       border-bottom: .013333rem solid #F2F4F7;
+      white-space: pre;
+      display: flex;
+      strong{
+        margin-right: .5rem;
+        width: 6rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       span{
         font-family: '宋体';
         font-weight: bold;

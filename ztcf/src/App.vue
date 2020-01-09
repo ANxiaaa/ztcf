@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <top-title></top-title>
-    <router-view/>
+    <keep-alive :include="/egister/">
+      <router-view/>
+    </keep-alive>
     <ul id="nav" v-if="!isNav">
       <li v-for="(i,index) in navList" :key="index">
         <router-link :to="i.link">
@@ -18,6 +20,9 @@ export default {
   name: 'App',
   data(){
     return {
+      // 缓存的页面
+      include: ['register'],
+      // 主导航
       navList: [{
         name: '首页',
         url: require('@/assets/index.png'),
@@ -72,6 +77,7 @@ export default {
     ].join('\n'));
   },
   computed:{
+    // 是否隐藏导航
     isNav(){
       return this.$route.meta.hideNav
     }

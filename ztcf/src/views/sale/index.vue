@@ -19,21 +19,23 @@
     </div>
     <div class="line"></div>
     <div style="width: 10rem;margin: auto">
+      <!-- 热门品牌 -->
       <div class="hotBrand">
         <p class="t600"><img :src="require('@/assets/hot.png')" alt="">热门品牌</p>
         <div>
           <ul class="hotList t600" :style="{width: (hotList.length * 140) / 75 + 'rem'}">
-            <li @touchstart="down" @touchend="up" v-for="(i, index) in hotList" @click="topinpai(0)" :key="index">
-              <img :src="i.pic" alt="">
-              <span>{{i.brand}}</span>
+            <li @touchstart="down" @touchend="up" v-for="(i, index) in hotList" @click="topinpai(i.id)" :key="index">
+              <img :src="i.logo" alt="">
+              <span>{{i.name}}</span>
             </li>
           </ul>
         </div>
       </div>
     </div>
     <div class="bd"></div>
+    <!-- 所有品牌 -->
     <div ref="sel">
-      <car-select></car-select>
+      <car-select @click="topinpai" :indexList="indexList" :allBrand="allBrand"></car-select>
     </div>
   </div>
 </template>
@@ -47,7 +49,9 @@ export default {
   },
   data () {
     return {
+      // 查看更多的图片
       moreImg: require('@/assets/sale/baioti.png'),
+      // 推荐车辆列表
       goodsList: [{
         pic: require('@/assets/sale/goods.png'),
         txt: '大众探岳 2019 330 TSI两驱豪华型 国VI',
@@ -74,40 +78,28 @@ export default {
         sale: '15万',
         yuanjia: '20万'
       }],
-      hotList: [{
-        brand: '奥迪',
-        pic: require('@/assets/sale/goods.png')
-      },{
-        brand: '奥迪',
-        pic: require('@/assets/sale/goods.png')
-      },{
-        brand: '奥迪',
-        pic: require('@/assets/sale/goods.png')
-      },{
-        brand: '奥迪',
-        pic: require('@/assets/sale/goods.png')
-      },{
-        brand: '奥迪',
-        pic: require('@/assets/sale/goods.png')
-      },{
-        brand: '奥迪',
-        pic: require('@/assets/sale/goods.png')
-      },{
-        brand: '奥迪',
-        pic: require('@/assets/sale/goods.png')
-      }]
+      // 热门品牌列表
+      hotList: [],
+      // 索引
+      indexList: [],
+      // 所有品牌
+      allBrand: []
     }
   },
   methods:{
+    // 跳转搜索
     tosearch(a){
       this.$router.push('/saleSearch?title=' + a)
     },
+    // 跳转车辆信息
     toCarMsg(id){
       this.$router.push('/carMsg?id=' + id)
     },
+    // 跳转特价车品牌
     topinpai(id){
       this.$router.push('/saleBrand?id=' + id)
     },
+    // 点击反馈
     down(a){
       a.path.forEach(i=>{
         if(i.tagName === 'LI'){
@@ -121,20 +113,35 @@ export default {
             i.style.background = 'none'
         }
       })
+    },
+    // 判定侧边索引的显示和隐藏
+    sideBar(){
+      let sideBar = document.querySelector('.van-index-bar__sidebar')
+      this.$refs.scroll.onscroll = ()=>{
+        if(this.$refs.sel.offsetTop <= this.$refs.scroll.scrollTop){
+          sideBar.style.opacity = '1'
+          sideBar.style.right = '0'
+        }else{
+          sideBar.style.opacity = '0'
+          sideBar.style.right = `-${50 / 75}rem`
+        }
+      }
+    },
+    // 查询所有特价车的品牌及数量
+    findAllBrand(){
+      this.$api.sale.findAllBrand().then(res=>{
+        console.log(res)
+        this.hotList = res.data
+        this.allBrand = res.data
+        let indexList = res.data.map(i=>i.initial)
+        this.indexList = [...new Set(indexList)].sort()
+      })
     }
   },
   mounted(){
     this.$store.commit('changeTitle', '特价车')
-    let sideBar = document.querySelector('.van-index-bar__sidebar')
-    this.$refs.scroll.onscroll = ()=>{
-      if(this.$refs.sel.offsetTop <= this.$refs.scroll.scrollTop){
-        sideBar.style.opacity = '1'
-        sideBar.style.right = '0'
-      }else{
-        sideBar.style.opacity = '0'
-        sideBar.style.right = `-${50 / 75}rem`
-      }
-    }
+    this.sideBar()
+    this.findAllBrand()
   }
 }
 </script>

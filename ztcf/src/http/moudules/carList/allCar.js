@@ -27,11 +27,3 @@ export const allThreeCar = params => {
         params
     })
 }
-// 获取四级车辆信息
-export const allFourCar = carId => {
-    return axios({
-        url: '/car/findCarParamByCarId',
-        method: 'get',
-        params: { carId }
-    })
-}

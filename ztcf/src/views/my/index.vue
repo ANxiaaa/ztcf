@@ -372,7 +372,7 @@ export default {
 .yaoqing{
   margin-top: .666667rem;
   height: 2.133333rem;
-  box-shadow: 0 1px 20px 8px rgba(236,120,95,0.3);
+  box-shadow: 0 .023333rem .366667rem .206667rem rgba(236,120,95,0.3);
   border-radius: 1.066667rem;
   img{
     width: 100%;

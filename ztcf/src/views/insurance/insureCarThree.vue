@@ -21,22 +21,13 @@ export default {
   },
   methods:{
     toMsg(item){
-      console.log(item)
-      let { queryId } = item
-      this.$api.carList.allFourCar(queryId).then(res=>{
-        if(res.code == 200){
-          this.$router.push('/insureCarMsg')
-          console.log(res)
-        }else{
-          this.Toast.fail('获取失败, 请重试!')
-        }
-      })
+      console.log(item.name)
+      console.log(this.$router)
+      this.$router.push('./insurance?carName=' + item.name)
     }
   },
   mounted(){
     this.$store.commit('changeTitle','选择车型')
-  },
-  computed: {
   }
 }
 </script>

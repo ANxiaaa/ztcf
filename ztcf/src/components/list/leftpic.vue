@@ -1,9 +1,9 @@
 <template>
     <ul>
         <li class="container" v-for="(list, index) in data" :key="index">
-            <img :src="list.url" alt="">
+            <img :src="list.url ? list.url : list.logo" alt="">
             <div>
-                <h5 class="t600">{{list.title}}</h5>
+                <h5 class="t600">{{list.title ? list.title : list.name}}</h5>
                 <p class="label">
                     <span class="t600" v-for="i in list.label" :key="i">{{i}}</span>
                 </p>
@@ -49,6 +49,9 @@ ul{
     display: flex;
     justify-content: space-around;
     position: relative;
+    div{
+        overflow: hidden;
+    }
     img{
         width: 3.733333rem;
         height: 100%;
@@ -59,13 +62,18 @@ ul{
         font-size:.426667rem;
         color: #333;
         line-height: 1;
+        white-space: pre;
+        width: 100%;
+        overflow-x: auto;
     }
     .label{
         height: .426667rem;
         display: flex;
-        flex-wrap: wrap;
         margin-top: .213333rem;
         margin-bottom: .586667rem;
+        white-space: pre;
+        width: 100%;
+        overflow-x: auto;
     }
     span{
         display: block;

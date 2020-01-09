@@ -1,71 +1,14 @@
 <template>
     <div class="carSelect t600">
         <van-index-bar :index-list="indexList" highlight-color="#2E6BE6">
-            <div>
-                <van-index-anchor index="A" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="B" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="C" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="D" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="E" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="F" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="G" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="H" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="I" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="J" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-            </div>
-            <div>
-                <van-index-anchor index="K" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
-                <van-cell title="文本" />
+            <div v-for="i in indexList" :key="i">
+                <van-index-anchor :index="i"/>
+                <van-cell clickable v-for="(a, idx) in allBrand" :key="idx" @click="toTwo(a)">
+                    <template slot="title">
+                        <img :src="a.logo" alt="">
+                        <span class="custom-title">{{a.name}}</span>
+                    </template>
+                </van-cell>
             </div>
         </van-index-bar>
     </div>
@@ -75,14 +18,17 @@
 export default {
     name: 'myTitle',
     props: {
-        
-    },
-    data () {
-        return {
-            indexList: ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+        indexList:{
+            type: Array,
+            default: []
+        },
+        allBrand: {
+            type: Array,
+            default: []
         }
     },
     methods: {
+        // 点击反馈
         down(a){
             a.path.forEach(i=>{
                 if(i.className === 'myTitle'){
@@ -97,9 +43,13 @@ export default {
                 }
             })
         },
+        // 跳转二级
+        toTwo(data){
+            this.$emit('click', data.id)
+        }
     },
     mounted(){
-        
+        console.log(this.indexList)
     }
 }
 </script>
@@ -118,5 +68,23 @@ export default {
     color: #999;
     font-family: Arial, Helvetica, sans-serif;
     line-height: .54rem;
+}
+>>> .van-cell__title{
+    height: 1rem;
+    display: flex;
+}
+>>> .van-cell{
+    line-height: 1rem;
+}
+>>> .van-cell__title span{
+    font-size: .373333rem
+}
+>>> .van-cell img{
+    height: 1rem;
+    margin-right: .6rem;
+}
+>>> .van-index-bar__index{
+    font-size: .45rem;
+    line-height: .6rem
 }
 </style>

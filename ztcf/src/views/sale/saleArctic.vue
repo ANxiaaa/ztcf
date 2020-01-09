@@ -79,10 +79,18 @@ export default {
   },
   mounted(){
     this.$store.commit('changeTitle', '选择车型')
+    console.log(this.parentId)
+    this.$api.sale.findFourBrand(this.parentId).then(res=>{
+      console.log(res)
+      this.arcticList = res.data
+      this.arcticList.forEach(i=>{
+        i.label = [i.sizetype, i.productionstate, i.sizetype, i.sizetype]
+      })
+    })
   },
   computed:{
-    id(){
-      return this.$route.query.id
+    parentId(){
+      return this.$route.query.parentId
     }
   }
 }

@@ -1,78 +1,17 @@
 <template>
   <div class="saleBrand">
     <van-index-bar :index-list="indexList" highlight-color="#2E6BE6">
-      <div v-for="(i, index) in 4" :key="index" :index="1">
-        <van-index-anchor class="listTop t600"><p class="container">一汽奥迪</p></van-index-anchor>
+      <div v-for="(i, index) in brandList" :key="index" :index="i.id">
+        <van-index-anchor class="listTop t600"><p class="container">{{i.name}}</p></van-index-anchor>
         <ul class="list">
-          <li class="container" @click="toxinghao(0)">
+          <li @touchstart="down" @touchend="up" v-for="(a, idx) in i.list" :key="idx" class="container" @click="toxinghao(a.queryId)">
             <div class="t600">
-              <img :src="require('@/assets/sale/goods.png')" alt="">
+              <img :src="a.logo" alt="">
               <div>
-                <p>奥迪A3</p>
+                <p>{{a.fullname}}</p>
                 <span>18.86-25.09万</span>
               </div>
             </div>
-            <div class="bd"></div>
-          </li>
-          <li class="container">
-            <div class="t600">
-              <img :src="require('@/assets/sale/goods.png')" alt="">
-              <div>
-                <p>奥迪A3</p>
-                <span>18.86-25.09万</span>
-              </div>
-            </div>
-            <div class="bd"></div>
-          </li>
-          <li class="container">
-            <div class="t600">
-              <img :src="require('@/assets/sale/goods.png')" alt="">
-              <div>
-                <p>奥迪A3</p>
-                <span>18.86-25.09万</span>
-              </div>
-            </div>
-            <div class="bd"></div>
-          </li>
-          <li class="container">
-            <div class="t600">
-              <img :src="require('@/assets/sale/goods.png')" alt="">
-              <div>
-                <p>奥迪A3</p>
-                <span>18.86-25.09万</span>
-              </div>
-            </div>
-            <div class="bd"></div>
-          </li>
-          <li class="container">
-            <div class="t600">
-              <img :src="require('@/assets/sale/goods.png')" alt="">
-              <div>
-                <p>奥迪A3</p>
-                <span>18.86-25.09万</span>
-              </div>
-            </div>
-            <div class="bd"></div>
-          </li>
-          <li class="container">
-            <div class="t600">
-              <img :src="require('@/assets/sale/goods.png')" alt="">
-              <div>
-                <p>奥迪A3</p>
-                <span>18.86-25.09万</span>
-              </div>
-            </div>
-            <div class="bd"></div>
-          </li>
-          <li class="container">
-            <div class="t600">
-              <img :src="require('@/assets/sale/goods.png')" alt="">
-              <div>
-                <p>奥迪A3</p>
-                <span>18.86-25.09万</span>
-              </div>
-            </div>
-            <div class="bd"></div>
           </li>
         </ul>
       </div>
@@ -89,16 +28,46 @@ export default {
   },
   data () {
     return {
-      indexList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      // 索引
+      indexList: [],
+      // 车系列表
+      brandList: []
     }
   },
   methods:{
+    // 点击反馈
+    down(a){
+      a.path.forEach(i=>{
+        if(i.tagName === 'LI'){
+            i.style.background = '#ececec'
+        }
+      })
+    },
+    up(a){
+      a.path.forEach(i=>{
+        if(i.tagName === 'LI'){
+            i.style.background = 'none'
+        }
+      })
+    },
     toxinghao(id){
-      this.$router.push('/saleArctic?id=' + id)
+      this.$router.push('/saleArctic?parentId=' + id)
     }
   },
   mounted(){
     this.$store.commit('changeTitle', '选择车系')
+    console.log(this.$route.query.id)
+    this.$api.sale.findTwoBrand(this.$route.query.id).then(res=>{
+      this.brandList = res.data
+      let indexList = res.data.map(i=>i.id)
+      this.indexList = [...new Set(indexList)].sort()
+    }).then(()=>{
+      this.brandList.forEach(i=>{
+        this.$api.sale.findThreeBrand(i.id).then(threeRes=>{
+          i.list = threeRes.data
+        })
+      })
+    })
   },
   computed:{
     id(){
@@ -119,8 +88,9 @@ export default {
 .list{
   overflow: hidden;
   li{
+    padding: .32rem 0;
+    border-bottom: .026667rem solid #F2F4F7;
     .t600{
-      margin: .32rem 0;
       height: 2.4rem;
       display: flex;
       font-weight: 500;
@@ -144,10 +114,6 @@ export default {
         color: #E56245;
         font-size: .373333rem;
       }
-    }
-    .bd{
-      margin: 0;
-      height: .026667rem;
     }
   }
 }
