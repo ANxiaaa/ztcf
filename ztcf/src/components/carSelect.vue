@@ -3,7 +3,7 @@
         <van-index-bar :index-list="indexList" highlight-color="#2E6BE6">
             <div v-for="i in indexList" :key="i">
                 <van-index-anchor :index="i"/>
-                <van-cell clickable v-for="(a, idx) in allBrand" :key="idx" @click="toTwo(a)">
+                <van-cell clickable v-for="(a, idx) in allBrand" v-if="a.initial == i" :key="idx" @click="toTwo(a)">
                     <template slot="title">
                         <img :src="a.logo" alt="">
                         <span class="custom-title">{{a.name}}</span>

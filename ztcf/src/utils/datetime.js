@@ -20,14 +20,19 @@ export function format (datetime) {
  */
 export function formatWithSeperator (datetime, dateSeprator, timeSeprator) {
   if (datetime != null) {
-    const dateMat = new Date(datetime);
-    const year = dateMat.getFullYear();
-    const month = dateMat.getMonth() + 1;
-    const day = dateMat.getDate();
-    const hh = dateMat.getHours();
-    const mm = dateMat.getMinutes();
-    const ss = dateMat.getSeconds();
-    const timeFormat = year + dateSeprator + month + dateSeprator + day + " " + hh + timeSeprator + mm + timeSeprator + ss;
+    let dateMat = new Date(datetime);
+    let year = dateMat.getFullYear();
+    let month = dateMat.getMonth() + 1;
+    month = month < 10 ? '0' + month : month
+    let day = dateMat.getDate();
+    day = day < 10 ? '0' + day : day
+    let hh = dateMat.getHours();
+    hh = hh < 10 ? '0' + hh : hh
+    let mm = dateMat.getMinutes();
+    mm = mm < 10 ? '0' + mm : mm
+    let ss = dateMat.getSeconds();
+    ss = ss < 10 ? '0' + ss : ss
+    let timeFormat = year + dateSeprator + month + dateSeprator + day + " " + hh + timeSeprator + mm;
     return timeFormat;
   }
 }

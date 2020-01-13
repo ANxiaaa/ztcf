@@ -13,7 +13,7 @@
         </div>
       </div>
       <ul class="find container">
-        <li v-for="(i, index) in findList" :key="index">
+        <li v-for="(i, index) in findList" :key="index" @click="i.click">
           <img :src="i.url" alt="">
           <p class="t600">{{i.name}}</p>
         </li>
@@ -59,6 +59,7 @@ export default {
     leftpic
   },
   data () {
+    let _this = this
     return {
       bg: { // 背景图片
         background: `url(${require('@/assets/index/indexTop.png')}) no-repeat`,
@@ -66,34 +67,36 @@ export default {
       },
       findList:[{ // api查询
         name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        url: require('@/assets/index/find/wzcx.png'),
+        click: _this.wzcx
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: '加油站查询',
+        url: require('@/assets/index/find/jyz.png')
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: '限行查询',
+        url: require('@/assets/index/find/xxcx.png'),
+        click: _this.xxcx
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: '油卡查询',
+        url: require('@/assets/index/find/ykcx.png')
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: '公交查询',
+        url: require('@/assets/index/find/gjcx.png')
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: '违章代办',
+        url: require('@/assets/index/find/wzdb.png')
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: '停车场查询',
+        url: require('@/assets/index/find/tcccx.png')
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: '快递查询',
+        url: require('@/assets/index/find/kdcx.png')
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: 'vin查询',
+        url: require('@/assets/index/find/vin.png')
       },{
-        name: '违章查询',
-        url: require('@/assets/index/find/wzcx.png')
+        name: '其他查询',
+        url: require('@/assets/index/find/qtcx.png')
       }],
       xufeiList: [{ // 两个按钮
         name: 'GPS续费',
@@ -189,8 +192,15 @@ export default {
     },
     // 添加汽车
     addCar(){
-      console.log(1)
       this.$router.push('/indexAddCar')
+    },
+    // 违章查询
+    wzcx(){
+      this.$router.push('/indexwzcx')
+    },
+    // 限行查询
+    xxcx(){
+      this.$router.push('/indexxxcx')
     }
   },
   mounted(){

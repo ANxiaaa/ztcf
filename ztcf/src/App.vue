@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <top-title></top-title>
-    <keep-alive :include="/egister/">
+    <keep-alive :include="keep">
       <router-view/>
     </keep-alive>
     <ul id="nav" v-if="!isNav">
@@ -16,10 +16,12 @@
   </div>
 </template>
 <script>
+import { keep } from '@/utils/global'
 export default {
   name: 'App',
   data(){
     return {
+      keep: 'indexAddCar,insurance',
       // 缓存的页面
       include: ['register'],
       // 主导航

@@ -84,7 +84,7 @@ export default {
       console.log(res)
       this.arcticList = res.data
       this.arcticList.forEach(i=>{
-        i.label = [i.sizetype, i.productionstate, i.sizetype, i.sizetype]
+        i.label = [i.sizetype, i.productionstate]
       })
     })
   },
