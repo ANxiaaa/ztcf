@@ -16,12 +16,11 @@
   </div>
 </template>
 <script>
-import { keep } from '@/utils/global'
 export default {
   name: 'App',
   data(){
     return {
-      keep: 'indexAddCar,insurance',
+      keep: ['indexAddCar', 'insurance'],
       // 缓存的页面
       include: ['register'],
       // 主导航
@@ -77,6 +76,7 @@ export default {
         "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
         "         佛祖保佑              永无BUG"
     ].join('\n'));
+    // new this.$vconsole();
   },
   computed:{
     // 是否隐藏导航

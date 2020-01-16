@@ -3,13 +3,17 @@
     <div :style="bg">
       <p class="title t600 container">欢迎来到郑泰车服!</p>
       <div class="topBar container">
-        <div v-if="true" @click.stop="addCar">
+        <div class="addCarBox" v-if="userData.defaultCarInfo == null" @click.stop="addCar">
           <p class="t600">用车生活更方便快捷</p>
           <button @touchstart="down" @touchend="up" class="t600">添加爱车</button>
           <img :src="require('@/assets/index/topBarCar.png')" alt="">
         </div>
-        <div v-else>
-          123456
+        <div class="defultCar" v-else>
+          <img :src="require('@/assets/my/car.png')" alt="">
+          <div>
+            <p>{{userData.defaultCarInfo.carNumberPrefix}}{{userData.defaultCarInfo.carNumber}}</p>
+            <span>{{userData.defaultCarInfo.carName}}</span>
+          </div>
         </div>
       </div>
       <ul class="find container">
@@ -71,39 +75,49 @@ export default {
         click: _this.wzcx
       },{
         name: '加油站查询',
-        url: require('@/assets/index/find/jyz.png')
+        url: require('@/assets/index/find/jyz.png'),
+        click: _this.jyzcx
       },{
         name: '限行查询',
         url: require('@/assets/index/find/xxcx.png'),
         click: _this.xxcx
       },{
         name: '油卡查询',
-        url: require('@/assets/index/find/ykcx.png')
+        url: require('@/assets/index/find/ykcx.png'),
+        click: _this.expect
       },{
         name: '公交查询',
-        url: require('@/assets/index/find/gjcx.png')
+        url: require('@/assets/index/find/gjcx.png'),
+        click: _this.expect
       },{
         name: '违章代办',
-        url: require('@/assets/index/find/wzdb.png')
+        url: require('@/assets/index/find/wzdb.png'),
+        click: _this.expect
       },{
         name: '停车场查询',
-        url: require('@/assets/index/find/tcccx.png')
+        url: require('@/assets/index/find/tcccx.png'),
+        click: _this.tcccx
       },{
         name: '快递查询',
-        url: require('@/assets/index/find/kdcx.png')
+        url: require('@/assets/index/find/kdcx.png'),
+        click: _this.kdcx
       },{
         name: 'vin查询',
-        url: require('@/assets/index/find/vin.png')
+        url: require('@/assets/index/find/vin.png'),
+        click: _this.expect
       },{
         name: '其他查询',
-        url: require('@/assets/index/find/qtcx.png')
+        url: require('@/assets/index/find/qtcx.png'),
+        click: _this.expect
       }],
       xufeiList: [{ // 两个按钮
         name: 'GPS续费',
-        url: require('@/assets/index/find/xufei1.png')
+        url: require('@/assets/index/find/xufei1.png'),
+        click: _this.expect
       },{
         name: '车险估价',
-        url: require('@/assets/index/find/xufei2.png')
+        url: require('@/assets/index/find/xufei2.png'),
+        click: _this.expect
       }],
       // 图片
       ad: [require('@/assets/index/ad.png')],
@@ -201,14 +215,37 @@ export default {
     // 限行查询
     xxcx(){
       this.$router.push('/indexxxcx')
-    }
+    },
+    // 快递查询
+    kdcx(){
+      this.$router.push('/indexkdcx')
+    },
+    // 加油站查询
+    jyzcx(){
+      this.$router.push('/indexjyzcx')
+    },
+    // 停车场查询
+    tcccx(){
+      this.$router.push('/indextcccx')
+    },
+    // 敬请期待
+    expect(){
+      this.$router.push('/expect')
+    },
   },
   mounted(){
     this.$store.commit('changeTitle','郑泰车服')
+    console.log(this.userCarInfo)
+    console.log(this.userData)
   },
   computed:{
-
-  }
+    userCarInfo(){
+      return this.$store.getters.userCarInfo
+    },
+    userData(){
+      return this.$store.getters.userData
+    },
+  },
 }
 </script>
 
@@ -229,27 +266,54 @@ export default {
   background: #fff;
   box-shadow: 0 -0.01rem 0.2rem 0 rgba(46,107,230,0.4);
   padding-left: .533333rem;
-  p{
-    padding: .533333rem 0 .4rem;
-    font-size: .453333rem;
+  .addCarBox{
+    p{
+      padding: .533333rem 0 .4rem;
+      font-size: .453333rem;
+    }
+    button{
+      width: 2.133333rem;
+      height: .64rem;
+      opacity: .8;
+      border-radius: .32rem;
+      font-size: .373333rem;
+      color: #fff;
+      outline: none;
+      border: none;
+      background: #2E6BE6;
+    }
+    img{
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 3.706667rem;
+      height: 2.666667rem;
+    }
   }
-  button{
-    width: 2.133333rem;
-    height: .64rem;
-    opacity: .8;
-    border-radius: .32rem;
-    font-size: .373333rem;
-    color: #fff;
-    outline: none;
-    border: none;
-    background: #2E6BE6;
-  }
-  img{
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 3.706667rem;
-    height: 2.666667rem;
+  .defultCar{
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+    img{
+      width: 3rem;
+    }
+    div{
+      flex: 1;
+      margin-left: .4rem;
+      line-height: .8rem;
+      p{
+        font-size: .5rem;
+        font-weight: bold;
+      }
+      span,p{
+        width: 100%;
+        // overflow-x: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre;
+      }
+    }
   }
 }
 .find{
@@ -333,7 +397,6 @@ export default {
   }
 }
 .tejiache{
-  margin-top: .533333rem;
   .tjctitle{
     height: 1.466667rem;
     line-height: 1;

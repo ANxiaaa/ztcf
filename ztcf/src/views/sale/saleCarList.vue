@@ -1,18 +1,21 @@
 <template>
-  <div class="saleArctic">
+  <div class="saleCarList">
+    <click-filter @getSend="getSend"></click-filter>
     <div class="list container">
-      <leftpic @click="toCarList" :data="arcticList"></leftpic>
+      <leftpic :data="arcticList"></leftpic>
     </div>
   </div>
 </template>
 
 <script>
 import btn from '@/components/input/btn'
+import clickFilter from '@/components/clickFilter'
 import leftpic from '@/components/list/leftpic'
 export default {
-  name: 'saleArctic',
+  name: 'saleCarList',
   components:{
     btn,
+    clickFilter,
     leftpic
   },
   data () {
@@ -21,9 +24,8 @@ export default {
     }
   },
   methods:{
-    // 去列表
-    toCarList(data){
-      console.log(data)
+    getSend(a){
+      console.log(a)
     }
   },
   mounted(){
@@ -46,16 +48,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.saleArctic{
+.saleCarList{
   height: 100%;
   overflow-y: auto;
 }
 .list{
   margin-top: .3rem;
-}
-</style>
-<style scoped>
->>> p.sale {
-  display: none !important;
 }
 </style>

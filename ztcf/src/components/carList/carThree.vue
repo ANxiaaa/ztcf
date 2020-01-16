@@ -102,7 +102,9 @@ ul{
         font-size: .4rem;
         white-space: pre;
         width: 6rem;
-        overflow-x: auto;
+        // overflow-x: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       span{
         display: block;

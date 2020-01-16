@@ -27,15 +27,6 @@ export default [
         component: resolve => require(['@/views/sale/carParam'], resolve)
     },
     {
-        path: '/carParam', // 特价车车辆详细参数
-        name: 'CarParam',
-        meta: {
-            hideNav: true,
-            back: true
-        },
-        component: resolve => require(['@/views/sale/carParam'], resolve)
-    },
-    {
         path: '/saleBrand', // 特价车品牌选择车系
         name: 'SaleBrand',
         meta: {

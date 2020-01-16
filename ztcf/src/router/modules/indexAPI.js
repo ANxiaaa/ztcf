@@ -26,5 +26,31 @@ export default [
         },
         component: resolve => require(['@/views/index/xxcx/indexxxcx'], resolve)
     },
-
+    {
+        path: '/indexkdcx', // 首页快递查询
+        name: 'Indexkdcx',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/index/kdcx/indexkdcx'], resolve)
+    },
+    {
+        path: '/indexjyzcx', // 首页加油站查询
+        name: 'Indexjyzcx',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/index/jyzcx/indexjyzcx'], resolve)
+    },
+    {
+        path: '/indextcccx', // 首页停车场查询
+        name: 'Indextcccx',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/index/tcccx/indextcccx'], resolve)
+    },
 ]

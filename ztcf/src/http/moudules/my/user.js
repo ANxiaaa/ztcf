@@ -39,3 +39,20 @@ export const updateHeadPortrait = data => {
         data
     })
 }
+
+// 保存车辆
+export const saveMemberCarInfo = data => {
+    return axios({
+        url: '/member/saveMemberCarInfo',
+        method: 'post',
+        data
+    })
+}
+
+// 查询车辆列表
+export const findMemberCarInfoByMemberId = data => {
+    return axios({
+        url: '/member/findMemberCarInfoByMemberId',
+        method: 'get'
+    })
+}

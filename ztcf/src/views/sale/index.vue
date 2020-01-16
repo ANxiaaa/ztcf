@@ -165,7 +165,7 @@ export default {
 .goods{
   margin-top: .373333rem;
   margin-bottom: .426667rem;
-  overflow-x: scroll;
+  overflow-x: auto;
   &::-webkit-scrollbar{
     display: none;
   }

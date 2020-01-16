@@ -4,6 +4,7 @@ export default {
         back: false, // 标题是否显示返回
         isLogin: false, // 是否已经登录
         userData: {}, // 用户信息
+        userCarInfo: [], // 用户车辆信息
         allCar: [], // 车型大全
         allIndexList: [], // 车型大全的右边索引
         allCarTwo: [], // 车型大全二级
@@ -34,6 +35,9 @@ export default {
         allCarThree(state){
             return state.allCarThree
         },
+        userCarInfo(state){
+            return state.userCarInfo
+        },
     },
     mutations: {
         changeTitle(state, data){
@@ -56,6 +60,9 @@ export default {
         },
         changeAllCarThree(state, data){
             state.allCarThree = data
+        },
+        changeUserCarInfo(state, data){
+            state.userCarInfo = data
         },
     },
     actions: {

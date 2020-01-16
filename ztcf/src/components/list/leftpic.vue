@@ -1,6 +1,6 @@
 <template>
     <ul>
-        <li class="container" v-for="(list, index) in data" :key="index">
+        <li class="container" @click.stop="click(list)" v-for="(list, index) in data" :key="index">
             <img :src="list.url ? list.url : list.logo" alt="">
             <div>
                 <h5 class="t600">{{list.title ? list.title : list.name}}</h5>
@@ -35,7 +35,9 @@ export default {
         }
     },
     methods: {
-
+        click(data){
+            this.$emit('click', data)
+        }
     }
 }
 </script>
@@ -64,7 +66,9 @@ ul{
         line-height: 1;
         white-space: pre;
         width: 100%;
-        overflow-x: auto;
+        // overflow-x: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .label{
         height: .426667rem;
@@ -73,7 +77,9 @@ ul{
         margin-bottom: .586667rem;
         white-space: pre;
         width: 100%;
-        overflow-x: auto;
+        // overflow-x: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     span{
         display: block;

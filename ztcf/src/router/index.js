@@ -22,10 +22,20 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   if(localStorage.getuser && localStorage.isLogin){
     api.login.getMemberInfo().then(res => {
-      console.log(res)
       if(res.code == 200){
+        console.log('changeUserData')
+        console.log(res)
         store.commit('changeUserData', res.data)
-        localStorage.getuser = ''
+        api.user.findMemberCarInfoByMemberId().then(carres=>{
+          if(carres.code == 200){
+            console.log('changeUserCarInfo')
+            store.commit('changeUserCarInfo', carres.data)
+            localStorage.getuser = ''
+          }
+        })
+      }else{
+        console.log(res)
+        localStorage.removeItem('isLogin')
       }
     }).catch(()=>{
       localStorage.removeItem('isLogin')

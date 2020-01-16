@@ -46,12 +46,7 @@
                 </div>
             </div>
         </div>
-        <van-popup
-            v-model="show"
-            round
-            position="bottom"
-            :style="{ height: `${400 / 75}rem` }"
-            >
+        <van-popup v-model="show" round position="bottom" :style="{ height: `${400 / 75}rem` }">
             <van-picker :default-index="15" :columns="columns" @change="onChange" class="xuanze"/>
         </van-popup>
         <btn @click="subAdd" :style="btnStyle" name="确认添加"></btn>
@@ -89,7 +84,8 @@ export default {
                 margin: 'auto'
             },
             showBtm: false,
-            columns: ['京','津','冀','晋','蒙','辽','吉','黑','沪','苏','浙','皖','闽','赣','鲁','豫','鄂','湘','粤','桂','琼','渝','川','贵','云','藏','陕','甘','青','宁','新']
+            columns: ['京','津','冀','晋','蒙','辽','吉','黑','沪','苏','浙','皖','闽','赣','鲁','豫','鄂','湘','粤','桂','琼','渝','川','贵','云','藏','陕','甘','青','宁','新'],
+            subData: {}
         }
     },
     methods:{
@@ -158,7 +154,7 @@ export default {
         },
         // 添加车辆
         subAdd(){
-            let subData = {
+            this.subData = {
                 "brandId": this.brandId, // 品牌ID
                 "twoBrandId": this.twoBrandId, // 二级品牌ID
                 "vehicleId": this.vehicleId, // 车型id
@@ -169,7 +165,7 @@ export default {
                 "carNumber": "", // 车牌号
                 "carType": "string", // 车辆类型
                 "createDate": "", // 添加时间
-                "enable": 0, // 是否可用
+                "enable": 1, // 是否可用
                 "engineNumber": "string", // 发动机号
                 "frameNumber": "string", // 车辆识别码
                 "id": 0,
@@ -180,15 +176,34 @@ export default {
                 "playingDate": "", // 上牌年份
             }
             if(!this.carData.ifCarNumber){ // 如果已上牌
-                subData.carNumberPrefix = this.carData.zi
-                subData.carNumber = this.carData.num
-                subData.ifCarNumber = '1'
+                this.subData.carNumberPrefix = this.carData.zi
+                this.subData.carNumber = this.carData.num
+                this.subData.ifCarNumber = '1'
             }else{
-                subData.carNumberPrefix = ''
-                subData.carNumber = ''
-                subData.ifCarNumber = '0'
+                this.subData.carNumberPrefix = ''
+                this.subData.carNumber = ''
+                this.subData.ifCarNumber = '0'
             }
-            console.log(subData)
+            this.subData.engineNumber = this.carData.engineNumber
+            this.subData.frameNumber = this.carData.frameNumber
+            this.subData.carType = this.carData.carType
+            this.subData.memberId = this.userData.id
+            console.log(this.subData)
+            this.$api.user.saveMemberCarInfo(this.subData).then(res=>{
+                console.log(res)
+                if(res.code == 200){
+                    let _this = this
+                    this.Toast({
+                        message: '添加成功',
+                        onOpened(){
+                            localStorage.getuser = '1'
+                            _this.$router.push('/index')
+                        }
+                    })
+                }else{
+                    this.Toast.fail(res.msg)
+                }
+            })
         },
         // 上传图片
         drivingPermit(res){
@@ -213,8 +228,8 @@ export default {
                 if(res.data.data.frameNumber){
                     this.$set(this.carData, 'frameNumber', res.data.data.frameNumber)
                 }
-                if(res.data.data.carBrand){
-                    this.$set(this.carData, 'carBrand', res.data.data.carBrand)
+                if(res.data.data.carType){
+                    this.$set(this.carData, 'carType', res.data.data.carType)
                 }
             }
         },
@@ -235,19 +250,39 @@ export default {
             return Object.assign({}, data)
         },
         brandId(){
-            return this.$route.query.brandId
+            if(this.$route.query.brandId){
+                return this.$route.query.brandId
+            }else{
+                return this.subData.brandId
+            }
         },
         twoBrandId(){
-            return this.$route.query.twoBrandId
+            if(this.$route.query.twoBrandId){
+                return this.$route.query.twoBrandId
+            }else{
+                return this.subData.twoBrandId
+            }
         },
         vehicleId(){
-            return this.$route.query.vehicleId
+            if(this.$route.query.vehicleId){
+                return this.$route.query.vehicleId
+            }else{
+                return this.subData.vehicleId
+            }
         },
         carId(){
-            return this.$route.query.carId
+            if(this.$route.query.carId){
+                return this.$route.query.carId
+            }else{
+                return this.subData.carId
+            }
         },
         carName(){
-            return this.$route.query.carName
+            if(this.$route.query.carName){
+                return this.$route.query.carName
+            }else{
+                return this.subData.carName
+            }
         },
     }
 }

@@ -63,5 +63,14 @@ export default [
             back: true
         },
         component: resolve => require(['@/views/newpass'], resolve)
-    }
+    },
+    {
+        path: '/expect', // 敬请期待
+        name: 'Expect',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/expect'], resolve)
+    },
 ]

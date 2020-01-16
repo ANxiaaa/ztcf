@@ -185,7 +185,6 @@ export default {
     },
     mounted(){
         this.$store.commit('changeTitle','违章查询')
-        console.log(this.userData)
     },
     computed:{
         userData(){
