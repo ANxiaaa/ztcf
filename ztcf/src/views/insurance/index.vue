@@ -168,7 +168,7 @@ export default {
       })
     }
   },
-  mounted(){
+  activated(){
     this.$store.commit('changeTitle','车险报价')
     if(this.$route.query.carName){
       console.log(this.$route.query.carName)
@@ -190,6 +190,11 @@ export default {
     font-weight: 500;
     color: #999;
     font-size:.4rem;
+    white-space: pre;
+  }
+  label{
+    white-space: pre;
+    // flex: 1;
   }
   .xinghao{
     height: .666667rem;

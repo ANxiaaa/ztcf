@@ -34,15 +34,15 @@
       </div>
       <div class="carList container shadow">
         <my-title :data="myCar"></my-title>
-        <div class="car" v-if="true">
+        <div class="car" v-if="userData.defaultCarInfo != null">
           <img :src="car[0].pic" alt="">
           <div  class="t600">
-            <p>{{car[0].num}}</p>
-            <span>{{car[0].xh}}</span>
+            <p>{{userData.defaultCarInfo.carNumberPrefix}}{{userData.defaultCarInfo.carNumber}}</p>
+            <span>{{userData.defaultCarInfo.carName}}</span>
           </div>
         </div>
         <div class="addCar" v-else>
-          <div @touchstart="down" @touchend="up"><span>+</span> 添加车辆</div>
+          <div @click="toAddCar" @touchstart="down" @touchend="up"><span>+</span> 添加车辆</div>
           <p class="t600">添加车辆, 用车生活更方便快捷</p>
         </div>
       </div>
@@ -180,6 +180,10 @@ export default {
       }else{ // 个人中心
         this.$router.push('/personal')
       }
+    },
+    // 添加车辆
+    toAddCar(){
+      this.$router.push('/indexAddCar')
     }
   },
   mounted(){
@@ -189,6 +193,10 @@ export default {
     // 登录状态
     isLogin(){
       return localStorage.isLogin
+    },
+    // 汽车列表
+    userCarInfo(){
+      return this.$store.getters.userCarInfo
     },
     // 用户信息
     userData(){
@@ -276,7 +284,7 @@ export default {
       font-size: .373333rem;
     }
     span{
-      font-family: '宋体';
+      font-family: 'SimSun';
       font-weight: bold;
       line-height: .96rem;
       color: #b3b3b3;

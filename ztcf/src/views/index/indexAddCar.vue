@@ -197,7 +197,7 @@ export default {
                         message: '添加成功',
                         onOpened(){
                             localStorage.getuser = '1'
-                            _this.$router.push('/index')
+                            _this.$router.go(-1)
                         }
                     })
                 }else{
@@ -321,6 +321,10 @@ export default {
             font-weight: 500;
             color: #999;
             font-size:.4rem;
+            white-space: pre;
+        }
+        label{
+            white-space: pre;
         }
         .xinghao{
             height: .666667rem;

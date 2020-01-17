@@ -53,4 +53,13 @@ export default [
         },
         component: resolve => require(['@/views/index/tcccx/indextcccx'], resolve)
     },
+    // {
+    //     path: '/indextcccx', // 首页公交查询
+    //     name: 'Indextcccx',
+    //     meta: {
+    //         hideNav: true,
+    //         back: true
+    //     },
+    //     component: resolve => require(['@/views/index/tcccx/indextcccx'], resolve)
+    // },
 ]

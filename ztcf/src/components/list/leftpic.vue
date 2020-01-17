@@ -87,10 +87,9 @@ ul{
         background: #F3F3F3;
         color: #999999;
         margin-right: .16rem;
-        padding: .066667rem .16rem;
+        padding: 0 .16rem;
         font-size: .293333rem;
         font-weight: 500;
-        line-height: 1
     }
     .price{
         color: #999999;
@@ -110,6 +109,8 @@ ul{
             margin-left: .16rem;
             background: rgba($color: #175CE6, $alpha: .1);
             color: #175CE6;
+            height: .5rem;
+            line-height: .6rem;
         }
     }
     i{

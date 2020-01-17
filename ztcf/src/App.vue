@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <top-title></top-title>
+    <!-- <top-title></top-title> -->
     <keep-alive :include="keep">
       <router-view/>
     </keep-alive>
     <ul id="nav" v-if="!isNav">
       <li v-for="(i,index) in navList" :key="index">
-        <router-link :to="i.link">
+        <router-link :to="i.link" replace>
           <img class="ativeUrl" :src="i.ativeUrl" alt="">
           <img :src="i.url" alt="">
           <span>{{i.name}}</span>
@@ -76,7 +76,7 @@ export default {
         "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
         "         佛祖保佑              永无BUG"
     ].join('\n'));
-    // new this.$vconsole();
+    new this.$vconsole();
   },
   computed:{
     // 是否隐藏导航
@@ -88,6 +88,10 @@ export default {
 </script>
 
 <style lang="scss">
+@font-face{
+  font-family: 'songti';
+  src: require('@/assets/songti.ttf');
+}
 *{
   box-sizing: border-box;
   margin: 0;
@@ -109,7 +113,7 @@ export default {
   right: 0;
   bottom: 0;
   top: 0;
-  padding-top: 1.173333rem;
+  // padding-top: 1.173333rem;
   #nav{
     position: fixed;
     left: 0;

@@ -1,10 +1,9 @@
 <template>
     <div class="indextcccx t600">
-        <!-- <el-amap vid="amap" :plugin="plugin" class="amap-demo" :center="center" :zoom="zoom">
+        <el-amap vid="amap" :plugin="plugin" class="amap-demo" :center="center" :zoom="zoom">
             <el-amap-circle-marker v-for="(marker, index) in markers" :key="index + 'mark'" :center="marker.center" :radius="marker.radius" :fill-color="marker.fillColor" :fill-opacity="marker.fillOpacity" :events="marker.events"></el-amap-circle-marker>
             <el-amap-marker v-for="(marker, index) in olimarkers" :key="index" :position="marker.position" :events="marker.events" :visible="marker.visible" :draggable="marker.draggable" :vid="index"></el-amap-marker>
-        </el-amap> -->
-        <div id="map"></div>
+        </el-amap>
         <div class="wrap">
             <div class="loading" v-if="loading">
                 <van-loading color="#1989fa">加载中...</van-loading>
@@ -43,77 +42,78 @@ export default {
             markers: [],
             olimarkers: [],
             resData: [],
-            // plugin: [{
-            //     AMapManager,
-            //     pName: 'Geolocation',
-            //     // noIpLocate: 1, // 禁止ip定位
-            //     events: {
-            //         init(o) {
-            //             o.getCurrentPosition((status, result) => {
-            //                 // 获取定位
-            //                 console.log(location)
-            //                 if (result && result.position) {
-            //                     self.lng = result.position.lng;
-            //                     self.lat = result.position.lat;
-            //                     let gd = gdtobd(self.lng, self.lat)
-            //                     let gdlng = gd.lng
-            //                     let gdlat = gd.lat
-            //                     self.center = [self.lng, self.lat]
-            //                     self.loaded = true;
-            //                     self.result=result;
-            //                     if(result.addressComponent.city){
-            //                         self.citys=result.addressComponent.city;
-            //                     }else{
-            //                         self.citys=result.addressComponent.province;
-            //                     }
-            //                     self.district=result.addressComponent.district;
-            //                     self.$nextTick();
-            //                     console.log(self.lng, self.lat)
-            //                     // 定位完成之后 添加圆形
-            //                     let marker = {
-            //                         center: [self.lng, self.lat],
-            //                         radius: 25,
-            //                         strokeColor: '#4771E6',
-            //                         strokeOpacity: 0,
-            //                         fillColor: '#4771E6',
-            //                         fillOpacity: .6,
-            //                     }
-            //                     self.markers.push(marker)
-            //                     console.log(self.$route.path)
-            //                     // 查询停车场站
-            //                     if(self.$route.path == '/indextcccx'){
-            //                         self.$api.apisearch.parkingQueryNearby({
-            //                             distance: 5000,
-            //                             lat: `${gdlat}`,
-            //                             lng: `${gdlng}`,
-            //                             test: true
-            //                         }).then(res=>{
-            //                             self.resData = res.data
-            //                             self.loading = false
-            //                             self.resData.forEach(i=>{
-            //                                 let bd = bdtogd(i.lng, i.lat)
-            //                                 console.log(bd)
-            //                                 let olimarker = {
-            //                                     position: [bd.lng, bd.lat]
-            //                                 };
-            //                                 self.olimarkers.push(olimarker);
-            //                             })
-            //                             if(res.code == 200){
-            //                                 console.log(res)
-            //                             }else{
-            //                                 self.err = res.msg
-            //                             }
-            //                         })
-            //                     }
-            //                 }
-            //             });
-            //         }
-            //     }
-            // },{
-            //     pName: 'ToolBar',
-            //     liteStyle: true,
-            //     position: 'RT'
-            // }]
+            plugin: [{
+                AMapManager,
+                pName: 'Geolocation',
+                // noIpLocate: 1, // 禁止ip定位
+                events: {
+                    init(o) {
+                        console.log(location)
+                        location.initMap
+                        o.getCurrentPosition((status, result) => {
+                            // 获取定位
+                            if (result && result.position) {
+                                self.lng = result.position.lng;
+                                self.lat = result.position.lat;
+                                let gd = gdtobd(self.lng, self.lat)
+                                let gdlng = gd.lng
+                                let gdlat = gd.lat
+                                self.center = [self.lng, self.lat]
+                                self.loaded = true;
+                                self.result=result;
+                                if(result.addressComponent.city){
+                                    self.citys=result.addressComponent.city;
+                                }else{
+                                    self.citys=result.addressComponent.province;
+                                }
+                                self.district=result.addressComponent.district;
+                                self.$nextTick();
+                                console.log(self.lng, self.lat)
+                                // 定位完成之后 添加圆形
+                                let marker = {
+                                    center: [self.lng, self.lat],
+                                    radius: 25,
+                                    strokeColor: '#4771E6',
+                                    strokeOpacity: 0,
+                                    fillColor: '#4771E6',
+                                    fillOpacity: .6,
+                                }
+                                self.markers.push(marker)
+                                console.log(self.$route.path)
+                                // 查询停车场站
+                                if(self.$route.path == '/indextcccx'){
+                                    self.$api.apisearch.parkingQueryNearby({
+                                        distance: 5000,
+                                        lat: `${gdlat}`,
+                                        lng: `${gdlng}`,
+                                        test: true
+                                    }).then(res=>{
+                                        self.resData = res.data
+                                        self.loading = false
+                                        self.resData.forEach(i=>{
+                                            let bd = bdtogd(i.lng, i.lat)
+                                            console.log(bd)
+                                            let olimarker = {
+                                                position: [bd.lng, bd.lat]
+                                            };
+                                            self.olimarkers.push(olimarker);
+                                        })
+                                        if(res.code == 200){
+                                            console.log(res)
+                                        }else{
+                                            self.err = res.msg
+                                        }
+                                    })
+                                }
+                            }
+                        });
+                    }
+                }
+            },{
+                pName: 'ToolBar',
+                liteStyle: true,
+                position: 'RT'
+            }]
         }
     },
     methods:{
@@ -124,39 +124,12 @@ export default {
         up(a){
             a.target.style.background = '#2E6BE6'
         },
-        loadMap() { // 定位获取你当下的地理位置信息
-            this.map = new AMap.Map('map',{
-                esizeEnable: true
-            });
-            let thit = this;
-            AMap.plugin('AMap.Geolocation',function(){
-                let geolocation = new AMap.Geolocation({
-                enableHighAccuracy: true, // 是否高精度定位
-                timeout: 10000, // 设置定位超时时间
-                buttonOffset: new AMap.Pixel(10, 20),
-                zoomToAccuracy: true,
-                buttonPosition: 'RB' // 定位按钮的位置 RB表示右下
-                })
-                thit.map.addControl(geolocation)
-                geolocation.getCurrentPosition(function(status,result){
-                if(status=='complete'){
-                    // thit.onComplete(result)
-                    console.log('定位成功')
-                }else{
-                    // thit.onError(result)
-                    console.log('定位失败')
-                }
-                });
-            })
-        },
     },
     mounted(){
         this.$store.commit('changeTitle','停车场查询')
         console.log(this.resData)
         console.log(this.aMap)
-        console.log(location)
-        // location.initMap()
-        this.loadMap()
+        console.log(this.AMap)
     },
     created(){
     },

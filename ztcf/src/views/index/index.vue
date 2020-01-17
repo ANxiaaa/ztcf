@@ -29,12 +29,12 @@
           <img :src="i.url" alt="">
         </div>
       </div>
-      <div class="yingjian">
+      <div v-if="false" class="yingjian">
         <div class="line line1"></div>
         <page-title :data="yingjian.title"></page-title>
         <toppic :data="yingjianList"></toppic>
-        <div class="line"></div>
       </div>
+        <div class="line"></div>
       <div class="ad" v-for="(i, index) in ad" :key="index">
         <img :src="i" alt="">
       </div>
@@ -333,7 +333,8 @@ export default {
       display: block;
     }
     p{
-      font-weight: 500
+      font-weight: 500;
+      font-size: .25rem
     }
   }
 }
@@ -347,10 +348,9 @@ export default {
     padding: .4rem 0 0 .4rem;
     position: relative;
     border-radius: .133333rem;
-    font-family:Alibaba PuHuiTi;
     b{
       font-size: .426667rem;
-      line-height: 1
+      line-height: 1;
     }
     p{
       margin-top: .24rem;
@@ -399,15 +399,16 @@ export default {
 .tejiache{
   .tjctitle{
     height: 1.466667rem;
-    line-height: 1;
     padding: .533333rem 0;
     display: flex;
     justify-content: center;
     color: #333333;
+    font-weight: bold;
+    align-items: center;
     img{
       height: .4rem;
       width: .4rem;
-      margin: 0 .2rem;
+      margin: 0 .5rem;
     }
   }
 }

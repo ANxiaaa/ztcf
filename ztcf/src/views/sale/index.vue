@@ -151,7 +151,7 @@ export default {
   overflow-y: auto;
   position: absolute;
   bottom: 1.306667rem;
-  top: 1.173333rem;
+  top: 0;
   width: 100%;
 }
 .more{

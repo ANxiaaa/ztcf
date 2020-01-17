@@ -3,8 +3,8 @@
     <img ref="img" @click="edit" :src="baseUrl + userData.headImg" alt="">
     <croppa
     v-model="croppa"
-    :width="300"
-    :height="300"
+    :width="ctxR"
+    :height="ctxR"
     placeholder=""
     :accept="'image/*'"
     prevent-white-space
@@ -31,6 +31,7 @@ export default {
   data () {
     return {
       croppa: {},
+      ctxR: 0,
     }
   },
   methods:{
@@ -60,6 +61,11 @@ export default {
     loadingEnd(){
       this.$refs.img.style.zIndex = '0'
     }
+  },
+  beforeMount(){
+    let fontSize = Number(document.getElementsByTagName('html')[0].style.fontSize.slice(0,-2))
+    console.log(fontSize)
+    this.ctxR = (600 / 75) * fontSize
   },
   mounted(){
     this.$store.commit('changeTitle','')
@@ -102,6 +108,7 @@ img{
   width: 8rem;
   margin: auto;
   display: block;
+  background: #fff;
 }
 p{
   height: 1rem;
