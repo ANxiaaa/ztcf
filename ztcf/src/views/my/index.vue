@@ -33,10 +33,10 @@
         </ul>
       </div>
       <div class="carList container shadow">
-        <my-title :data="myCar"></my-title>
+        <my-title @click="toStore" :data="myCar"></my-title>
         <div class="car" v-if="userData.defaultCarInfo != null">
           <img :src="car[0].pic" alt="">
-          <div  class="t600">
+          <div class="t600">
             <p>{{userData.defaultCarInfo.carNumberPrefix}}{{userData.defaultCarInfo.carNumber}}</p>
             <span>{{userData.defaultCarInfo.carName}}</span>
           </div>
@@ -157,6 +157,10 @@ export default {
     // 跳转咨讯
     toadvisory(){
       this.$router.push('/toadvisory')
+    },
+    // 跳转车库
+    toStore(){
+      this.$router.push('/carStore')
     },
     // 点击反馈
     down(a,b,c){

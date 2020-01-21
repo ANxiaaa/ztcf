@@ -37,11 +37,20 @@ export default [
     },
     {
         path: '/saleArctic', // 特价车品牌选择车型
-        name: 'sSaleArctic',
+        name: 'SaleArctic',
         meta: {
             hideNav: true,
             back: true
         },
         component: resolve => require(['@/views/sale/saleArctic'], resolve)
+    },
+    {
+        path: '/saleCarList', // 车型下特价车列表
+        name: 'SaleCarList',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/sale/saleCarList'], resolve)
     },
 ]

@@ -38,3 +38,33 @@ export const findFourBrand = parentId => {
         params: { parentId }
     })
 }
+
+// 查询首页推广特价车
+export const findIndexSpecialPage = () => {
+    return axios({
+        url: 'car/findIndexSpecialPage',
+        method: 'post',
+        data: {
+            "pageNum": 1,
+            "pageSize": 15
+        }
+    })
+}
+
+// 特价车id分页查询
+export const findPageByCarInfo = (carId, data) => {
+    return axios({
+        url: 'car/findPageByCarInfo/' + carId,
+        method: 'post',
+        data
+    })
+}
+
+// 特价车id分页查询
+export const findById = id => {
+    return axios({
+        url: 'car/findById',
+        method: 'get',
+        params: { id }
+    })
+}

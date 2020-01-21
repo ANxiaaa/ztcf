@@ -4,8 +4,8 @@
       <div v-for="(i, index) in brandList" :key="index" :index="i.id">
         <van-index-anchor class="listTop t600"><p class="container">{{i.name}}</p></van-index-anchor>
         <ul class="list">
-          <li @touchstart="down" @touchend="up" v-for="(a, idx) in i.list" :key="idx" class="container" @click="toxinghao(a.queryId)">
-            <div class="t600">
+          <li @touchstart="down" @touchend="up" v-for="(a, idx) in i.list" :key="idx" @click="toxinghao(a.queryId)">
+            <div class="container t600">
               <img :src="a.logo" alt="">
               <div>
                 <p>{{a.fullname}}</p>

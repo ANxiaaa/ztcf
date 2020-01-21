@@ -232,7 +232,7 @@ export default {
       width: 1.866667rem;
       text-align: center;
       color: #666;
-      font-size: .373333rem;
+      font-size: .25rem;
       img{
         display: block;
         margin: auto;

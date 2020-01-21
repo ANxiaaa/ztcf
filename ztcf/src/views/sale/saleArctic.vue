@@ -1,7 +1,7 @@
 <template>
   <div class="saleArctic">
-    <div class="list container">
-      <leftpic @click="toCarList" :data="arcticList"></leftpic>
+    <div class="list">
+      <leftpic @click="toCarList" :prop="{title: 'name', url: 'logo'}" :data="arcticList"></leftpic>
     </div>
   </div>
 </template>
@@ -24,7 +24,8 @@ export default {
     // 去列表
     toCarList(data){
       console.log(data)
-    }
+      this.$router.push('/saleCarList?id=' + data.queryId)
+    },
   },
   mounted(){
     this.$store.commit('changeTitle', '选择车型')

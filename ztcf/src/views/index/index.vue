@@ -45,7 +45,7 @@
           特价车
           <img :src="require('@/assets/index/tjc2.png')" alt="">
         </p>
-        <leftpic :data="tjcList"></leftpic>
+        <leftpic :data="tjcList" :prop="{title: 'name',url: 'img',sale: 'showCost'}"></leftpic>
       </div>
     </div>
   </div>
@@ -55,6 +55,7 @@
 import pageTitle from '@/components/pageTitle'
 import toppic from '@/components/list/toppic'
 import leftpic from '@/components/list/leftpic'
+import { baseUrl } from '@/utils/global'
 export default {
   name: 'index',
   components:{
@@ -144,56 +145,8 @@ export default {
         price: 369,
         oldprice: 369
       }],
-      tjcList: [{ // 特价车推荐
-        url: require('@/assets/index/tjclist.png'),
-        title: '2019款DBS superlrggrra',
-        label: ['奥迪-A3','2019款'],
-        price: '20万',
-        sale: '15万',
-        rate: 5
-      },{
-        url: require('@/assets/index/tjclist.png'),
-        title: '2019款DBS superlrggrra',
-        label: ['奥迪-A3','2019款'],
-        price: '20万',
-        sale: '15万',
-        rate: 5
-      },{
-        url: require('@/assets/index/tjclist.png'),
-        title: '2019款DBS superlrggrra',
-        label: ['奥迪-A3','2019款'],
-        price: '20万',
-        sale: '15万',
-        rate: 5
-      },{
-        url: require('@/assets/index/tjclist.png'),
-        title: '2019款DBS superlrggrra',
-        label: ['奥迪-A3','2019款'],
-        price: '20万',
-        sale: '15万',
-        rate: 5
-      },{
-        url: require('@/assets/index/tjclist.png'),
-        title: '2019款DBS superlrggrra',
-        label: ['奥迪-A3','2019款'],
-        price: '20万',
-        sale: '15万',
-        rate: 5
-      },{
-        url: require('@/assets/index/tjclist.png'),
-        title: '2019款DBS superlrggrra',
-        label: ['奥迪-A3','2019款'],
-        price: '20万',
-        sale: '15万',
-        rate: 5
-      },{
-        url: require('@/assets/index/tjclist.png'),
-        title: '2019款DBS superlrggrra',
-        label: ['奥迪-A3','2019款'],
-        price: '20万',
-        sale: '15万',
-        rate: 5
-      }]
+       // 特价车推荐
+      tjcList: []
     }
   },
   methods:{
@@ -232,9 +185,29 @@ export default {
     expect(){
       this.$router.push('/expect')
     },
+    // 转换小数
+    toFiexd2(num){
+      num = num.toString()
+      if(num.indexOf('.') != -1 && (num.substring(num.indexOf('.'), num.length)).length > 1){
+        return (Number(num)).toFixed(1)
+      }else{
+        return Number(num)
+      }
+    }
   },
   mounted(){
+    let _this = this
     this.$store.commit('changeTitle','郑泰车服')
+    this.$api.sale.findIndexSpecialPage().then(res=>{
+      console.log(res)
+      res.data.data.content.forEach(i=>{
+        i.img = baseUrl + i.img
+        i.rate = _this.toFiexd2((1 - (i.showCost / i.price)) * 100)
+        i.showCost = _this.toFiexd2(i.showCost / 10000) + '万'
+        i.price = _this.toFiexd2(i.price / 10000) + '万'
+      })
+      this.tjcList = res.data.data.content
+    })
     console.log(this.userCarInfo)
     console.log(this.userData)
   },

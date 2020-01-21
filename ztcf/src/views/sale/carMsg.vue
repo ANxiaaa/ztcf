@@ -1,12 +1,12 @@
 <template>
   <div class="carMsg">
-    <img :src="require('@/assets/sale/goods.png')" alt="" class="top">
+    <img :src="carData.img" alt="" class="top">
     <div class="msg t600">
       <div class="container">
-        <p class="price">特价: 15万<span>官方指导价: 20万</span></p>
-        <p class="jianglv"><span>降率: 5%</span><b @click="tocanshu(0)">详细参数</b></p>
-        <p class="name">宝马 3 系 2019款3251 运动曜夜版</p>
-        <p class="time">活动时间: 2019.10.13-2019.12.12</p>
+        <p class="price">特价: {{carData.showCost / 10000}}万<span>官方指导价: {{carData.price / 10000}}万</span></p>
+        <p class="jianglv"><span>降率: {{((1 - (carData.showCost / carData.price)) * 100).toFixed(1)}}%</span><b @click="tocanshu(0)">详细参数</b></p>
+        <p class="name">{{carData.name}}</p>
+        <p class="time">活动时间: {{formatDate(carData.activityStartTime)}}-{{formatDate(carData.activityEndTime)}}</p>
       </div>
     </div>
     <div class="line"></div>
@@ -18,31 +18,12 @@
       </p>
       <ul class="container t600">
         <li>
-          <p><span>外观颜色:</span>黑 / 灰</p>
+          <p><span>库存:</span>{{carData.store}}</p>
           <div class="bd"></div>
         </li>
-        <li>
-          <p><span>外观颜色:</span>黑 / 灰</p>
-          <div class="bd"></div>
-        </li>
-        <li>
-          <p><span>外观颜色:</span>黑 / 灰</p>
-          <div class="bd"></div>
-        </li>
-        <li>
-          <p><span>外观颜色:</span>黑 / 灰</p>
-          <div class="bd"></div>
-        </li>
-        <li>
-          <p><span>外观颜色:</span>黑 / 灰</p>
-          <div class="bd"></div>
-        </li>
-        <li>
-          <p><span>外观颜色:</span>黑 / 灰</p>
-          <div class="bd"></div>
-        </li>
-        <li>
-          <p><span>外观颜色:</span>黑 / 灰</p>
+        <li v-for="i in carData.specialAttrs" :key="i.id">
+          <p><span>{{i.key}}:</span>{{i.value}}</p>
+          <p style="color: #999;">{{i.desc}}</p>
           <div class="bd"></div>
         </li>
       </ul>
@@ -53,9 +34,7 @@
           <span class="t600">服务介绍</span>
           <img :src="require('@/assets/insurance/liucheng.png')" alt="">
         </p>
-        <p class="container t600">
-          此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,此处为后台上传内容,
-        </p>
+        <div class="t600 specialDetail" v-html="carData.specialDetail.detail"></div>
       </div>
     </div>
     <div class="bottomBtn t600">
@@ -74,6 +53,8 @@
 
 <script>
 import btn from '@/components/input/btn'
+import { baseUrl } from '@/utils/global'
+import { format } from '@/utils/date'
 export default {
   name: 'carMsg',
   components:{
@@ -82,7 +63,7 @@ export default {
   data () {
     return {
       carData: {
-
+        specialDetail: {}
       }
     }
   },
@@ -93,11 +74,20 @@ export default {
     toxiadan(id){
       console.log(id)
       // this.$router.push('/carParam?id=' + id)
+    },
+    // 格式化时间
+    formatDate(date){
+      return format(date)
     }
   },
   mounted(){
     this.$store.commit('changeTitle', '车辆详情')
-    console.log(this.id)
+    this.$api.sale.findById(this.id).then(res=>{
+      console.log(res.data.data)
+      let carData = res.data.data
+      carData.img = baseUrl + carData.img
+      this.carData = carData
+    })
   },
   computed:{
     id(){
@@ -148,8 +138,7 @@ export default {
         background: rgba($color: #175CE6, $alpha: .1);
         color: #175CE6;
         border-radius: .213333rem;
-        width: 1.653333rem;
-        height: .426667rem;
+        padding: .05rem .2rem;
         text-align: center;
         font-size: .293333rem;
         line-height: .426667rem;
@@ -256,5 +245,29 @@ export default {
   button{
     flex: 1;
   }
+}
+.specialDetail{
+  width: 10rem;
+  margin: auto;
+  padding: 0 !important;
+  margin-top: .266667rem;
+  overflow: hidden;
+  p{
+    text-indent: 0;
+  }
+}
+</style>
+<style scoped>
+>>> .ql-align-center{
+  text-align: center;
+}
+>>> .ql-align-right{
+  text-align: right;
+}
+>>> .ql-align-justify{
+  text-align: justify;
+}
+.specialDetail >>> img{
+  width: 100%;
 }
 </style>

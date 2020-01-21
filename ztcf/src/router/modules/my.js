@@ -82,4 +82,13 @@ export default [
         },
         component: resolve => require(['@/views/my/upHead'], resolve)
     },
+    {
+        path: '/carStore', // 车库
+        name: 'CarStore',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/my/carStore'], resolve)
+    },
 ]

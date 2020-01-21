@@ -1,21 +1,22 @@
 <template>
     <ul>
-        <li class="container" @click.stop="click(list)" v-for="(list, index) in data" :key="index">
-            <img :src="list.url ? list.url : list.logo" alt="">
-            <div>
-                <h5 class="t600">{{list.title ? list.title : list.name}}</h5>
-                <p class="label">
-                    <span class="t600" v-for="i in list.label" :key="i">{{i}}</span>
-                </p>
-                <p class="price">
-                    <b>官方指导价: ¥{{list.price}}</b>
-                </p>
-                <p class="sale t600">
-                    <strong >特价: ¥{{list.sale}}</strong>
-                    <span>降率: {{list.rate}}%</span>
-                </p>
+        <li @touchstart="down" @touchend="up" @click.stop="click(list)" v-for="(list, index) in data" :key="index">
+            <div class="container">
+                <img :src="list[prop.url]" alt="">
+                <div>
+                    <h5 class="t600">{{list[prop.title]}}</h5>
+                    <p class="label">
+                        <span class="t600" v-for="i in list.label" :key="i">{{i}}</span>
+                    </p>
+                    <p class="price">
+                        <b>官方指导价: ¥{{list.price}}</b>
+                    </p>
+                    <p class="sale t600">
+                        <strong >特价: ¥{{list[prop.sale]}}</strong>
+                        <span>降率: {{list.rate}}%</span>
+                    </p>
+                </div>
             </div>
-            <i></i>
         </li>
     </ul>
 </template>
@@ -24,9 +25,17 @@
 export default {
     name: 'leftpic',
     props: {
-        data:{
+        data: {
             type: Array,
             default: []
+        },
+        prop: {
+            type: Object,
+            default: {
+                url: 'url',
+                title: 'title',
+                sale: 'sale'
+            }
         }
     },
     data () {
@@ -37,7 +46,22 @@ export default {
     methods: {
         click(data){
             this.$emit('click', data)
-        }
+        },
+        // 点击反馈
+        down(a){
+            a.path.forEach(i=>{
+                if(i.tagName === 'LI'){
+                    i.style.background = '#ececec'
+                }
+            })
+        },
+        up(a){
+            a.path.forEach(i=>{
+                if(i.tagName === 'LI'){
+                    i.style.background = 'none'
+                }
+            })
+        },
     }
 }
 </script>
@@ -47,12 +71,15 @@ ul{
     position: relative;
 }
 .container{
-    padding-bottom: .453333rem;
+    padding: .3rem 0;
+    height: 3.6rem;
     display: flex;
     justify-content: space-around;
     position: relative;
+    border-bottom: .026667rem solid #F2F4F7;
     div{
         overflow: hidden;
+        flex: 1;
     }
     img{
         width: 3.733333rem;
@@ -63,10 +90,8 @@ ul{
     h5{
         font-size:.426667rem;
         color: #333;
-        line-height: 1;
         white-space: pre;
         width: 100%;
-        // overflow-x: auto;
         overflow: hidden;
         text-overflow: ellipsis;
     }
@@ -120,5 +145,10 @@ ul{
         border-radius: .013333rem;
         background: #F2F4F7;
     }
+}
+</style>
+<style scoped>
+li:last-child{
+    border: none;
 }
 </style>
