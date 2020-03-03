@@ -17,7 +17,7 @@
         <span>></span>
       </div>
       <div class="shoucang container">
-        <div class="shadow" v-for="i in shoucang" :key="i.name">
+        <div class="shadow" v-for="i in shoucang" :key="i.name" @click="$router.push(i.router)">
           <img :src="i.url" alt="">
           <p class="t600">{{i.name}}</p>
           <span>></span>
@@ -26,9 +26,9 @@
       <div class="dingdan container shadow">
         <my-title @click="toDingdan" :data="myDingdan"></my-title>
         <ul>
-          <li v-for="i in dingdanList" :key="i.name">
+          <li v-for="i in dingdanList" @click="$router.push(`/order?type=${i.value}`)" :key="i.name">
             <img :src="i.pic" alt="">
-            <p class="t600">{{i.name}}</p>
+            <p class="t600">{{i.title}}</p>
           </li>
         </ul>
       </div>
@@ -83,6 +83,7 @@ export default {
       shoucang: [{
         url: require('@/assets/my/shoucang.png'),
         name: '我的收藏',
+        router: '/collect'
       },{
         url: require('@/assets/my/jilu.png'),
         name: '浏览记录',
@@ -96,19 +97,14 @@ export default {
       // 订单状态
       dingdanList: [{
         pic: require('@/assets/my/dd1.png'),
-        name: '待付款'
       },{
         pic: require('@/assets/my/dd2.png'),
-        name: '接单中'
       },{
         pic: require('@/assets/my/dd3.png'),
-        name: '出单中'
       },{
         pic: require('@/assets/my/dd4.png'),
-        name: '已出单'
       },{
         pic: require('@/assets/my/dd5.png'),
-        name: '取消订单'
       }],
       // 车库
       myCar: {
@@ -192,6 +188,15 @@ export default {
   },
   mounted(){
     this.$store.commit('changeTitle', '个人中心')
+    this.$api.order.getOrderStatusEnum().then(res=>{
+      console.log(res)
+      let list = []
+      res.data.forEach((i, index)=>{
+        let item = Object.assign(this.dingdanList[index], i)
+        list.push(item)
+      })
+      this.dingdanList = list
+    })
   },
   computed:{
     // 登录状态

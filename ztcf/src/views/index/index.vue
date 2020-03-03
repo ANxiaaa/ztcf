@@ -45,7 +45,7 @@
           特价车
           <img :src="require('@/assets/index/tjc2.png')" alt="">
         </p>
-        <leftpic :data="tjcList" :prop="{title: 'name',url: 'img',sale: 'showCost'}"></leftpic>
+        <leftpic @click="toMsg" :data="tjcList" :prop="{title: 'name',url: 'img',sale: 'showCost'}"></leftpic>
       </div>
     </div>
   </div>
@@ -188,11 +188,16 @@ export default {
     // 转换小数
     toFiexd2(num){
       num = num.toString()
-      if(num.indexOf('.') != -1 && (num.substring(num.indexOf('.'), num.length)).length > 1){
-        return (Number(num)).toFixed(1)
+      if(num.indexOf('.') != -1 && (num.slice(num.indexOf('.'))).length > 2){
+        return (Number(num)).toFixed(2)
       }else{
         return Number(num)
       }
+    },
+    // 选择特价车
+    toMsg(item){
+      console.log(item)
+      this.$router.push('/carMsg?id=' + item.id)
     }
   },
   mounted(){
@@ -225,7 +230,7 @@ export default {
 <style scoped lang="scss">
 .index{
   height: calc(100% - 1.306667rem);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .title{
   padding: .36rem 0;

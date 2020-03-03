@@ -56,3 +56,46 @@ export const findMemberCarInfoByMemberId = data => {
         method: 'get'
     })
 }
+
+// 查询收货列表
+export const getReceipts = () => {
+    return axios({
+        url: '/member/getReceipts',
+        method: 'get'
+    })
+}
+
+// 保存收货
+export const saveOrUpdateReceipt = data => {
+    return axios({
+        url: '/member/saveOrUpdateReceipt',
+        method: 'post',
+        data
+    })
+}
+
+// 根据id查询收货
+export const getReceiptById = id => {
+    return axios({
+        url: '/member/getReceiptById',
+        method: 'get',
+        params: { id }
+    })
+}
+
+// 删除收货
+export const delReceipt = id => {
+    return axios({
+        url: '/member/delReceipt',
+        method: 'delete',
+        params: { id }
+    })
+}
+
+// 默认收货
+export const getDefReceipt = () => {
+    return axios({
+        url: '/member/getDefReceipt',
+        method: 'get'
+    })
+}

@@ -20,7 +20,7 @@ export default {
   name: 'App',
   data(){
     return {
-      keep: ['indexAddCar', 'insurance'],
+      keep: ['indexAddCar', 'insurance', 'information'],
       // 缓存的页面
       include: ['register'],
       // 主导航
@@ -175,6 +175,21 @@ export default {
 .van-tab__pane, .van-tabs__content{
   min-height: 85vh
 }
-</style>
-<style>
+.notPage{
+  position: absolute;
+  width: 5rem;
+  left: 0;right: 0;
+  margin: auto;
+  top: 20%;
+  margin: auto;
+  img{
+      width: 100%;
+  }
+  p{
+      font-size: .5rem;
+      text-align: center;
+      margin-top: -.9rem;
+      color: #999;
+  }
+}
 </style>

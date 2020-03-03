@@ -44,4 +44,22 @@ export default [
         },
         component: resolve => require(['@/views/insurance/insureType'], resolve)
     },
+    {
+        path: '/addInsOrder', // 保险线上下单
+        name: 'AddInsOrder',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/insurance/addInsOrder'], resolve)
+    },
+    {
+        path: '/quo', // 保险报价
+        name: 'Quo',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/insurance/quo'], resolve)
+    },
 ]

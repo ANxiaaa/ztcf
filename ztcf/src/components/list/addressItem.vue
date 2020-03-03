@@ -1,9 +1,9 @@
 <template>
     <div class="addressItem t600">
-        <div class="xing">高</div>
-        <div class="main">
-            <p class="xinxi">高女士<span>18744561233</span></p>
-            <p>河南省郑州市金水区农业路经三路交叉路口兴业大厦A座1903</p>
+        <div class="xing">{{addData.name.slice(0, 1)}}</div>
+        <div class="main" @click="click(addData)">
+            <p class="xinxi">{{addData.name}}<span>{{addData.phone}}</span></p>
+            <p>{{addData.province}} {{addData.city}} {{addData.county}} {{addData.address}}</p>
         </div>
         <div @click="toSet" class="bianji">
             <img :src="require('@/assets/my/edit.png')" alt="">
@@ -16,17 +16,15 @@
 export default {
     name: 'addressItem',
     props: {
-
-    },
-    data () {
-        return {
-
+        addData: {
+            type: Object,
+            default: {}
         }
     },
     methods: {
         toSet(){
             console.log(1)
-            this.$router.push('/setAddress')
+            this.$router.push('/setAddress?set=' + this.addData.id)
         },
         down(a){
             a.path.forEach(i=>{
@@ -42,6 +40,9 @@ export default {
                 }
             })
         },
+        click(a){
+            this.$emit('click', a)
+        }
     }
 }
 </script>

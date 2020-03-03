@@ -27,21 +27,27 @@
                     <label class="l2" @click="changeshangpai"><img :src="!carData.ifCarNumber?require('@/assets/no.png'):require('@/assets/yes.png')" alt="">未上牌</label>
                     </div>
                 </div>
-                <div class="bottom" v-if="showBtm">
+                <div class="bottom">
                     <div class="xinghao">
                         <b class="t600">注册时间:</b>
                         <p class="t600" style="color: #333">
-                        <strong contenteditable="plaintext-only">{{!carData.regDate?'':carData.regDate}}</strong></p>
+                            <input type="text" v-model="carData.regDate">
+                            <!-- <strong contenteditable="plaintext-only">{{!carData.regDate?'':carData.regDate}}</strong> -->
+                        </p>
                     </div>
                     <div class="xinghao">
                         <b class="t600">发动机号:</b>
                         <p class="t600" style="color: #333">
-                        <strong contenteditable="plaintext-only">{{carData.engineNumber?carData.engineNumber:''}}</strong></p>
+                            <input type="text" v-model="carData.engineNumber">
+                            <!-- <strong contenteditable="plaintext-only">{{carData.engineNumber?carData.engineNumber:''}}</strong> -->
+                        </p>
                     </div>
                     <div class="xinghao">
                         <b class="t600">车架号:</b>
                         <p class="t600" style="color: #333">
-                        <strong contenteditable="plaintext-only">{{carData.frameNumber}}</strong></p>
+                            <input type="text" v-model="carData.frameNumber">
+                            <!-- <strong contenteditable="plaintext-only">{{carData.frameNumber}}</strong> -->
+                        </p>
                     </div>
                 </div>
             </div>
@@ -163,11 +169,11 @@ export default {
                 "ifCarNumber": "", // 1已经上牌 0未上牌
                 "carNumberPrefix": "", // 车牌前缀
                 "carNumber": "", // 车牌号
-                "carType": "string", // 车辆类型
+                "carType": "", // 车辆类型
                 "createDate": "", // 添加时间
                 "enable": 1, // 是否可用
-                "engineNumber": "string", // 发动机号
-                "frameNumber": "string", // 车辆识别码
+                "engineNumber": "", // 发动机号
+                "frameNumber": "", // 车辆识别码
                 "id": 0,
                 "ifTransfer": 0, // 是否过户
                 "transferDate": "", // 过户时间
@@ -340,18 +346,11 @@ export default {
                 border-bottom: .013333rem solid #F2F4F7;
                 white-space: pre;
                 display: flex;
-                strong{
+                input{
                     margin-right: .5rem;
                     width: 6rem;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-                span{
-                    font-family: '宋体';
-                    font-weight: bold;
-                    color: #999;
-                    position: absolute;
-                    right: 0;
+                    display: block;
+                    border: none
                 }
             }
         }

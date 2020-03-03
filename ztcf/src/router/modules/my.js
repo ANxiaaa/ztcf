@@ -91,4 +91,40 @@ export default [
         },
         component: resolve => require(['@/views/my/carStore'], resolve)
     },
+    {
+        path: '/collect', // 收藏
+        name: 'Collect',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/my/collect'], resolve)
+    },
+    {
+        path: '/invite', // 邀请
+        name: 'Invite',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/my/invite'], resolve)
+    },
+    {
+        path: '/notice', // 系统消息
+        name: 'Notice',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/my/notice'], resolve)
+    },
+    {
+        path: '/noticeMsg', // 系统消息信息
+        name: 'NoticeMsg',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/my/noticeMsg'], resolve)
+    },
 ]

@@ -2,8 +2,8 @@
 <div class="touch" @touchstart="down" @touchend="up" @click="click">
     <div class="t600">
         <b>{{name}}:</b>
-        <p v-if="!input">{{val}}</p>
-        <input type="text" :placeholder="placeholder" v-else v-model="data" @input="sendData(data)"/>
+        <p v-if="!input">{{value}}</p>
+        <input type="text" :placeholder="placeholder" v-else v-model="myValue" @input="sendData"/>
         <span v-show="bindtap || jiantou">></span>
     </div>
     <div class="bd"></div>
@@ -18,14 +18,10 @@ export default {
             type: String,
             default: ''
         },
-        val: {
-            type: String,
-            default: ''
+        value: {
+            type: String || Number,
+            default: null
         },
-        // click: {
-        //     type: Function,
-        //     default: function (){}
-        // },
         bindtap: {
             type: Boolean,
             default: false
@@ -43,14 +39,23 @@ export default {
             default: false
         }
     },
-    data () {
+    data(){
+        let _this = this
         return {
-            data: ''
+            myValue: _this.value
+        }
+    },
+    watch: {
+        value(newValue){
+            this.myValue = newValue
+        },
+        myValue(newValue){
+            this.$emit('input', newValue)
         }
     },
     methods: {
-        sendData(){
-            console.log(this.data)
+        sendData(e){
+            this.$emit('input', this.myValue)
         },
         down(a){
             if(!this.bindtap)return;

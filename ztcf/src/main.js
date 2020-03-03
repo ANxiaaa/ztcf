@@ -22,8 +22,13 @@ Vue.use(Croppa)
 localStorage.getuser = '1'
 
 // 调试器
-import VConsole from 'vconsole'
-Vue.prototype.$vconsole = VConsole;
+// import VConsole from 'vconsole'
+// Vue.prototype.$vconsole = VConsole;
+
+// 弹出框
+import { Dialog } from 'vant';
+Vue.use(Dialog)
+Vue.prototype.Dialog = Dialog
 
 // 高德地图
 import aMap from 'vue-amap'

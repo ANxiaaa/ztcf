@@ -1,6 +1,6 @@
 <template>
   <div class="saleBrand">
-    <van-index-bar :index-list="indexList" highlight-color="#2E6BE6">
+    <van-index-bar :index-list="indexList" :sticky="false" highlight-color="#2E6BE6">
       <div v-for="(i, index) in brandList" :key="index" :index="i.id">
         <van-index-anchor class="listTop t600"><p class="container">{{i.name}}</p></van-index-anchor>
         <ul class="list">
@@ -61,7 +61,9 @@ export default {
       this.brandList = res.data
       let indexList = res.data.map(i=>i.id)
       this.indexList = [...new Set(indexList)].sort()
-    }).then(()=>{
+      // this.$nextTick()
+    })
+    .then(()=>{
       this.brandList.forEach(i=>{
         this.$api.sale.findThreeBrand(i.id).then(threeRes=>{
           i.list = threeRes.data

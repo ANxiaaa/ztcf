@@ -77,7 +77,7 @@ export default {
                     this.Toast({
                         message: '登录成功',
                         onOpened(){
-                            _this.$router.push('/my')
+                            _this.$router.go(-1)
                         }
                     })
                 }else {

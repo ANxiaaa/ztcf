@@ -11,6 +11,7 @@ export const allOneCar = () => {
         method: 'get'
     })
 }
+
 // 获取全部二级车系
 export const allTwoCar = params => {
     return axios({
@@ -19,11 +20,21 @@ export const allTwoCar = params => {
         params
     })
 }
+
 // 获取全部三级车型
 export const allThreeCar = params => {
     return axios({
         url: '/car/findCarByParentId',
         method: 'get',
         params
+    })
+}
+
+// 车辆详细参数
+export const findCarParamByCarId = carId => {
+    return axios({
+        url: '/car/findCarParamByCarId',
+        method: 'get',
+        params: { carId }
     })
 }

@@ -60,11 +60,20 @@ export const findPageByCarInfo = (carId, data) => {
     })
 }
 
-// 特价车id分页查询
+// 根据id查询
 export const findById = id => {
     return axios({
         url: 'car/findById',
         method: 'get',
         params: { id }
+    })
+}
+
+// 特价车分页查询
+export const findPage = data => {
+    return axios({
+        url: 'car/findPage',
+        method: 'post',
+        data
     })
 }

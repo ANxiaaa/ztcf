@@ -53,4 +53,13 @@ export default [
         },
         component: resolve => require(['@/views/sale/saleCarList'], resolve)
     },
+    {
+        path: '/addSaleOrder', // 特价车线上下单
+        name: 'AddSaleOrder',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/sale/addSaleOrder'], resolve)
+    },
 ]

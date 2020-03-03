@@ -1,52 +1,54 @@
 <template>
   <div class="carMsg">
-    <img :src="carData.img" alt="" class="top">
-    <div class="msg t600">
-      <div class="container">
-        <p class="price">特价: {{carData.showCost / 10000}}万<span>官方指导价: {{carData.price / 10000}}万</span></p>
-        <p class="jianglv"><span>降率: {{((1 - (carData.showCost / carData.price)) * 100).toFixed(1)}}%</span><b @click="tocanshu(0)">详细参数</b></p>
-        <p class="name">{{carData.name}}</p>
-        <p class="time">活动时间: {{formatDate(carData.activityStartTime)}}-{{formatDate(carData.activityEndTime)}}</p>
+    <div v-if="true">
+      <img :src="carData.img" alt="" class="top">
+      <div class="msg t600">
+        <div class="container">
+          <p class="price">特价: {{carData.showCost / 10000}}万<span>官方指导价: {{carData.price / 10000}}万</span></p>
+          <p class="jianglv"><span>降率: {{((1 - (carData.showCost / carData.price)) * 100).toFixed(1)}}%</span><b @click="tocanshu(carData.carInfo)">详细参数</b></p>
+          <p class="name">{{carData.name}}</p>
+          <p class="time">活动时间: {{formatDate(carData.activityStartTime)}}-{{formatDate(carData.activityEndTime)}}</p>
+        </div>
       </div>
-    </div>
-    <div class="line"></div>
-    <div class="det">
-      <p class="lcTitle">
-        <img :src="require('@/assets/insurance/liucheng.png')" alt="">
-        <span class="t600">基本属性</span>
-        <img :src="require('@/assets/insurance/liucheng.png')" alt="">
-      </p>
-      <ul class="container t600">
-        <li>
-          <p><span>库存:</span>{{carData.store}}</p>
-          <div class="bd"></div>
-        </li>
-        <li v-for="i in carData.specialAttrs" :key="i.id">
-          <p><span>{{i.key}}:</span>{{i.value}}</p>
-          <p style="color: #999;">{{i.desc}}</p>
-          <div class="bd"></div>
-        </li>
-      </ul>
       <div class="line"></div>
-      <div class="preMsg">
+      <div class="det">
         <p class="lcTitle">
           <img :src="require('@/assets/insurance/liucheng.png')" alt="">
-          <span class="t600">服务介绍</span>
+          <span class="t600">基本属性</span>
           <img :src="require('@/assets/insurance/liucheng.png')" alt="">
         </p>
-        <div class="t600 specialDetail" v-html="carData.specialDetail.detail"></div>
+        <ul class="container t600">
+          <li>
+            <p><span>库存:</span>{{carData.store}}</p>
+            <div class="bd"></div>
+          </li>
+          <li v-for="i in carData.specialAttrs" :key="i.id">
+            <p><span>{{i.key}}:</span>{{i.value}}</p>
+            <p style="color: #999;">{{i.desc}}</p>
+            <div class="bd"></div>
+          </li>
+        </ul>
+        <div class="line"></div>
+        <div class="preMsg">
+          <p class="lcTitle">
+            <img :src="require('@/assets/insurance/liucheng.png')" alt="">
+            <span class="t600">服务介绍</span>
+            <img :src="require('@/assets/insurance/liucheng.png')" alt="">
+          </p>
+          <div class="t600 specialDetail" v-html="carData.specialDetail.detail"></div>
+        </div>
       </div>
-    </div>
-    <div class="bottomBtn t600">
-      <p>
-        <img :src="require('@/assets/shoucang.png')" alt="">
-        <span>收藏</span>
-      </p>
-      <p>
-        <img :src="require('@/assets/dianhua.png')" alt="">
-        <span>电话</span>
-      </p>
-      <btn @click="toxiadan(0)" name="线上下单"></btn>
+      <div class="bottomBtn t600">
+        <p>
+          <img :src="require('@/assets/shoucang.png')" alt="">
+          <span>收藏</span>
+        </p>
+        <p>
+          <img :src="require('@/assets/dianhua.png')" alt="">
+          <span>电话</span>
+        </p>
+        <btn @click="toxiadan(id)" name="线上下单"></btn>
+      </div>
     </div>
   </div>
 </template>
@@ -71,9 +73,119 @@ export default {
     tocanshu(id){
       this.$router.push('/carParam?id=' + id)
     },
-    toxiadan(id){
-      console.log(id)
-      // this.$router.push('/carParam?id=' + id)
+    // 下单
+    toxiadan(productId){
+      // let newOrder = {
+      //   "createTime": "", // 订单创建时间
+      //   "del": false, // 是否删除
+      //   "id": 0, // 主键ID
+      //   "logistics": { // 订单 - 物流信息实体
+      //     "id": 0,
+      //     "logisticsCompany": "", // 物流公司
+      //     "logisticsNo": "", // 物流单号
+      //     "memberId": user.id, // 会员id
+      //     "orderId": 0, // 订单id
+      //     "receiptId": 0, // 收货地址id
+      //     "shipDate": "", // 发货时间
+      //     "shipPeople": "" // 发货人
+      //   },
+      //   "memberDel": false, // 用户是否删除
+      //   "memberId": user.id, // 会员ID
+      //   "memberNickName": user.nickName, // 下单会员名称
+      //   "memberPhone": user.phone, // 下单手机号
+      //   "orderMoney": '', // 订单总额
+      //   "orderName": carData.name, // 订单名称
+      //   "orderNo": "", // 订单编号
+      //   "orderPay": '', // 待支付金额
+      //   "orderType": "nromal", // 订单类型
+      //   "pay": { //	订单 - 支付信息实体
+      //     "id": 0,
+      //     "orderId": 0, // 订单id - 请求必选
+      //     "payDate": "", // 支付时间
+      //     "payMoney": '', // 支付金额
+      //     "payNo": "", // 支付单号
+      //     "payStatus": {
+      //       "title": "string",
+      //       "value": "string"
+      //     },
+      //     "payType": {
+      //       "enable": true,
+      //       "title": "string",
+      //       "value": "string"
+      //     },
+      //     "refund": 0, // 是否退款
+      //     "refundDate": "", // 退款时间
+      //     "refundEndDate": "", // 退款到账时间
+      //     "refundMoney": "", // 退款金额
+      //     "refundNo": "", // 退款单号
+      //     "refundReason": "", // 退款原因
+      //     "refundStatus": {
+      //       "title": "",
+      //       "value": ""
+      //     },
+      //     "spbillCreateIp": "", // 用户终端IP - 请求必选
+      //     "terminalType": {
+      //       "title": "",
+      //       "value": ""
+      //     }
+      //   },
+      //   "products": [ // 订单商品信息
+      //     {
+      //       "id": 0,
+      //       "orderId": 0, // 订单ID
+      //       "product": {}, // 产品
+      //       "productId": 0, // 商品ID
+      //       "productType": "special_car", // 商品类型
+      //       "quantity": 0, // 商品数量
+      //       "totalPrice": '', // 总价
+      //       "unitPrice": '' // 单价
+      //     }
+      //   ],
+      //   "remark": "", // 备注
+      //   "status": "pending" // 订单状态
+      // }
+      if(localStorage.isLogin){
+        let param = {
+          orderProductType: 'special_car',
+          productId
+        }
+        this.$api.order.assemblyOrder(param).then(res => {
+          if(res.code == 200){
+            return res.data
+          }else{
+            this.Toast.fail(res.msg)
+          }
+        }).then(data => {
+          if(!data)return;
+          let user = this.userData
+          let logistics = {
+            "id": 0,
+            "logisticsCompany": "", // 物流公司
+            "logisticsNo": "", // 物流单号
+            "memberId": user.id, // 会员id
+            "orderId": 0, // 订单id
+            "receiptId": 0, // 收货地址id
+            "shipDate": "", // 发货时间
+            "shipPeople": "" // 发货人
+          }
+          this.$api.user.getDefReceipt().then(res=>{
+            if(res.data != null){
+              logistics.receiptId = res.data.id || -1
+            }
+            data.logistics = logistics
+            delete data.memberDel
+            this.$store.commit('changeSaleOrder', data)
+            this.$router.push('/addSaleOrder')
+          })
+        })
+      }else{
+        this.Dialog.confirm({
+          title: '请登录',
+          message: '您还未登录，确定要登录吗？'
+        }).then(() => {
+          this.$router.push('/register')
+        })
+      }
     },
     // 格式化时间
     formatDate(date){
@@ -88,11 +200,17 @@ export default {
       carData.img = baseUrl + carData.img
       this.carData = carData
     })
+    console.log(this.userData)
   },
   computed:{
     id(){
       return this.$route.query.id
-    }
+    },
+    // 用户信息
+    userData(){
+      let data = this.$store.getters.userData
+      return Object.assign({}, data)
+    },
   }
 }
 </script>
@@ -249,7 +367,7 @@ export default {
 .specialDetail{
   width: 10rem;
   margin: auto;
-  padding: 0 !important;
+  padding: 0 .4rem !important;
   margin-top: .266667rem;
   overflow: hidden;
   p{

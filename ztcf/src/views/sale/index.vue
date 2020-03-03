@@ -131,10 +131,12 @@ export default {
     findAllBrand(){
       this.$api.sale.findAllBrand().then(res=>{
         console.log(res)
-        this.hotList = res.data
-        this.allBrand = res.data
-        let indexList = res.data.map(i=>i.initial)
-        this.indexList = [...new Set(indexList)].sort()
+        if(res.code == 200){
+          this.hotList = res.data
+          this.allBrand = res.data
+          let indexList = res.data.map(i=>i.initial)
+          this.indexList = [...new Set(indexList)].sort()
+        }
       })
     }
   },

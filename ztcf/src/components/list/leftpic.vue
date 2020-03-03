@@ -27,14 +27,18 @@ export default {
     props: {
         data: {
             type: Array,
-            default: []
+            default(){
+                return []
+            }
         },
         prop: {
             type: Object,
-            default: {
-                url: 'url',
-                title: 'title',
-                sale: 'sale'
+            default(){
+                return {
+                    url: 'url',
+                    title: 'title',
+                    sale: 'sale'
+                }
             }
         }
     },

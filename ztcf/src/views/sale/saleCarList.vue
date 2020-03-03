@@ -34,9 +34,10 @@ export default {
     },
     // 转换小数
     toFiexd2(num){
+      console.log(num)
       num = num.toString()
-      if(num.indexOf('.') != -1 && (num.substring(num.indexOf('.'), num.length)).length > 1){
-        return (Number(num)).toFixed(1)
+      if(num.indexOf('.') != -1 && (num.slice(num.indexOf('.'))).length > 2){
+        return (Number(num)).toFixed(2)
       }else{
         return Number(num)
       }

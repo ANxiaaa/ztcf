@@ -59,24 +59,29 @@ export default {
                 show: false,
                 items: [{
                     text: '智能排序',
-                    val: 0,
-                    active: true
+                    val: '',
+                    active: true,
+                    type: 'order'
                 },{
                     text: '优惠最高',
-                    val: 1,
-                    active: false
+                    val: 'discount,desc',
+                    active: false,
+                    type: 'order'
                 },{
                     text: '优惠最低',
-                    val: 2,
-                    active: false
+                    val: 'discount,asc',
+                    active: false,
+                    type: 'order'
                 },{
                     text: '价格最高',
-                    val: 3,
-                    active: false
+                    val: 'show_cost,desc',
+                    active: false,
+                    type: 'order'
                 },{
                     text: '价格最低',
-                    val: 4,
-                    active: false
+                    val: 'show_cost,asc',
+                    active: false,
+                    type: 'order'
                 }]
             },
             jibie:{
@@ -84,63 +89,74 @@ export default {
                 name: 'jibie',
                 items: [{
                     text: '不限',
-                    val: 0,
+                    val: '',
                     active: true,
                     pic: require('@/assets/sale/filter/bx.png'),
-                    pic1: require('@/assets/sale/filter/bx1.png')
+                    pic1: require('@/assets/sale/filter/bx1.png'),
+                    type: 'sizetype'
                 },{
                     text: '跑车',
-                    val: 0,
+                    val: 1,
                     active: false,
                     pic: require('@/assets/sale/filter/pc.png'),
-                    pic1: require('@/assets/sale/filter/pc1.png')
+                    pic1: require('@/assets/sale/filter/pc1.png'),
+                    type: 'sizetype'
                 },{
                     text: '轿车',
-                    val: 0,
+                    val: 2,
                     active: false,
                     pic: require('@/assets/sale/filter/jc.png'),
-                    pic1: require('@/assets/sale/filter/jc1.png')
+                    pic1: require('@/assets/sale/filter/jc1.png'),
+                    type: 'sizetype'
                 },{
                     text: '皮卡',
-                    val: 0,
+                    val: 3,
                     active: false,
                     pic: require('@/assets/sale/filter/pk.png'),
-                    pic1: require('@/assets/sale/filter/pk1.png')
+                    pic1: require('@/assets/sale/filter/pk1.png'),
+                    type: 'sizetype'
                 },{
                     text: 'SUV',
-                    val: 0,
+                    val: 4,
                     active: false,
                     pic: require('@/assets/sale/filter/suv.png'),
-                    pic1: require('@/assets/sale/filter/suv1.png')
-                },]
+                    pic1: require('@/assets/sale/filter/suv1.png'),
+                    type: 'sizetype'
+                }]
             },
             jiage:{
                 text: '价格',
                 name: 'price',
                 items: [{
                     text: '不限',
-                    val: 0,
-                    active: true
+                    val: '',
+                    active: true,
+                    type: 'showCost'
                 },{
                     text: '10万以下',
-                    val: 1,
-                    active: false
+                    val: '0,100000',
+                    active: false,
+                    type: 'showCost'
                 },{
                     text: '10万-20万',
-                    val: 2,
-                    active: false
+                    val: '100001,200000',
+                    active: false,
+                    type: 'showCost'
                 },{
                     text: '20万-30万',
-                    val: 3,
-                    active: false
+                    val: '200001,300000',
+                    active: false,
+                    type: 'showCost'
                 },{
                     text: '30万-50万',
-                    val: 4,
-                    active: false
+                    val: '300001,500000',
+                    active: false,
+                    type: 'showCost'
                 },{
                     text: '50万以上',
-                    val: 5,
-                    active: false
+                    val: '500001,50000000',
+                    active: false,
+                    type: 'showCost'
                 },]
             },
             shaixuan:{
@@ -319,6 +335,14 @@ export default {
                 this.clearbtn(this.jiage)
             }
             this.$set(a[index],'active',!a[index].active)
+            if(a[index].type){
+                this.$set(this.paixu,'show',false)
+                this.$set(this.jibie,'show',false)
+                this.$set(this.jiage,'show',false)
+                this.$set(this.shaixuan,'show',false)
+                this.$set(box,'active',true)
+                this.$emit('getVal', a[index])
+            }
         },
         clearbtn(a){
             a.items.forEach(i=>{
@@ -344,7 +368,7 @@ export default {
                     }
                 }
             }
-            console.log(data)
+            this.$emit('getFilter', data)
         },
         close(){
             console.log(this.paixu.items.some(i=>i.active))

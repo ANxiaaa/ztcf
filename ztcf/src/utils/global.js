@@ -5,11 +5,10 @@
  */
 
  // 系统服务器地址
-export const baseUrl = 'http://192.168.1.227:8100'
-// export const baseUrl = 'http://localhost:8100'
+// export const baseUrl = 'http://192.168.1.227:8100'
+// export const baseUrl = 'http://39.98.253.42:8100'
+export const baseUrl = 'http://localhost:8100'
 
 export default {
     baseUrl
-    // ,
-    // backupBaseUrl
 }
