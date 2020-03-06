@@ -10,14 +10,18 @@ export default {
             type: String,
             default: ''
         },
-        // click: {
-        //     type: Function,
-        //     default: new Function
-        // },
         disabled: {
             type: Boolean,
             default: false
-        }
+        },
+        startColor: {
+            type: String,
+            default: '#1f42a1'
+        },
+        endColor: {
+            type: String,
+            default: '#4771E6'
+        },
     },
     data () {
         return {
@@ -27,12 +31,12 @@ export default {
     methods: {
         down(a){
             if(!this.disabled){
-                a.target.style.background = '#1f42a1'
+                a.target.style.background = this.startColor
             }
         },
         up(a){
             if(!this.disabled){
-                a.target.style.background = '#4771E6'
+                a.target.style.background = this.endColor
             }
         },
         click(){

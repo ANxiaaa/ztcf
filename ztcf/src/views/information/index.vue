@@ -3,7 +3,10 @@
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <div v-for="i in newsList" :key="i.id" @click="toNews(i)" @touchstart="down" @touchend="up" class="newsBox">
         <img :src="i.picurl.split(' ')[0]" alt="">
-        <p>{{i.title}}</p>
+        <div>
+          <p>{{i.title}}</p>
+          <span>来源：{{i.description}}</span>
+        </div>
       </div>
     </van-list>
   </div>
@@ -18,7 +21,7 @@ export default {
       finished: false,
       pageRequest: {
         "pageNum": 1,
-        "pageSize": 10
+        "pageSize": 20
       },
       pageSize: 0,
       newsList: [],
@@ -88,10 +91,19 @@ export default {
     height: 2rem;
     margin-right: .266667rem;
   }
-  p{
-    font-size: .366667rem;
-    color: #333;
-    flex: 1
+  div{
+    position: relative;
+    p{
+      font-size: .366667rem;
+      color: #333;
+    }
+    flex: 1;
+    span{
+      position: absolute;
+      bottom: 0;right: 0;
+      font-size: .266667rem;
+      color: #999;
+    }
   }
 }
 </style>

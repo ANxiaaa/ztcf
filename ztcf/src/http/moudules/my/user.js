@@ -99,3 +99,30 @@ export const getDefReceipt = () => {
         method: 'get'
     })
 }
+
+// 系统通知
+export const noticefindPage = data => {
+    return axios({
+        url: '/notice/findPage',
+        method: 'post',
+        data
+    })
+}
+
+// 获取消息
+export const getSaveConsultation = id => {
+    return axios({
+        url: '/notice/getSaveConsultation',
+        method: 'get',
+        params: { id }
+    })
+}
+
+// 咨询
+export const saveConsultation = data => {
+    return axios({
+        url: '/notice/saveConsultation',
+        method: 'post',
+        data
+    })
+}

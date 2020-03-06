@@ -9,7 +9,7 @@
               <img :src="a.logo" alt="">
               <div>
                 <p>{{a.fullname}}</p>
-                <span>18.86-25.09万</span>
+                <span>{{toFiexd2(i.minp / 10000)}}-{{toFiexd2(i.maxp / 10000)}}万</span>
               </div>
             </div>
           </li>
@@ -52,7 +52,16 @@ export default {
     },
     toxinghao(id){
       this.$router.push('/saleArctic?parentId=' + id)
-    }
+    },
+    // 转换小数
+    toFiexd2(num){
+      num = num.toString()
+      if(num.indexOf('.') != -1 && (num.slice(num.indexOf('.'))).length > 2){
+        return (Number(num)).toFixed(2)
+      }else{
+        return Number(num)
+      }
+    },
   },
   mounted(){
     this.$store.commit('changeTitle', '选择车系')

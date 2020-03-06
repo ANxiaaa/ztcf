@@ -7,7 +7,8 @@
             <b class="t600">车辆型号:</b>
             <p class="t600" :style="!carData.xinghao?{color: '#b3b3b3'}:{color: '#333'}">
               <strong>{{!carData.xinghao?'请选择车辆型号':carData.xinghao}}</strong>
-              <span>></span></p>
+              <van-icon name="arrow" size=".3rem" color="#b3b3b3"/>
+            </p>
           </div>
           <div class="chepai">
             <b>车牌号:</b>
@@ -216,6 +217,9 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      i{
+        line-height: .45rem
+      }
       span{
         font-family: '宋体';
         font-weight: bold;
@@ -247,10 +251,9 @@ export default {
         border: none;
         height: .373333rem;
         &::placeholder{
-          font-weight: 500;
+          font-weight: bold;
           color: #999;
-          font-family:PingFang SC;
-          font-size: .373333rem;
+          font-size: .3rem;
         }
       }
       .l2{

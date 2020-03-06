@@ -8,7 +8,11 @@ export default [
             hideNav: true,
             back: true
         },
-        component: resolve => require(['@/views/index/indexAddCar'], resolve)
+        component: resolve => require(['@/views/index/indexAddCar'], resolve),
+        beforeEnter: (to, from, next) => {
+            to.meta.re = from.name !== 'IndexThreeBrand' ? true : false
+            next()
+        },
     },
     {
         path: '/indexOneBrand', // 首页添加一级品牌

@@ -9,6 +9,7 @@ export default {
         allIndexList: [], // 车型大全的右边索引
         allCarTwo: [], // 车型大全二级
         allCarThree: [], // 车型大全三级
+        keep: ['insurance', 'information', 'indexAddCar'],
     },
     getters: {
         appTitle(state){
@@ -38,6 +39,9 @@ export default {
         userCarInfo(state){
             return state.userCarInfo
         },
+        keep(state){
+            return state.keep
+        },
     },
     mutations: {
         changeTitle(state, data){
@@ -63,6 +67,22 @@ export default {
         },
         changeUserCarInfo(state, data){
             state.userCarInfo = data
+        },
+        addKeep(state, data){
+            state.keep.push(data)
+        },
+        removeKeep(state, data){
+            console.log(state.keep)
+            let keep = state.keep
+            keep.forEach((i, index) => {
+                console.log(i)
+                console.log(data)
+                if(i === data){
+                    keep.splice(index, 1)
+                    console.log(keep)
+                    state.keep = keep
+                }
+            })
         },
     },
     actions: {

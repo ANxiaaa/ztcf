@@ -1,7 +1,7 @@
 <template>
   <div class="carStore">
     <ul class="container">
-      <li v-for="i in userCarInfo" :key="i.id">
+      <li @click="toInfo(i)" v-for="i in userCarInfo" :key="i.id">
         <img class="carlogo" :src="require('@/assets/my/car.png')" alt="">
         <div>
           <p>{{i.carNumberPrefix}}{{i.carNumber}}</p>
@@ -29,6 +29,11 @@ export default {
     }
   },
   methods:{
+    // 车辆信息
+    toInfo(i){
+      console.log(i)
+      this.$router.push('/indexAddCar?carId=' + i.id)
+    }
   },
   mounted(){
     this.$store.commit('changeTitle', '个人中心')
@@ -54,7 +59,8 @@ export default {
   overflow-y: auto;
 }
 ul{
-  height: 85%;
+  height: 90%;
+  overflow-y: auto;
 }
 .bottom{
   position: absolute;

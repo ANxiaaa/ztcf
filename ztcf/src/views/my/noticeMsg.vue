@@ -3,31 +3,41 @@
     <ul class="container">
       <li>
         <p><i></i>反馈时间</p>
-        <span>2018年12月12日 12:30:00</span>
+        <span>{{timeFormat(noticeData.createTime)}}</span>
       </li>
       <li>
         <p><i></i>联系方式</p>
-        <span>12076443526</span>
+        <span>{{noticeData.contact}}</span>
       </li>
       <li>
         <p><i></i>反馈内容</p>
-        <span>此处是用户为平台提供的意见者是问题反馈，为用户能够查看自己的反馈内容，此处是用户为平台提供的意见或者是问题反馈，为用户能够查看自己的反馈内容，此处是用户为平台提供的意见或者是问题反馈，为用户能够查看自己的反馈内容，此处是用户为平台提供的意见或者是问题反馈，为用户能够查看自己的反馈内容，</span>
+        <span>{{noticeData.content}}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { formatWithSeperator } from '@/utils/datetime'
 export default {
   name: 'noticeMsg',
   data () {
     return {
+      noticeData: {}
     }
   },
   methods:{
+    // 格式化时间
+    timeFormat(time){
+      return formatWithSeperator(time, '-', ':', 1)
+    },
   },
   mounted(){
     this.$store.commit('changeTitle', '个人中心')
+    this.$api.user.getSaveConsultation(this.$route.query.conId).then(res=>{
+      console.log(res)
+      this.noticeData = res.data
+    })
   },
   computed:{
   }

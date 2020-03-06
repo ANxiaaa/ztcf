@@ -1,6 +1,6 @@
 <template>
     <div class="upImgBox">
-        <van-uploader :before-read="bef" :after-read="imgfn" :preview-full-image="false" v-model="imgfile" capture="camera" accept="image/jpeg" :max-count="1" image-fit @before-delete="beforeDelete">
+        <van-uploader :before-read="bef" :after-read="imgfn" @click.stop :preview-full-image="false" v-model="imgfile" capture="camera" accept="image/jpeg" :max-count="1" image-fit @before-delete="beforeDelete">
             <slot></slot>
         </van-uploader>
         <van-popup v-model="uploading" :style="popStyle"><van-loading color="#1989fa"/></van-popup>
@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { upLoaderImg } from '@/http/upImg'
 export default {
     name: 'btmborder',

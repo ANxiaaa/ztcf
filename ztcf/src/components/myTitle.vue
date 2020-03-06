@@ -1,7 +1,7 @@
 <template>
     <div @touchstart="down" @touchend="up" class="myTitle" @click="click">
         <p class="t600" :style="{fontSize: data.fs / 75 + 'rem',lineHeight: data.lh === 1 ? 1 : data.lh / 75 + 'rem',fontWeight: data.fw ? data.fw : 600,color: data.color}">{{data.name}}</p>
-        <span :style="{lineHeight: data.lh === 1 ? 1 : data.lh / 75 + 'rem'}">></span>
+        <van-icon name="arrow" size=".3rem" color="#b3b3b3"/>
     </div>
 </template>
 

@@ -18,7 +18,7 @@ export function format (datetime) {
  * 可以指定日期和时间分隔符
  * @param datetime 国际化日期格式
  */
-export function formatWithSeperator (datetime, dateSeprator, timeSeprator) {
+export function formatWithSeperator (datetime, dateSeprator, timeSeprator, zi) {
   if (datetime != null) {
     let dateMat = new Date(datetime);
     let year = dateMat.getFullYear();
@@ -32,7 +32,12 @@ export function formatWithSeperator (datetime, dateSeprator, timeSeprator) {
     mm = mm < 10 ? '0' + mm : mm
     let ss = dateMat.getSeconds();
     ss = ss < 10 ? '0' + ss : ss
-    let timeFormat = year + dateSeprator + month + dateSeprator + day + " " + hh + timeSeprator + mm;
+    let timeFormat
+    if(zi){
+      timeFormat = year + '年' + month + '月' + day + "日" + " " + hh + timeSeprator + mm;
+    }else{
+      timeFormat = year + dateSeprator + month + dateSeprator + day + " " + hh + timeSeprator + mm;
+    }
     return timeFormat;
   }
 }

@@ -22,8 +22,8 @@ Vue.use(Croppa)
 localStorage.getuser = '1'
 
 // 调试器
-// import VConsole from 'vconsole'
-// Vue.prototype.$vconsole = VConsole;
+import VConsole from 'vconsole'
+Vue.prototype.$vconsole = VConsole;
 
 // 弹出框
 import { Dialog } from 'vant';
@@ -81,9 +81,9 @@ document.addEventListener('plusready', function() {
 
 /* eslint-disable no-new */
 new Vue({
-  store,
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+    store,
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
 })

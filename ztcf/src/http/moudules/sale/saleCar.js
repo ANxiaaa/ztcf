@@ -40,9 +40,9 @@ export const findFourBrand = parentId => {
 }
 
 // 查询首页推广特价车
-export const findIndexSpecialPage = () => {
+export const findIndexSpecialPage = enu => {
     return axios({
-        url: 'car/findIndexSpecialPage',
+        url: 'car/findIndexSpecialPage?enu=' + enu,
         method: 'post',
         data: {
             "pageNum": 1,

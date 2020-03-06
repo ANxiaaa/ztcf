@@ -22,26 +22,28 @@ export default {
             paixu: {
                 text: '智能排序',
                 active: false,
-                show: false
+                show: true
             },
             youhui: {
                 text: '优惠力度',
+                value: 'discount',
                 index: 1,
                 active: 0
             },
             jiage: {
                 text: '价格排序',
+                value: 'show_cost',
                 index: 2,
                 active: 0
-            },
-            
+            }
         }
     },
     methods: {
         changeShow(a){
+            console.log(1)
             let sendData = {
                 paixu: false,
-                index: 0,
+                value: '',
                 active: 0
             }
             if(a.show !== undefined){
@@ -60,8 +62,10 @@ export default {
                     this.$set(a, 'active', a.active + 1)
                 }else{
                     this.$set(a, 'active', 0)
+                    this.$set(this.paixu, 'show', true)
+                    sendData.paixu = true
                 }
-                sendData.index = a.index
+                sendData.value = a.value
                 sendData.active = a.active
                 this.$emit('getSend', sendData)
             }

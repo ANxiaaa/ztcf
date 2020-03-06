@@ -13,7 +13,7 @@
     <div class="liuyan container">
       <van-cell-group>
         <van-field
-          v-model="message"
+          v-model="data.content"
           :border="false"
           type="textarea"
           placeholder="请尽情表达您对平台的宝贵意见，我们会虚心接受！"
@@ -23,7 +23,7 @@
     <div class="qq container">
       <van-cell-group>
         <van-field
-          v-model="lianxi"
+          v-model="data.contact"
           :border="false"
           type="textarea"
           placeholder="请输入您的手机号/微信/QQ"
@@ -32,8 +32,8 @@
     </div>
     <btn name="提交" @click="sub"></btn>
     <van-popup v-model="showPhone" round class="showPhone t600">
-      <p>13455554444</p>
-      <van-cell clickable title="拨打电话"/>
+      <p>{{phone}}</p>
+      <van-cell @click="dianhua" clickable title="拨打电话"/>
     </van-popup>
     <van-popup v-model="showewm" round class="showewm t600">
       <van-cell clickable title="扫码关注"/>
@@ -53,16 +53,32 @@ export default {
   },
   data () {
     return {
-      message: '',
-      lianxi: '',
       showPhone: false,
-      showewm: false
+      showewm: false,
+      data: {
+        "contact": "",
+        "content": ""
+      },
+      phone: 19939990925
     }
   },
   methods:{
+    dianhua(){
+      plus.device.dial(this.phone, true);
+    },
     sub(){
-      console.log(this.message)
-      console.log(this.lianxi)
+      console.log(this.data)
+      if(this.data.content == ''){
+        this.Toast.fail('请输入内容')
+        return
+      }
+      this.$api.user.saveConsultation(this.data).then(res=>{
+        if(res.code == 200){
+          this.Toast.success('提交成功')
+        }else{
+          this.Toast.fail('提交失败')
+        }
+      })
     }
   },
   mounted(){

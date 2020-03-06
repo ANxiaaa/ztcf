@@ -82,7 +82,10 @@ export default {
     // 是否隐藏导航
     isNav(){
       return this.$route.meta.hideNav
-    }
+    },
+    keep(){
+      return this.$store.getters.keep
+    },
   }
 }
 </script>

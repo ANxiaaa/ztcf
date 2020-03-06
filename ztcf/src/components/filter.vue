@@ -164,117 +164,88 @@ export default {
                 name: 'filter',
                 items: [{
                     text: '变速箱',
-                    name: 'gearbox',
+                    name: 'bxs',
                     list: [{
                         text: '手动挡',
                         name: 'shoudongdang',
-                        val: 0,
+                        val: '手动挡',
                         active: false
                     },{
                         text: '自动挡',
                         name: 'zidongdang',
-                        val: 1,
+                        val: '自动挡',
+                        active: false
+                    },{
+                        text: '手自一体',
+                        name: 'shouziyiti',
+                        val: '手自一体',
                         active: false
                     }]
                 },{
                     text: '排放标准',
-                    name: 'emission',
+                    name: 'pfbz',
                     list: [{
                         text: '国六',
                         name: 'guo6',
-                        val: 0,
+                        val: '国六',
                         active: false
                     },{
                         text: '国五',
                         name: 'guo5',
-                        val: 1,
+                        val: '国五',
                         active: false
                     },{
                         text: '国四',
                         name: 'guo4',
-                        val: 2,
+                        val: '国四',
                         active: false
                     }]
                 },{
                     text: '排量',
-                    name: 'displacement',
+                    name: 'pl',
                     list: [{
                         text: '1.3L以下',
                         name: 'power0',
-                        val: 0,
+                        val: '0,1.3',
                         active: false
                     },{
                         text: '1.3L-1.6L',
                         name: 'power1',
-                        val: 1,
+                        val: '1.3,1.6',
                         active: false
                     },{
                         text: '1.7L-2.0L',
                         name: 'power2',
-                        val: 2,
+                        val: '1.7,2.0',
                         active: false
                     },{
                         text: '2.1L-3.0L',
                         name: 'power3',
-                        val: 3,
+                        val: '2.1,3.0',
                         active: false
                     },{
-                        text: '3.0L-5.0L',
+                        text: '3.1L-5.0L',
                         name: 'power4',
-                        val: 4,
+                        val: '3.1,5.0',
                         active: false
                     },{
                         text: '5.0L以上',
                         name: 'power5',
-                        val: 5,
+                        val: '5.1,7.0',
                         active: false
                     }]
                 },{
                     text: '能源',
-                    name: 'source',
+                    name: 'ny',
                     list: [{
                         text: '机动车',
                         name: 'motorCar',
-                        val: 0,
+                        val: '机动车',
                         active: false
                     },{
                         text: '新能源',
                         name: 'newCar',
-                        val: 1,
-                        active: false
-                    }]
-                },{
-                    text: '国别',
-                    name: 'state',
-                    list: [{
-                        text: '德系',
-                        name: 'germany',
-                        val: 0,
-                        active: false
-                    },{
-                        text: '日系',
-                        name: 'japan',
-                        val: 1,
-                        active: false
-                    },{
-                        text: '美系',
-                        name: 'america',
-                        val: 2,
-                        active: false
-                    },{
-                        text: '欧系',
-                        name: 'europe',
-                        val: 3,
-                        active: false
-                    },{
-                        text: '韩系',
-                        name: 'korea',
-                        val: 4,
-                        active: false
-                    },{
-                        text: '其他',
-                        name: 'others',
-                        val: 5,
+                        val: '新能源',
                         active: false
                     }]
                 }]
@@ -322,8 +293,10 @@ export default {
             // let show = this.paixu.show || this.jibie.show || this.jiage.show || this.shaixuan.show
             // console.log(show)
             if(this.shaixuan.show){
-                a.forEach(i=>{
-                    this.$set(i,'active',false)
+                a.forEach((i, idx)=>{
+                    if(index !== idx){
+                        this.$set(i,'active',false)
+                    }
                 })
             }else {
                 if(this.paixu.active)this.$set(this.paixu,'active',false)
@@ -334,7 +307,8 @@ export default {
                 this.clearbtn(this.jibie)
                 this.clearbtn(this.jiage)
             }
-            this.$set(a[index],'active',!a[index].active)
+            this.$set(a[index], 'active', !a[index].active)
+            console.log(a[index])
             if(a[index].type){
                 this.$set(this.paixu,'show',false)
                 this.$set(this.jibie,'show',false)
@@ -343,6 +317,7 @@ export default {
                 this.$set(box,'active',true)
                 this.$emit('getVal', a[index])
             }
+            this.$nextTick()
         },
         clearbtn(a){
             a.items.forEach(i=>{
@@ -368,6 +343,15 @@ export default {
                     }
                 }
             }
+            if(this.paixu.active)this.$set(this.paixu,'active',false)
+            if(this.jibie.active)this.$set(this.jibie,'active',false)
+            if(this.jiage.active)this.$set(this.jiage,'active',false)
+            // if(this.shaixuan.active)this.$set(this.shaixuan,'active',false)
+            this.clearbtn(this.paixu)
+            this.clearbtn(this.jibie)
+            this.clearbtn(this.jiage)
+            this.$set(this.shaixuan,'show',false)
+            this.$set(this.shaixuan, 'active', true)
             this.$emit('getFilter', data)
         },
         close(){
@@ -376,8 +360,6 @@ export default {
                 if(this.paixu.items.some(i=>i.active))this.$set(this.paixu, 'active', true)
                 if(this.jibie.items.some(i=>i.active))this.$set(this.jibie, 'active', true)
                 if(this.jiage.items.some(i=>i.active))this.$set(this.jiage, 'active', true)
-            }else {
-                this.del()
             }
             this.$set(this.paixu, 'show', false)
             this.$set(this.jibie, 'show', false)

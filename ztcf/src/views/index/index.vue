@@ -35,7 +35,7 @@
         <toppic :data="yingjianList"></toppic>
       </div>
         <div class="line"></div>
-      <div class="ad" v-for="(i, index) in ad" :key="index">
+      <div @click="$router.push('/test')" class="ad" v-for="(i, index) in ad" :key="index">
         <img :src="i" alt="">
       </div>
       <div class="tejiache" v-if="true">
@@ -203,7 +203,7 @@ export default {
   mounted(){
     let _this = this
     this.$store.commit('changeTitle','郑泰车服')
-    this.$api.sale.findIndexSpecialPage().then(res=>{
+    this.$api.sale.findIndexSpecialPage('index').then(res=>{
       console.log(res)
       res.data.data.content.forEach(i=>{
         i.img = baseUrl + i.img

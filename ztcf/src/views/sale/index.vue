@@ -10,9 +10,9 @@
       <div class="goods">
         <ul class="t600" :style="{width: (goodsList.length * 272) / 75 + 'rem'}">
           <li @touchstart="down" @touchend="up" @click="toCarMsg(0)" v-for="(i, index) in goodsList" :key="index">
-            <img :src="i.pic" alt="">
-            <h6>{{i.txt}}</h6>
-            <p>¥{{i.sale}} <del>¥{{i.yuanjia}}</del></p>
+            <img :src="i.img" alt="">
+            <h6>{{i.name}}</h6>
+            <p>¥{{i.showCost}} <del>¥{{i.price}}</del></p>
           </li>
         </ul>
       </div>
@@ -42,6 +42,7 @@
 
 <script>
 import carSelect from '@/components/carSelect'
+import { baseUrl } from '@/utils/global'
 export default {
   name: 'sale',
   components:{
@@ -49,35 +50,11 @@ export default {
   },
   data () {
     return {
+      baseUrl,
       // 查看更多的图片
       moreImg: require('@/assets/sale/baioti.png'),
       // 推荐车辆列表
-      goodsList: [{
-        pic: require('@/assets/sale/goods.png'),
-        txt: '大众探岳 2019 330 TSI两驱豪华型 国VI',
-        sale: '15万',
-        yuanjia: '20万'
-      },{
-        pic: require('@/assets/sale/goods.png'),
-        txt: '大众探岳 2019 330 TSI两驱豪华型 国VI',
-        sale: '15万',
-        yuanjia: '20万'
-      },{
-        pic: require('@/assets/sale/goods.png'),
-        txt: '大众探岳 2019 330 TSI两驱豪华型 国VI',
-        sale: '15万',
-        yuanjia: '20万'
-      },{
-        pic: require('@/assets/sale/goods.png'),
-        txt: '大众探岳 2019 330 TSI两驱豪华型 国VI',
-        sale: '15万',
-        yuanjia: '20万'
-      },{
-        pic: require('@/assets/sale/goods.png'),
-        txt: '大众探岳 2019 330 TSI两驱豪华型 国VI',
-        sale: '15万',
-        yuanjia: '20万'
-      }],
+      goodsList: [],
       // 热门品牌列表
       hotList: [],
       // 索引
@@ -138,12 +115,36 @@ export default {
           this.indexList = [...new Set(indexList)].sort()
         }
       })
+    },
+    // 转换小数
+    toFiexd2(num){
+      num = num.toString()
+      if(num.indexOf('.') != -1 && (num.slice(num.indexOf('.'))).length > 2){
+        return (Number(num)).toFixed(2)
+      }else{
+        return Number(num)
+      }
+    },
+    // 推广特价车
+    findSale(){
+      let _this = this
+      this.$api.sale.findIndexSpecialPage('column').then(res=>{
+        console.log(res)
+        res.data.data.content.forEach(i=>{
+          i.img = baseUrl + i.img
+          i.showCost = _this.toFiexd2(i.showCost / 10000) + '万'
+          i.price = _this.toFiexd2(i.price / 10000) + '万'
+        })
+        this.goodsList = res.data.data.content
+        console.log(this.goodsList)
+      })
     }
   },
   mounted(){
     this.$store.commit('changeTitle', '特价车')
     this.sideBar()
     this.findAllBrand()
+    this.findSale()
   }
 }
 </script>
@@ -183,21 +184,21 @@ export default {
       padding: 0 .266667rem;
       img{
         width: 2.533333rem;
-        height: 1.333333rem;
+        height: 1.55rem;
         display: block;
         margin: auto;
         margin-top: .586667rem;
       }
       h6{
         font-size:.3rem;
-        line-height: .47rem;
+        line-height: .6rem;
       }
       p{
-        margin-top: .293333rem;
+        margin-top: .2rem;
         font-size: .373333rem;
         color: #D95A41;
         del{
-          font-size: .32rem;
+          font-size: .28rem;
           color: #999;
         }
       }

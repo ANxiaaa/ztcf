@@ -24,6 +24,14 @@ export const loginOrRegister = params => {
     })
 }
 
+// 退出
+export const logout = () => {
+    return axios({
+        url: 'login/logout',
+        method: 'get'
+    })
+}
+
 // 获取用户信息
 export const getMemberInfo = () => {
     return axios({

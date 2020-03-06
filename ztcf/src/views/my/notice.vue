@@ -1,43 +1,67 @@
 <template>
   <div class="notice">
-    <ul class="container">
-      <li>
-        <img src="" alt="">
-        <div class="notecontent">
-          <h6>系统通知</h6>
-          <p class="time">2019-10-17 9:31</p>
-          <div class="noteBox">
-            <span>您好！平台已收到了您的意见反馈，感谢您提出宝贵的意见，我们会认真考虑您的提议，致力把平台做到更好更棒，为你们提供更优质的服务。</span>
-            <b>查看提交内容</b>
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <ul class="container">
+        <li v-for="i in list" :key="i.id">
+          <img :src="require('@/assets/my/notice.png')" alt="">
+          <div class="notecontent">
+            <h6>{{i.type.title}}</h6>
+            <p class="time">{{timeFormat(i.createTime)}}</p>
+            <div class="noteBox">
+              <span>{{i.content}}</span>
+              <b @click="toMsg(i.conId)" v-if="i.type.value != 1 || i.conId != null">查看提交内容</b>
+            </div>
           </div>
-        </div>
-      </li>
-      <li>
-        <img src="" alt="">
-        <div class="notecontent">
-          <h6>系统通知</h6>
-          <p class="time">2019-10-17 9:31</p>
-          <div class="noteBox">
-            <span>您好！平台已收到了您的意见反馈，感谢您提出宝贵的意见，我们会认真考虑您的提议，致力把平台做到更好更棒，为你们提供更优质的服务。</span>
-            <b>查看提交内容</b>
-          </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </van-list>
   </div>
 </template>
 
 <script>
+import { formatWithSeperator } from '@/utils/datetime'
 export default {
   name: 'notice',
   data () {
     return {
+      loading: false,
+      finished: false,
+      pageNum: 0,
+      pageRequest: {
+        pageNum: 0,
+        pageSize: 15
+      },
+      list: []
     }
   },
   methods:{
+    // 查看
+    toMsg(conId){
+      this.$router.push('/noticeMsg?conId=' + conId)
+    },
+    // 格式化时间
+    timeFormat(time){
+      return formatWithSeperator(time, '-', ':')
+    },
+    // 加载
+    onLoad(){
+      this.pageNum ++
+      this.pageRequest.pageNum = this.pageNum
+      this.$api.user.noticefindPage(this.pageRequest).then(res => {
+        console.log(res)
+        this.loading = false
+        res.data.content.forEach(i=>{
+          this.list.push(i)
+        })
+        if(res.data.content.length < this.pageRequest.pageSize){
+          this.finished = true
+        }
+      })
+    }
   },
   mounted(){
     this.$store.commit('changeTitle', '个人中心')
+
   },
   computed:{
   }
@@ -56,7 +80,6 @@ li{
   img{
     width: .853333rem;
     height: .853333rem;
-    background: #000;
     margin-right: .32rem;
   }
   .notecontent{

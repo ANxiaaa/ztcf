@@ -14,13 +14,13 @@
             <h5 class="t600">您目前还未登录, 请登录</h5>
           </div>
         </div>
-        <span>></span>
+        <van-icon name="arrow" size=".4rem" color="#b3b3b3"/>
       </div>
       <div class="shoucang container">
         <div class="shadow" v-for="i in shoucang" :key="i.name" @click="$router.push(i.router)">
           <img :src="i.url" alt="">
           <p class="t600">{{i.name}}</p>
-          <span>></span>
+          <van-icon name="arrow" size=".4rem" color="#b3b3b3"/>
         </div>
       </div>
       <div class="dingdan container shadow">
@@ -54,7 +54,7 @@
           <li @touchstart="down" @touchend="up" v-for="i in gongnengList" @click="i.click" :key="i.name">
             <img :src="i.pic" alt="">
             <p class="t600">{{i.name}}</p>
-            <span>></span>
+            <van-icon name="arrow" size=".4rem" color="#b3b3b3"/>
             <div class="bd"></div>
           </li>
         </ul>
@@ -124,7 +124,7 @@ export default {
       gongnengList:[{
         pic: require('@/assets/my/xiaoxi.png'),
         name: '消息通知',
-        click: this.tosetting
+        click: this.tonotice
       },{
         pic: require('@/assets/my/zixun.png'),
         name: '在线咨询',
@@ -145,6 +145,11 @@ export default {
     toDingdan(){
       console.log(1)
       this.$router.push('/order')
+    },
+    // 跳转订单
+    tonotice(){
+      console.log(1)
+      this.$router.push('/notice')
     },
     // 跳转设置
     tosetting(){
@@ -231,6 +236,7 @@ export default {
   margin-bottom: .44rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-top: .64rem;
   .touxiang{
     width: 1.6rem;
@@ -281,6 +287,7 @@ export default {
     padding: .32rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     img{
       height: .96rem;
       width: .96rem;
@@ -406,6 +413,7 @@ export default {
   li{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: .373333rem .4rem;
     position: relative;
     img{

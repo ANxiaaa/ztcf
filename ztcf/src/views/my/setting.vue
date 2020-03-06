@@ -44,7 +44,19 @@ export default {
   },
   methods:{
     exit(){
-      
+      this.Dialog.confirm({
+        title: '退出',
+        message: '确认要退出吗？'
+      }).then(() => {
+        this.$api.login.logout().then(res=>{
+          if(res.code == 200){
+            this.Toast.success('退出成功')
+            this.$router.go(-1)
+          }else{
+            this.Toast.success('退出失败')
+          }
+        })
+      })
     },
     toyanzheng(){
       this.$router.push({path: '/findpass',query: { title: '更改密码'}})

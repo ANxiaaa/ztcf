@@ -73,4 +73,13 @@ export default [
         },
         component: resolve => require(['@/views/expect'], resolve)
     },
+    {
+        path: '/test', // 测试界面
+        name: 'Test',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/test'], resolve)
+    },
 ]

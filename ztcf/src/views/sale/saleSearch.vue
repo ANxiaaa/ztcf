@@ -1,7 +1,7 @@
 <template>
   <div :class="{ oh }" class="saleSearch">
     <form v-if="isSearch" action="/">
-      <van-search @search="search" placeholder="品牌/车型/车系" v-model="searchData" shape="round"/>
+      <van-search @search="search" placeholder="车辆名称或品牌" v-model="searchData" shape="round"/>
     </form>
     <search-filter @getFilter="getFilter" @getVal="getVal" @getOh="getOh" v-show="!isSearch || showRes"></search-filter>
     <div v-if="!isSearch || showRes" class="container list">
@@ -35,7 +35,10 @@ export default {
         "pageSize": 10
       },
       pageNum: 0,
-      columnFilters: {}
+      columnFilters: {},
+      filter1: {},
+      filter2: {},
+      carnameFilter: {}
     }
   },
   methods:{
@@ -56,50 +59,73 @@ export default {
             value: data.text
           }
         }
-        this.columnFilters = Object.assign({}, filter)
+        this.columnFilters = Object.assign(this.filter1, filter)
       }else{
         this.columnFilters = {}
       }
+      this.filter1 = this.columnFilters
       this.searchList = []
       this.finished = false
       this.loading = true
       this.pageNum = 0
+      this.columnFilters = Object.assign({},this.carnameFilter)
       this.pageRequest.columnFilters = Object.assign({}, this.columnFilters)
       this.onLoad()
     },
     // 筛选条件
     getFilter(data){
+      let flag = true;
       console.log(data)
+      let filter = {}
+      for(let i in data){
+        console.log(i)
+        if(i == 'pl'){
+          console.log(data[i])
+          filter[i] = {
+            name: data[i].split(',')[0],
+            value: data[i].split(',')[1]
+          }
+        }else{
+          filter[i] = {
+            name: '',
+            value: data[i]
+          }
+        }
+      }
+      console.log(filter)
+      this.searchList = []
+      this.finished = false
+      this.loading = true
+      this.pageNum = 0
+      this.pageRequest.columnFilters = Object.assign(filter, this.filter1)
+      this.onLoad()
     },
     // 阴影
     getOh(a){
       this.oh = a
     },
     // 搜索
-    search(val){
-      console.log(val)
+    search(value){
+      console.log(value)
+      let columnFilters = {
+        carname: {
+          name: '',
+          value
+        }
+      }
+      this.carnameFilter = columnFilters
       // 回复初始搜索页数
+      this.pageNum = 0
       this.showRes = true
+      this.searchList = []
+      this.loading = true
+      this.finished = false
+      this.pageRequest.columnFilters = Object.assign({}, this.carnameFilter)
+      this.onLoad()
     },
     // 加载
     onLoad(){
-      let _this = this
-      if(this.isSearch){ // 搜索接口
-        setTimeout(()=>{
-          let data = []
-          data.forEach(i=>{
-            _this.searchList.push(i)
-          })
-          this.loading = false;
-          console.log(_this.searchList.length)
-        },2000)
-        // 加载完毕
-        // if(_this.searchList.length > 30){
-        //   _this.finished = true;
-        // }
-      }else{ // 更多特价车接口
-        _this.morePage()
-      }
+      this.morePage()
     },
     // 转换小数
     toFiexd2(num){
@@ -114,7 +140,7 @@ export default {
     morePage(){
       this.pageRequest.pageNum = ++ this.pageNum
       let pageRequest = this.pageRequest
-      console.log(pageRequest)
+      pageRequest = Object.assign(pageRequest,this.carnameFilter)
       this.$api.sale.findPage(pageRequest).then(res=>{
         console.log(res)
         this.loading = false
