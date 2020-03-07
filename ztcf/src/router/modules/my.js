@@ -1,4 +1,5 @@
 import order from './order' // 订单
+import api from '@/http/api'
 export default [
     ...order,
     {

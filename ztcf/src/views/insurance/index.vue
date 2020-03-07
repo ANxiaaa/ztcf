@@ -18,7 +18,7 @@
                 <img :src="require('@/assets/insurance/down.png')" alt="">
               </label>
               <p class="t600" :style="carData.shangpai?{color: '#b3b3b3'}:{color: '#333'}">
-                <input name="num" :disabled="carData.shangpai" type="text" placeholder="请输入车牌号码" v-model="carData.num" @change="getByteLen" @input="input" ref="input">
+                <input name="num" :disabled="carData.shangpai" type="text" placeholder="请输入车牌号码" v-model="carData.num"  @input="input" ref="input">
               </p>
               <label class="l2" @click="changeshangpai"><img :src="!carData.shangpai?require('@/assets/no.png'):require('@/assets/yes.png')" alt="">未上牌</label>
             </div>

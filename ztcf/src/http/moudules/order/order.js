@@ -4,12 +4,22 @@ import axios from '../../axios'
  * 订单模块模块
  */
 
-// 下单接口
+// get下单接口
 export const assemblyOrder = params => {
     return axios({
         url: 'order/assemblyOrder',
         method: 'get',
         params
+    })
+}
+
+// post下单接口
+export const postassemblyOrder = (orderProductType, data) => {
+    return axios({
+        url: 'order/assemblyOrder',
+        method: 'post',
+        params: { orderProductType },
+        data
     })
 }
 

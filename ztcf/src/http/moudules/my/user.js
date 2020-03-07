@@ -49,6 +49,24 @@ export const saveMemberCarInfo = data => {
     })
 }
 
+// 默认车辆
+export const defaultMemberCarInfoByMemberId = id => {
+    return axios({
+        url: '/member/defaultMemberCarInfoByMemberId',
+        method: 'post',
+        params: { id }
+    })
+}
+
+// 删除车辆
+export const deleteMemberCarInfoByMemberId = id => {
+    return axios({
+        url: '/member/defaultMemberCarInfoByMemberId',
+        method: 'post',
+        params: { id }
+    })
+}
+
 // 查询车辆列表
 export const findMemberCarInfoByMemberId = data => {
     return axios({
@@ -124,5 +142,21 @@ export const saveConsultation = data => {
         url: '/notice/saveConsultation',
         method: 'post',
         data
+    })
+}
+
+// 修改短信推送
+export const updateSmsSend = () => {
+    return axios({
+        url: '/member/updateSmsSend',
+        method: 'put'
+    })
+}
+
+// 修改邮箱推送
+export const updateMailSend = () => {
+    return axios({
+        url: '/member/updateMailSend',
+        method: 'put'
     })
 }

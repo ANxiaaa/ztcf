@@ -1,7 +1,7 @@
 <template>
-    <div :key="pageKey" class="indexAddCar t600">
+    <div class="indexAddCar t600">
         <img v-if="!carId" :src="require('@/assets/index/indexTop.png')" class="topBg" alt="">
-        <div class="card">
+        <div v-if="carId" class="card">
             <div class="defultCar">
                 <b>默认车辆</b>
                 <van-switch :size="`${40 / 75}rem`" v-model="checked"/>
@@ -24,7 +24,7 @@
                 <div class="chepai">
                     <b>车牌号:</b>
                     <div>
-                    <label class="l1" @click="show = true">
+                    <label class="l1" @click="qianzhui">
                         <span>{{carData.carNumberPrefix}}</span>
                         <img :src="require('@/assets/insurance/down.png')" alt="">
                     </label>
@@ -45,18 +45,24 @@
                         <b class="t600">车架号:</b>
                         <p class="t600" style="color: #333">
                             <input type="text" v-model="carData.frameNumber">
-<!-- <strong contenteditable="plaintext-only">{{carData.frameNumber}}</strong> -->
                         </p>
                     </div>
                 </div>
-                <div class="bottom">
-                    <div class="xinghao">
+                <div v-show="carId" class="bottom">
+                    <!-- <div @click="changeregDate" class="xinghao">
                         <b class="t600">注册时间:</b>
                         <p class="t600" style="color: #333">
-                            <input type="text" v-model="carData.regDate">
+                            <strong>{{timeFormat(carTime)}}</strong>
                             <van-icon name="arrow" size=".4rem" color="#b3b3b3"/>
                         </p>
-                    </div>
+                    </div> -->
+                    <!-- <div @click="changeAttr" class="xinghao">
+                        <b class="t600">车辆属性:</b>
+                        <p class="t600" style="color: #333">
+                            <strong>{{timeFormat(carTime)}}</strong>
+                            <van-icon name="arrow" size=".4rem" color="#b3b3b3"/>
+                        </p>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -65,10 +71,11 @@
             <van-button @click="showAlbum" type="default">从相册选择</van-button>
         </van-popup>
         <van-popup v-model="show" round position="bottom" :style="{ height: `${400 / 75}rem` }">
-            <van-picker :default-index="15" :columns="columns" @change="onChange" class="xuanze"/>
+            <van-picker v-if="showxuanze" :default-index="defaultIndex" :columns="columns" @change="onChange" class="xuanze"/>
+            <van-datetime-picker @change="showregTime" v-else :show-toolbar="false" v-model="carTime" type="date" :min-date="minDate" :max-date="maxDate"/>
         </van-popup>
         <div class="bottomBox">
-            <btn v-if="carId" startColor="#fafafa" endColor="#fff" :style="btnStyle" name="删除"></btn>
+            <btn v-if="carId" @click="delCar" startColor="#fafafa" endColor="#fff" :style="btnStyle" name="删除"></btn>
             <btn @click="subAdd" name="保存车辆"></btn>
         </div>
         <img :src="imgurl" alt="">
@@ -87,6 +94,9 @@ export default {
     },
     data () {
         return {
+            minDate: new Date(2020, 0, 1),
+            maxDate: new Date(2025, 11, 31),
+            showxuanze: true,
             showupBOX: false,
             checked: false,
             btnStyle: {
@@ -94,6 +104,7 @@ export default {
                 background: '#fff',
                 border: '.026667rem solid #b3b3b3'
             },
+            carTime: new Date(),
             isUpper: false,
             carData: {
                 "brandId": '', // 品牌ID
@@ -118,18 +129,15 @@ export default {
             },
             show: false,
             showBtm: false,
-            columns: ['京','津','冀','晋','蒙','辽','吉','黑','沪','苏','浙','皖','闽','赣','鲁','豫','鄂','湘','粤','桂','琼','渝','川','贵','云','藏','陕','甘','青','宁','新'],
+            columns: [],
             subData: {},
             imgurl: '',
             base64: '',
             ifCarNumber: false,
-            pageKey: 0
+            defaultIndex: 0
         }
     },
     methods:{
-        reFresh(){
-            this.pageKey ++
-        },
         //压缩图片
 		compressImage(url,filename,divid){
             let _this = this
@@ -222,7 +230,11 @@ export default {
         },
         // 添加车辆
         subAdd(){
-            this.reFresh()
+            if(this.checked == true){
+                this.$api.user.defaultMemberCarInfoByMemberId(this.carId).catch(e=>{
+                    this.Toast.fail('修改默认车辆失败!')
+                })
+            }
             this.subData = Object.assign(this.carData, {
                 "brandId": this.brandId, // 品牌ID
                 "twoBrandId": this.twoBrandId, // 二级品牌ID
@@ -256,6 +268,62 @@ export default {
                     this.Toast.fail(res.msg)
                 }
             })
+        },
+        // 删除车辆
+        delCar(){
+            this.$api.user.deleteMemberCarInfoByMemberId(this.carId).then(res=>{
+                if(res.code == 200){
+                    this.Toast({
+                        message: '删除成功',
+                        onOpened(){
+                            localStorage.getuser = '1'
+                            _this.$router.go(-1)
+                        }
+                    })
+                }else{
+                    this.Toast.fail(res.msg)
+                }
+            })
+        },
+        // 选前缀
+        qianzhui(){
+            this.showxuanze = true
+            this.show = true
+            this.defaultIndex = 15
+            this.columns = ['京','津','冀','晋','蒙','辽','吉','黑','沪','苏','浙','皖','闽','赣','鲁','豫','鄂','湘','粤','桂','琼','渝','川','贵','云','藏','陕','甘','青','宁','新']
+        },
+        // 选时间
+        changeregDate(){
+            this.showxuanze = false
+            this.show = true
+        },
+        // 选属性
+        changeAttr(){
+            this.showxuanze = true
+            this.show = true
+        },
+        // 格式化时间
+        timeFormat(datetime){
+            if (datetime != null) {
+                let dateMat = new Date(datetime);
+                let year = dateMat.getFullYear();
+                let month = dateMat.getMonth() + 1;
+                month = month < 10 ? '0' + month : month
+                let day = dateMat.getDate();
+                day = day < 10 ? '0' + day : day
+                let hh = dateMat.getHours();
+                hh = hh < 10 ? '0' + hh : hh
+                let mm = dateMat.getMinutes();
+                mm = mm < 10 ? '0' + mm : mm
+                let ss = dateMat.getSeconds();
+                ss = ss < 10 ? '0' + ss : ss
+                let timeFormat = year + '年' + month + '月' + day + '日';
+                return timeFormat;
+            }
+        },
+        // 时间变化
+        showregTime(){
+            console.log(this.carTime)
         },
         // 上传
         upImg(filePath){
@@ -358,6 +426,7 @@ export default {
                 "enable": 1, // 是否可用
                 "engineNumber": "", // 发动机号
                 "frameNumber": "", // 车辆识别码
+                "isDefault": false, // 车辆识别码
                 "id": 0,
                 "ifTransfer": 0, // 是否过户
                 "transferDate": "", // 过户时间
@@ -372,6 +441,7 @@ export default {
                 if(i.id == this.$route.query.carId){
                     console.log(2,i)
                     this.carData = Object.assign({}, i)
+                    this.checked = Boolean(this.carData.isDefault)
                     this.$set(this.carData, 'carBrand', i.carName)
                     console.log(this.carData)
                 }
@@ -503,6 +573,9 @@ export default {
         .xinghao{
             input{
                 background: none;
+            }
+            strong{
+                flex: 1;
             }
             height: .666667rem;
             display: flex;

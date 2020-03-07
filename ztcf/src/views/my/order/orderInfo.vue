@@ -7,7 +7,7 @@
       <div class="type">
         <img :src="orderType" alt="">
       </div>
-      <div class="addMsg">
+      <div v-show="showAddress" class="addMsg">
         <h5>收货信息</h5>
         <div class="showadd">
           <img :src="require('@/assets/my/order/showadd.png')" alt="">
@@ -26,21 +26,22 @@
           </div>
           <div class="right">
             <div class="text">
-              <p class="name">{{carData.name}}</p>
+              <p class="name">{{showName}}</p>
               <p class="price">
-                <b>¥{{(Number(carData.showCost) / 10000).toFixed(2)}}万</b>
-                <s>¥{{(Number(carData.price) / 10000).toFixed(2)}}万</s>
+                <b>¥{{showprice.youhui}}</b>
+                <s>¥{{showprice.yuanjia}}</s>
               </p>
             </div>
             <div v-for="(i, index) in carData.specialAttrs" :key="'attr' + index" style="margin-top: .3rem" class="text">
               <p class="colorAttr">{{i.key}}</p>
               <b class="numAttr">{{i.value}}</b>
             </div>
+            <span class="fuelcardNum" v-if="orderData.products[0].product.fuelcard">油卡号: {{orderData.products[0].product.fuelcard}}</span>
           </div>
         </div>
         <div class="line"></div>
         <p class="fwxy"><b>服务协议</b><van-icon name="arrow" size=".4rem" /></p>
-        <p class="fwxy"><b>服务费</b><b>¥{{orderData.orderMoney}}</b></p>
+        <p class="fwxy" v-show="showfuwu"><b>服务费</b><b>¥{{orderData.orderMoney}}</b></p>
         <div class="line"></div>
         <p class="pay"><b>应支付费用</b><b>¥{{orderData.orderPay}}</b></p>
       </div>
@@ -148,6 +149,44 @@ export default {
       })
     }
   },
+  computed: {
+    $$type(){
+      return this.orderData.orderType
+    },
+    showAddress(){
+      let show = true
+      if(this.$$type == 'refueling_card'){
+        show= false
+      }
+      return show
+    },
+    showprice(){
+      let show = {}
+      if(this.$$type == 'special_car' || this.$$type == 'nromal'){ // 特价车
+        show.yuanjia = (Number(this.carData.price) / 10000).toFixed(2) + '万'
+        show.youhui = (Number(this.carData.showCost) / 10000).toFixed(2) + '万'
+      }else if(this.$$type == 'refueling_card'){
+        show.yuanjia = this.orderData.orderMoney
+        show.youhui = this.orderData.orderPay
+      }
+      console.log(show)
+      return show
+    },
+    showfuwu(){
+      let show = true
+      if(this.$$type == 'refueling_card'){
+        show = false
+      }
+      return show
+    },
+    showName(){
+      let show = this.carData.name
+      if(this.$$type == 'refueling_card'){
+        show = this.orderData.orderName
+      }
+      return show
+    },
+  },
   mounted(){
     console.log('mounted')
     console.log(this.$route.query.id)
@@ -155,22 +194,28 @@ export default {
       if(res.code == 200){
         console.log(res)
         this.orderData = res.data
+        console.log(this.$$type)
       }
     }).then(()=>{
-      axios.all([this.$api.user.getReceiptById(this.orderData.logistics.receiptId), this.$api.sale.findById(this.orderData.products[0].productId)]).then(res => {
-        console.log(res)
-        if(res[0].code != 200){
-          this.Toast.fail('加载失败')
-          return
-        }
-        if(res[1].code != 200){
-          this.Toast.fail('加载失败')
-          return
-        }
-        this.address = res[0].data
-        this.carData = res[1].data.data
+      let $$type = this.$$type
+      if($$type == "refueling_card"){ // 加油卡
         this.loading = false
-      })
+      }else if($$type == 'special_car' || $$type == 'nromal'){ // 特价车
+        axios.all([this.$api.user.getReceiptById(this.orderData.logistics.receiptId), this.$api.sale.findById(this.orderData.products[0].productId)]).then(res => {
+          console.log(res)
+          if(res[0].code != 200){
+            this.Toast.fail('加载失败')
+            return
+          }
+          if(res[1].code != 200){
+            this.Toast.fail('加载失败')
+            return
+          }
+          this.address = res[0].data
+          this.carData = res[1].data.data
+          this.loading = false
+        })
+      }
     })
     this.$store.commit('changeTitle','我的订单')
   }
@@ -377,5 +422,9 @@ h5{
       }
     }
   }
+}
+.fuelcardNum{
+  font-size: .3rem;
+  color: #999;
 }
 </style>

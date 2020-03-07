@@ -1,19 +1,19 @@
 <template>
   <div class="setting">
     <div>
-      <my-title @click="toyanzheng" :data="{name:'更改密码',fs:28,lh:50,fw:500,color:'#333'}"></my-title>
-      <div class="bd"></div>
+      <!-- <my-title @click="toyanzheng" :data="{name:'更改密码',fs:28,lh:50,fw:500,color:'#333'}"></my-title>
+      <div class="bd"></div> -->
       <my-title @click="toshouji" :data="{name:'更改手机号',fs:28,lh:50,fw:500,color:'#333'}"></my-title>
       <div class="bd"></div>
     </div>
     <div class="line"></div>
     <div>
       <van-cell-group class="ts">
-        <van-switch-cell v-model="dxts" title="短信推送" />
+        <van-switch-cell v-model="smsSend" title="短信推送" />
       </van-cell-group>
       <div class="bd"></div>
       <van-cell-group class="ts">
-        <van-switch-cell v-model="yjts" title="邮件推送" />
+        <van-switch-cell v-model="mailSend" title="邮件推送" />
       </van-cell-group>
       <div class="bd"></div>
     </div>
@@ -32,8 +32,10 @@ export default {
   },
   data () {
     return {
-      dxts: false,
-      yjts: false,
+      smsSend: false,
+      mailSend: false,
+      newSms: false,
+      newMail: false,
       btnStyle: {
         position: 'absolute',
         top: `${660 / 75}rem`,
@@ -63,11 +65,59 @@ export default {
     },
     toshouji(){
       this.$router.push({path: '/setpass',query: { title: '更改手机号'}})
-    }
+    },
   },
   mounted(){
+    console.log(this.userData)
+    this.smsSend = this.userData.smsSend
+    this.mailSend = this.userData.mailSend
+    this.newSms = this.userData.smsSend
+    this.newMail = this.userData.mailSend
     this.$store.commit('changeTitle','设置')
-  }
+  },
+  computed:{
+    userData(){
+      return this.$store.getters.userData
+    },
+  },
+  beforeRouteLeave(to,from,next){
+    if(this.smsSend == this.newSms && this.mailSend == this.newMail){
+      next(true)
+      return
+    }
+    this.Dialog.confirm({
+      title: '提示',
+      message: '确认要保存修改吗？'
+    }).then(() => {
+      if(this.smsSend != this.newSms){
+        this.$api.user.updateSmsSend().then(res=>{
+          console.log('sms')
+          if(res.code == 200){
+            this.Toast.success('保存成功')
+            localStorage.getuser = '1'
+            next()
+          }else{
+            this.Toast.success('保存失败')
+          }
+        })
+      }
+      if(this.mailSend != this.newMail){
+        console.log('mail')
+        this.$api.user.updateMailSend().then(res=>{
+          if(res.code == 200){
+            this.Toast.success('保存成功')
+            localStorage.getuser = '1'
+            next()
+          }else{
+            this.Toast.success('保存失败')
+          }
+        })
+      }
+    }).catch(()=>{
+      this.$router.go(1)
+    })
+    // next(false)
+  },
 }
 </script>
 

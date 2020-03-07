@@ -53,6 +53,24 @@ export default [
         },
         component: resolve => require(['@/views/index/tcccx/indextcccx'], resolve)
     },
+    {
+        path: '/indexykcx', // 首页油卡充值
+        name: 'Indexykcx',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/index/ykcx/indexykcx'], resolve)
+    },
+    {
+        path: '/addJykOrder', // 首页油卡添加订单
+        name: 'AddJykOrder',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/index/ykcx/addJykOrder'], resolve)
+    },
     // {
     //     path: '/indextcccx', // 首页公交查询
     //     name: 'Indextcccx',

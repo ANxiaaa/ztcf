@@ -83,9 +83,9 @@ export default {
         url: require('@/assets/index/find/xxcx.png'),
         click: _this.xxcx
       },{
-        name: '油卡查询',
+        name: '油卡充值',
         url: require('@/assets/index/find/ykcx.png'),
-        click: _this.expect
+        click: _this.ykcx
       },{
         name: '公交查询',
         url: require('@/assets/index/find/gjcx.png'),
@@ -168,6 +168,10 @@ export default {
     // 限行查询
     xxcx(){
       this.$router.push('/indexxxcx')
+    },
+    // 油卡查询
+    ykcx(){
+      this.$router.push('/indexykcx')
     },
     // 快递查询
     kdcx(){

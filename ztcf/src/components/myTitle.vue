@@ -52,6 +52,7 @@ div{
     padding: .32rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     span{
         font-family: '宋体';
         font-weight: bold;

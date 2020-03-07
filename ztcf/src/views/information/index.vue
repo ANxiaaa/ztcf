@@ -1,5 +1,6 @@
 <template>
   <div ref="information" class="information">
+    <div></div>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <div v-for="i in newsList" :key="i.id" @click="toNews(i)" @touchstart="down" @touchend="up" class="newsBox">
         <img :src="i.picurl.split(' ')[0]" alt="">

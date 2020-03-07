@@ -1,7 +1,7 @@
 <template>
   <div class="carStore">
-    <ul class="container">
-      <li @click="toInfo(i)" v-for="i in userCarInfo" :key="i.id">
+    <ul>
+      <li class="container" @click="toInfo(i)" v-for="i in userCarInfo" :key="i.id">
         <img class="carlogo" :src="require('@/assets/my/car.png')" alt="">
         <div>
           <p>{{i.carNumberPrefix}}{{i.carNumber}}</p>
