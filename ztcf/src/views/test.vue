@@ -18,6 +18,7 @@ export default {
         }
     },
     methods:{
+        // 拍照上传
         clickInputLoader() {
             let _this = this
             if (~navigator.userAgent.indexOf("Html5Plus")) {
@@ -70,9 +71,20 @@ export default {
                 u8arr[n] = bstr.charCodeAt(n);
             }
             return new File([u8arr], filename, {type:mime});
+        },
+        // 定位
+        positionGeo(){
+            plus.geolocation.getCurrentPosition(function(p){
+                alert('Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude);
+            }, function(e){
+                alert('Geolocation error: ' + e.message);
+            },{
+                enableHighAccuracy: true, // 是否高精确度获取位置信息
+            });
         }
     },
     mounted(){
+        // 定位
     }
 }
 </script>

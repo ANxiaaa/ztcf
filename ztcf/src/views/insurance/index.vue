@@ -151,22 +151,26 @@ export default {
     },
     // 跳转添加车辆
     toInsureAdd(){
-      this.$api.carList.allOneCar().then(res=>{
-        console.log(res.data)
-        if(res.code == 200){
-          let arr = []
-          res.data.forEach(i=>{
-              arr.push(i.initial)
-          })
-          let indexList = [...new Set(arr)].sort()
-          console.log(indexList)
-          this.$store.commit('changeAllCar',res.data)
-          this.$store.commit('changeAllIndexList',indexList)
-          this.$router.push('/insureAddCar')
-        }else{
-          this.Toast.fail('获取失败, 请重试!')
-        }
-      })
+      if(this.allCar.length){
+        this.$router.push('/insureAddCar')
+      }else{
+        this.$api.carList.allOneCar().then(res=>{
+          console.log(res.data)
+          if(res.code == 200){
+            let arr = []
+            res.data.forEach(i=>{
+                arr.push(i.initial)
+            })
+            let indexList = [...new Set(arr)].sort()
+            console.log(indexList)
+            this.$store.commit('changeAllCar',res.data)
+            this.$store.commit('changeAllIndexList',indexList)
+            this.$router.push('/insureAddCar')
+          }else{
+            this.Toast.fail('获取失败, 请重试!')
+          }
+        })
+      }
     }
   },
   activated(){
@@ -176,6 +180,12 @@ export default {
       this.$set(this.carData, 'xinghao', this.$route.query.carName)
       console.log(this.carData)
     }
+  },
+  computed: {
+    allCar(){
+      let data = this.$store.getters.allCar
+      return data
+    },
   }
 }
 </script>

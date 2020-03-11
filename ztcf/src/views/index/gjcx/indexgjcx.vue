@@ -1,18 +1,15 @@
 <template>
-    <div class="indexjyzcx t600">
-        <z-map ref="zmap" @positionSuccess="positionSuccess"></z-map>
+    <div class="indextcccx t600">
+        <!-- <z-map ref="zmap" @positionSuccess="positionSuccess"></z-map> -->
         <div class="wrap">
             <div class="loading" v-if="loading">
                 <van-loading color="#1989fa">加载中...</van-loading>
             </div>
             <ul class="oliList" v-else>
                 <li v-for="(i,index) in resData" :key="index + 'oli'">
-                    <p class="name"><b>{{i.name}}</b><span>1.1km</span></p>
+                    <p class="name"><b>{{i.name}}</b><strong>{{i.type}}</strong><span>1.1km</span></p>
                     <p class="address">{{i.address}}</p>
-                    <div>
-                        <p><b>E92#</b><strong>6.15元/升</strong></p>
-                        <p><b>E94#</b><strong>6.17元/升</strong></p>
-                    </div>
+                    <p class="residue">剩余<span>{{i.leftnum}}</span>个，共<span>{{i.num}}</span>个车位</p>
                 </li>
             </ul>
         </div>
@@ -21,12 +18,11 @@
 
 <script>
 import btn from '@/components/input/btn'
-import zMap from '@/components/map/zMap'
 import { bdtogd } from '@/utils/mapPos'
 import { gdtobd } from '@/utils/mapPos'
-// import { location } from "@/utils/mapPos";
+import zMap from '@/components/map/zMap'
 export default {
-    name: 'indexjyzcx',
+    name: 'indextcccx',
     components:{
         btn,
         zMap
@@ -35,7 +31,7 @@ export default {
         let self = this;
         return {
             loading: true,
-            resData: []
+            resData: [],
         }
     },
     methods:{
@@ -49,7 +45,7 @@ export default {
         // 定位成功
         positionSuccess(position){
             let { lat, lng } = position
-            this.$api.apisearch.queryNearby({ distance: 3000, lat, lng }).then(async res=>{
+            this.$api.apisearch.parkingQueryNearby({ distance: 5000, lat, lng, test: true }).then(async res=>{
                 if(res.code == 200){
                     console.log(res)
                     this.loading = false
@@ -68,7 +64,24 @@ export default {
         }
     },
     mounted(){
-        this.$store.commit('changeTitle','加油站查询')
+        this.$store.commit('changeTitle','公交查询')
+        let lat = 34.768846, lng = 113.733567
+        this.$api.apisearch.parkingQueryNearby({ distance: 5000, lat, lng, test: true }).then(async res=>{
+                if(res.code == 200){
+                    console.log(res)
+                    this.loading = false
+                    this.resData = res.data
+                    this.resData.forEach(i=>{
+                        let bd = bdtogd(i.lng, i.lat)
+                        let olimarker = [bd.lng, bd.lat]
+                        this.$refs.zmap.addMark(olimarker, i)
+                    })
+                    await this.$refs.zmap.setFitView()
+                }
+            }).catch(err => {
+                console.log(err)
+                this.err = res.msg
+            })
     },
     created(){
     },
@@ -78,13 +91,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.indexjyzcx{
+.indextcccx{
     position: relative;
     height: 100%;
     .wrap{
         position: absolute;
         top: 6.133333rem;left: 0;right: 0;bottom: 0;
-        overflow-y: auto;
         background: #fff;
         z-index: 99;
         padding-top: .4rem;
@@ -110,32 +122,32 @@ export default {
                     font-size: .32rem;
                     color: #999
                 }
+                b{
+                    // overflow-x: auto;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: pre;
+                }
+                strong{
+                    white-space: pre;
+                    margin: 0 .3rem;
+                    font-size: .266667rem;
+                    padding: .066667rem .1rem;
+                    color: #4771E6;
+                    background:rgba(71,113,230,.2);
+                    border-radius:.053333rem;
+                }
             }
             .address{
                 font-size: .32rem;
                 color: #999;
                 line-height: .7rem;
             }
-            div{
-                display: flex;
-                p{
-                    margin-right: .333333rem;
-                    display: flex;
-                    border:.026667rem solid rgba(220,223,230,1);
-                    border-radius:.053333rem;
-                    overflow: hidden;
-                    font-size: .266667rem;
-                    b{
-                        height: 100%;
-                        background: #C4C6CC;
-                        color: #fff;
-                        margin-right: .1rem;
-                        padding: .04rem .1rem;
-                    }
-                    strong{
-                        color: #B3B3B3;
-                        padding: .04rem;
-                    }
+            .residue{
+                font-size: .293333rem;
+                color: #b3b3b3;
+                span{
+                    color: #4771E6;
                 }
             }
         }

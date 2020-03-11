@@ -56,3 +56,21 @@ export const parkingQueryNearby = data => {
         data
     })
 }
+
+// vin查询
+export const queryVin = vinCode => {
+    return axios({
+        url: 'api/queryVin',
+        method: 'post',
+        params: { vinCode }
+    })
+}
+
+// 附近站点
+export const queryBusNearby = vinCode => {
+    return axios({
+        url: 'api/queryVin',
+        method: 'post',
+        params: { vinCode }
+    })
+}

@@ -32,7 +32,7 @@ export default {
     // 车辆信息
     toInfo(i){
       console.log(i)
-      this.$router.push('/indexAddCar?carId=' + i.id)
+      this.$router.push('/indexAddCar?storeCarId=' + i.id)
     }
   },
   mounted(){

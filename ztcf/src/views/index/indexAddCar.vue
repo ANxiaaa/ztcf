@@ -1,7 +1,7 @@
 <template>
     <div class="indexAddCar t600">
-        <img v-if="!carId" :src="require('@/assets/index/indexTop.png')" class="topBg" alt="">
-        <div v-if="carId" class="card">
+        <img v-if="!storeCarId" :src="require('@/assets/index/indexTop.png')" class="topBg" alt="">
+        <div v-if="storeCarId" class="card">
             <div class="defultCar">
                 <b>默认车辆</b>
                 <van-switch :size="`${40 / 75}rem`" v-model="checked"/>
@@ -17,8 +17,8 @@
                 </div>
                 <div class="xinghao" @click="toInsureAdd">
                     <b class="t600">车辆型号:</b>
-                    <p class="t600" :style="!carData.carBrand || !carData.carName ?{color: '#b3b3b3'}:{color: '#333'}">
-                    <strong style="flex: 1">{{!carData.carBrand || !carData.carName ?'请选择车辆型号':carData.carBrand || carData.carName}}</strong>
+                    <p class="t600" :style="!carData.carBrand && !carData.carName ? {color: '#b3b3b3'} : {color: '#333'} ">
+                    <strong style="flex: 1">{{!carData.carBrand && !carData.carName ? '请选择车辆型号' : carData.carBrand || carData.carName}}</strong>
                     <van-icon name="arrow" size=".4rem" color="#b3b3b3"/></p>
                 </div>
                 <div class="chepai">
@@ -75,7 +75,7 @@
             <van-datetime-picker @change="showregTime" v-else :show-toolbar="false" v-model="carTime" type="date" :min-date="minDate" :max-date="maxDate"/>
         </van-popup>
         <div class="bottomBox">
-            <btn v-if="carId" @click="delCar" startColor="#fafafa" endColor="#fff" :style="btnStyle" name="删除"></btn>
+            <btn v-if="storeCarId" @click="delCar" startColor="#fafafa" endColor="#fff" :style="btnStyle" name="删除"></btn>
             <btn @click="subAdd" name="保存车辆"></btn>
         </div>
         <img :src="imgurl" alt="">
@@ -86,6 +86,7 @@
 import btn from '@/components/input/btn'
 import upImg from '@/components/input/upImg'
 import { upLoaderImg } from '@/http/upImg'
+import { baseUrl } from '@/utils/global'
 export default {
     name: 'indexAddCar',
     components:{
@@ -94,6 +95,7 @@ export default {
     },
     data () {
         return {
+            baseUrl,
             minDate: new Date(2020, 0, 1),
             maxDate: new Date(2025, 11, 31),
             showxuanze: true,
@@ -201,22 +203,26 @@ export default {
         },
         // 跳转添加车辆
         toInsureAdd(){
-            this.$api.carList.allOneCar().then(res=>{
-                console.log(res.data)
-                if(res.code == 200){
-                    let arr = []
-                    res.data.forEach(i=>{
-                        arr.push(i.initial)
-                    })
-                    let indexList = [...new Set(arr)].sort()
-                    console.log(indexList)
-                    this.$store.commit('changeAllCar',res.data)
-                    this.$store.commit('changeAllIndexList',indexList)
-                    this.$router.push('/indexOneBrand')
-                }else{
-                    this.Toast.fail('获取失败, 请重试!')
-                }
-            })
+            if(this.allCar.length){
+                this.$router.push('/indexOneBrand')
+            }else{
+                this.$api.carList.allOneCar().then(res=>{
+                    console.log(res.data)
+                    if(res.code == 200){
+                        let arr = []
+                        res.data.forEach(i=>{
+                            arr.push(i.initial)
+                        })
+                        let indexList = [...new Set(arr)].sort()
+                        console.log(indexList)
+                        this.$store.commit('changeAllCar',res.data)
+                        this.$store.commit('changeAllIndexList',indexList)
+                        this.$router.push('/indexOneBrand')
+                    }else{
+                        this.Toast.fail('获取失败, 请重试!')
+                    }
+                })
+            }
         },
         // 点击相册
         showAlbum(){
@@ -271,18 +277,24 @@ export default {
         },
         // 删除车辆
         delCar(){
-            this.$api.user.deleteMemberCarInfoByMemberId(this.carId).then(res=>{
-                if(res.code == 200){
-                    this.Toast({
-                        message: '删除成功',
-                        onOpened(){
-                            localStorage.getuser = '1'
-                            _this.$router.go(-1)
-                        }
-                    })
-                }else{
-                    this.Toast.fail(res.msg)
-                }
+            let _this = this
+            this.Dialog.confirm({
+                title: '提示',
+                message: '您确定要删除该车辆吗？'
+            }).then(() => {
+                this.$api.user.deleteMemberCarInfoByMemberId(this.storeCarId).then(res=>{
+                    if(res.code == 200){
+                        this.Toast({
+                            message: '删除成功',
+                            onOpened(){
+                                localStorage.getuser = '1'
+                                _this.$router.go(-1)
+                            }
+                        })
+                    }else{
+                        this.Toast.fail(res.msg)
+                    }
+                })
             })
         },
         // 选前缀
@@ -329,27 +341,27 @@ export default {
         upImg(filePath){
             let _this = this
             plus.io.resolveLocalFileSystemURL(filePath, function(entry) {
-                    console.log('entry', entry)
-                    _this.lodingShow = true;
-                    let reader = null
-                    entry.file(function(file) {
-                        reader = new plus.io.FileReader(); // 文件系统中的读取文件对象，用于获取文件的内容
-                        reader.readAsDataURL(file);
-                        reader.onloadend = async function(e) {
-                            let dataBase = 'data:image/png;base64' + e.target.result;
-                            _this.base64 = dataBase
-                            let imgfile = _this.dataURLtoFile(dataBase, 'up.jpeg')
-                            console.log(imgfile)
-                            return await upLoaderImg(imgfile, '/apis/member/spotDrivingPermit', 'post').then(res=>{
-                                _this.drivingPermit(res)
-                            })
-                        },function (e) {
-                            alert( e.message );
-                        };
-                    });
-                }, function(e) {
-                    plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+                console.log('entry', entry)
+                _this.lodingShow = true;
+                let reader = null
+                entry.file(function(file) {
+                    reader = new plus.io.FileReader(); // 文件系统中的读取文件对象，用于获取文件的内容
+                    reader.readAsDataURL(file);
+                    reader.onloadend = async function(e) {
+                        let dataBase = 'data:image/png;base64' + e.target.result;
+                        _this.base64 = dataBase
+                        let imgfile = _this.dataURLtoFile(dataBase, 'up.jpeg')
+                        console.log(imgfile)
+                        return await upLoaderImg(imgfile, baseUrl + '/member/spotDrivingPermit', 'post').then(res=>{
+                            _this.drivingPermit(res)
+                        })
+                    },function (e) {
+                        alert( e.message );
+                    };
                 });
+            }, function(e) {
+                plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+            });
         },
         // 点击拍照
         showCamara(){
@@ -412,6 +424,7 @@ export default {
     },
     activated(){
         if(this.$route.meta.re){
+            this.checked = false
             this.carData = {
                 "brandId": '', // 品牌ID
                 "twoBrandId": '', // 二级品牌ID
@@ -426,7 +439,7 @@ export default {
                 "enable": 1, // 是否可用
                 "engineNumber": "", // 发动机号
                 "frameNumber": "", // 车辆识别码
-                "isDefault": false, // 车辆识别码
+                "isDefault": 0, // 车辆识别码
                 "id": 0,
                 "ifTransfer": 0, // 是否过户
                 "transferDate": "", // 过户时间
@@ -435,10 +448,10 @@ export default {
                 "playingDate": "", // 上牌年份
             }
         }
-        if(this.$route.query.carId != undefined){
-            console.log(this.$route.query.carId)
+        if(this.$route.query.storeCarId != undefined){
+            console.log(this.$route.query.storeCarId)
             this.userCarInfo.forEach(i => {
-                if(i.id == this.$route.query.carId){
+                if(i.id == this.$route.query.storeCarId){
                     console.log(2,i)
                     this.carData = Object.assign({}, i)
                     this.checked = Boolean(this.carData.isDefault)
@@ -455,6 +468,10 @@ export default {
         userData(){
             let data = this.$store.getters.userData
             return Object.assign({}, data)
+        },
+        allCar(){
+            let data = this.$store.getters.allCar
+            return data
         },
         brandId(){
             if(this.$route.query.brandId){
@@ -493,7 +510,10 @@ export default {
         },
         userCarInfo(){
             return this.$store.getters.userCarInfo
-        }
+        },
+        storeCarId(){
+            return this.$route.query.storeCarId
+        },
     }
 }
 </script>
@@ -503,7 +523,7 @@ export default {
     padding: .15rem .35rem;
     border-radius: .266667rem;
     box-shadow: 0 -0.01rem 0.2rem 0 rgba(46,107,230,0.19);
-    margin: 0 auto .5rem    ;
+    margin: 0 auto .5rem;
     width: 9.2rem;
     background: #fff;
 }
@@ -576,6 +596,9 @@ export default {
             }
             strong{
                 flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 6rem;
             }
             height: .666667rem;
             display: flex;

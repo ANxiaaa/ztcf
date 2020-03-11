@@ -1,9 +1,6 @@
 <template>
     <div class="indextcccx t600">
-        <el-amap vid="amap" :plugin="plugin" class="amap-demo" :center="center" :zoom="zoom">
-            <el-amap-circle-marker v-for="(marker, index) in markers" :key="index + 'mark'" :center="marker.center" :radius="marker.radius" :fill-color="marker.fillColor" :fill-opacity="marker.fillOpacity" :events="marker.events"></el-amap-circle-marker>
-            <el-amap-marker v-for="(marker, index) in olimarkers" :key="index" :position="marker.position" :events="marker.events" :visible="marker.visible" :draggable="marker.draggable" :vid="index"></el-amap-marker>
-        </el-amap>
+        <z-map ref="zmap" @positionSuccess="positionSuccess"></z-map>
         <div class="wrap">
             <div class="loading" v-if="loading">
                 <van-loading color="#1989fa">加载中...</van-loading>
@@ -21,99 +18,20 @@
 
 <script>
 import btn from '@/components/input/btn'
-import { AMapManager } from 'vue-amap'
 import { bdtogd } from '@/utils/mapPos'
 import { gdtobd } from '@/utils/mapPos'
-import { location } from "@/utils/mapPos";
+import zMap from '@/components/map/zMap'
 export default {
     name: 'indextcccx',
     components:{
         btn,
+        zMap
     },
     data () {
         let self = this;
         return {
             loading: true,
-            lng: 0,
-            lat: 0,
-            err: '',
-            zoom: 15,
-            center: [121.59996, 31.197646],
-            markers: [],
-            olimarkers: [],
             resData: [],
-            plugin: [{
-                AMapManager,
-                pName: 'Geolocation',
-                // noIpLocate: 1, // 禁止ip定位
-                events: {
-                    init(o) {
-                        console.log(location)
-                        location.initMap
-                        o.getCurrentPosition((status, result) => {
-                            // 获取定位
-                            if (result && result.position) {
-                                self.lng = result.position.lng;
-                                self.lat = result.position.lat;
-                                let gd = gdtobd(self.lng, self.lat)
-                                let gdlng = gd.lng
-                                let gdlat = gd.lat
-                                self.center = [self.lng, self.lat]
-                                self.loaded = true;
-                                self.result=result;
-                                if(result.addressComponent.city){
-                                    self.citys=result.addressComponent.city;
-                                }else{
-                                    self.citys=result.addressComponent.province;
-                                }
-                                self.district=result.addressComponent.district;
-                                self.$nextTick();
-                                console.log(self.lng, self.lat)
-                                // 定位完成之后 添加圆形
-                                let marker = {
-                                    center: [self.lng, self.lat],
-                                    radius: 25,
-                                    strokeColor: '#4771E6',
-                                    strokeOpacity: 0,
-                                    fillColor: '#4771E6',
-                                    fillOpacity: .6,
-                                }
-                                self.markers.push(marker)
-                                console.log(self.$route.path)
-                                // 查询停车场站
-                                if(self.$route.path == '/indextcccx'){
-                                    self.$api.apisearch.parkingQueryNearby({
-                                        distance: 5000,
-                                        lat: `${gdlat}`,
-                                        lng: `${gdlng}`,
-                                        test: true
-                                    }).then(res=>{
-                                        self.resData = res.data
-                                        self.loading = false
-                                        self.resData.forEach(i=>{
-                                            let bd = bdtogd(i.lng, i.lat)
-                                            console.log(bd)
-                                            let olimarker = {
-                                                position: [bd.lng, bd.lat]
-                                            };
-                                            self.olimarkers.push(olimarker);
-                                        })
-                                        if(res.code == 200){
-                                            console.log(res)
-                                        }else{
-                                            self.err = res.msg
-                                        }
-                                    })
-                                }
-                            }
-                        });
-                    }
-                }
-            },{
-                pName: 'ToolBar',
-                liteStyle: true,
-                position: 'RT'
-            }]
         }
     },
     methods:{
@@ -124,12 +42,29 @@ export default {
         up(a){
             a.target.style.background = '#2E6BE6'
         },
+        // 定位成功
+        positionSuccess(position){
+            let { lat, lng } = position
+            this.$api.apisearch.parkingQueryNearby({ distance: 5000, lat, lng, test: true }).then(async res=>{
+                if(res.code == 200){
+                    console.log(res)
+                    this.loading = false
+                    this.resData = res.data
+                    this.resData.forEach(i=>{
+                        let bd = bdtogd(i.lng, i.lat)
+                        let olimarker = [bd.lng, bd.lat]
+                        this.$refs.zmap.addMark(olimarker, i)
+                    })
+                    await this.$refs.zmap.setFitView()
+                }
+            }).catch(err => {
+                console.log(err)
+                this.err = res.msg
+            })
+        }
     },
     mounted(){
         this.$store.commit('changeTitle','停车场查询')
-        console.log(this.resData)
-        console.log(this.aMap)
-        console.log(this.AMap)
     },
     created(){
     },
@@ -142,10 +77,6 @@ export default {
 .indextcccx{
     position: relative;
     height: 100%;
-    .amap-demo{
-        width: 100%;
-        height: 7.8rem;
-    }
     .wrap{
         position: absolute;
         top: 6.133333rem;left: 0;right: 0;bottom: 0;
@@ -204,13 +135,5 @@ export default {
             }
         }
     }
-}
-</style>
-<style scoped>
->>> .amap-copyright, >>> .amap-logo {
-    display: none !important;
-}
->>> .amap-geolocation-con{
-    bottom: 2.2rem !important;
 }
 </style>

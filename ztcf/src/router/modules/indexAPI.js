@@ -63,6 +63,15 @@ export default [
         component: resolve => require(['@/views/index/ykcx/indexykcx'], resolve)
     },
     {
+        path: '/vin', // 首页vin查询
+        name: 'Vin',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/index/vin/vin'], resolve)
+    },
+    {
         path: '/addJykOrder', // 首页油卡添加订单
         name: 'AddJykOrder',
         meta: {
@@ -71,13 +80,13 @@ export default [
         },
         component: resolve => require(['@/views/index/ykcx/addJykOrder'], resolve)
     },
-    // {
-    //     path: '/indextcccx', // 首页公交查询
-    //     name: 'Indextcccx',
-    //     meta: {
-    //         hideNav: true,
-    //         back: true
-    //     },
-    //     component: resolve => require(['@/views/index/tcccx/indextcccx'], resolve)
-    // },
+    {
+        path: '/indexgjcx', // 首页公交查询
+        name: 'Indexgjcx',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/index/gjcx/indexgjcx'], resolve)
+    },
 ]

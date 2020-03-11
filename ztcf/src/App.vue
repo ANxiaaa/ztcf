@@ -20,7 +20,6 @@ export default {
   name: 'App',
   data(){
     return {
-      keep: ['indexAddCar', 'insurance', 'information'],
       // 缓存的页面
       include: ['register'],
       // 主导航

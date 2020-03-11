@@ -89,7 +89,7 @@ export default {
       },{
         name: '公交查询',
         url: require('@/assets/index/find/gjcx.png'),
-        click: _this.expect
+        click: _this.gjcx
       },{
         name: '违章代办',
         url: require('@/assets/index/find/wzdb.png'),
@@ -105,7 +105,7 @@ export default {
       },{
         name: 'vin查询',
         url: require('@/assets/index/find/vin.png'),
-        click: _this.expect
+        click: _this.vin
       },{
         name: '其他查询',
         url: require('@/assets/index/find/qtcx.png'),
@@ -164,6 +164,14 @@ export default {
     // 违章查询
     wzcx(){
       this.$router.push('/indexwzcx')
+    },
+    // 公交查询查询
+    gjcx(){
+      this.$router.push('/indexgjcx')
+    },
+    // vin查询
+    vin(){
+      this.$router.push('/vin')
     },
     // 限行查询
     xxcx(){

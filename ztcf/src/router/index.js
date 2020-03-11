@@ -11,7 +11,8 @@ import information from './modules/information' // 资讯的子级页面
 
 Vue.use(Router)
 let router = new Router({
-  mode: 'history',
+  // mode: 'history',
+  // base: '/dist/',
   routes: [
     ...all,
     ...my,

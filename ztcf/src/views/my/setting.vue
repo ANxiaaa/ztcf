@@ -85,7 +85,11 @@ export default {
       next(true)
       return
     }
+    let _this = this
     this.Dialog.confirm({
+      closeOnClickOverlay: true,
+      confirmButtonText: '保存',
+      cancelButtonText: '不保存',
       title: '提示',
       message: '确认要保存修改吗？'
     }).then(() => {
@@ -114,7 +118,8 @@ export default {
         })
       }
     }).catch(()=>{
-      this.$router.go(1)
+      console.log('catch')
+      next(true)
     })
     // next(false)
   },

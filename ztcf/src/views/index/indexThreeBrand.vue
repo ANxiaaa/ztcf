@@ -23,13 +23,17 @@ export default {
     toMsg(item){
       console.log(item)
       // this.$router.push('/indexAddCar?carName=' + item.name)
-      this.$router.push({path: '/indexAddCar', query: {
-        brandId: this.brandId,
-        twoBrandId: this.twoBrandId,
-        vehicleId: this.vehicleId,
-        carId: item.queryId,
-        carName: item.name
-      }})
+      if(this.brandId){
+        this.$router.push({path: '/indexAddCar', query: {
+          brandId: this.brandId,
+          twoBrandId: this.twoBrandId,
+          vehicleId: this.vehicleId,
+          carId: item.queryId,
+          carName: item.name
+        }})
+      }else{
+        this.$router.push('/carParam?id=' + item.queryId)
+      }
     }
   },
   mounted(){

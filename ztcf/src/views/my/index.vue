@@ -87,6 +87,7 @@ export default {
       },{
         url: require('@/assets/my/jilu.png'),
         name: '浏览记录',
+        router: '/browsing'
       }],
       // 订单
       myDingdan: {

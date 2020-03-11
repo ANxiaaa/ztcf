@@ -102,6 +102,15 @@ export default [
         component: resolve => require(['@/views/my/collect'], resolve)
     },
     {
+        path: '/browsing', // 浏览记录
+        name: 'Browsing',
+        meta: {
+            hideNav: true,
+            back: true
+        },
+        component: resolve => require(['@/views/my/browsing'], resolve)
+    },
+    {
         path: '/invite', // 邀请
         name: 'Invite',
         meta: {

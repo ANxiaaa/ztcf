@@ -12,3 +12,11 @@ export const findPage = data => {
         data
     })
 }
+
+// 根据id查询
+export const findById = id => {
+    return axios({
+        url: '/news/findById?id=' + id,
+        method: 'get'
+    })
+}

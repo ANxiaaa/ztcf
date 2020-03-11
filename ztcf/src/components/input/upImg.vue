@@ -8,13 +8,14 @@
 </template>
 
 <script>
+import { baseUrl } from '@/utils/global'
 import { upLoaderImg } from '@/http/upImg'
 export default {
     name: 'btmborder',
     props: {
         upUrl: {
             type: String,
-            default: '/apis/member/spotDrivingPermit'
+            default: '/member/spotDrivingPermit'
         }
     },
     data(){
@@ -42,7 +43,9 @@ export default {
         async imgfn(file){
             console.log(file)
             this.uploading = true
-            return await upLoaderImg(file.file,this.upUrl,'post').then(res=>{
+            let url = baseUrl + this.upUrl
+            console.log(url)
+            return await upLoaderImg(file.file, url,'post').then(res=>{
                 this.$emit('getfile', res)
                 this.uploading = false
             })

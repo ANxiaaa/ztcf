@@ -28,11 +28,15 @@ export default {
         if(res.code == 200){
           console.log(this.brandId)
           this.$store.commit('changeAllCarThree',res.data.list)
-          this.$router.push({path: '/indexThreeBrand', query: {
-            brandId: this.brandId,
-            twoBrandId: data.parentId,
-            vehicleId: data.queryId
-          }})
+          if(this.brandId){
+            this.$router.push({path: '/indexThreeBrand', query: {
+              brandId: this.brandId,
+              twoBrandId: data.parentId,
+              vehicleId: data.queryId
+            }})
+          }else{
+            this.$router.push('/indexThreeBrand')
+          }
         }else{
           this.Toast.fail('获取失败, 请重试!')
         }

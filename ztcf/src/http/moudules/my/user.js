@@ -61,7 +61,7 @@ export const defaultMemberCarInfoByMemberId = id => {
 // 删除车辆
 export const deleteMemberCarInfoByMemberId = id => {
     return axios({
-        url: '/member/defaultMemberCarInfoByMemberId',
+        url: '/member/deleteMemberCarInfoByMemberId',
         method: 'post',
         params: { id }
     })
@@ -122,6 +122,15 @@ export const getDefReceipt = () => {
 export const noticefindPage = data => {
     return axios({
         url: '/notice/findPage',
+        method: 'post',
+        data
+    })
+}
+
+// 浏览记录
+export const memberFindPage = data => {
+    return axios({
+        url: '/member/findPage',
         method: 'post',
         data
     })
