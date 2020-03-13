@@ -53,6 +53,7 @@ export default {
         this.$api.login.logout().then(res=>{
           if(res.code == 200){
             this.Toast.success('退出成功')
+            localStorage.isLogin = ''
             this.$router.go(-1)
           }else{
             this.Toast.success('退出失败')

@@ -1,20 +1,27 @@
 <template>
     <div class="indexjyzcx t600">
-        <z-map ref="zmap" @positionSuccess="positionSuccess"></z-map>
+        <z-map ref="zmap" @clickMap="clickMap" @positionSuccess="positionSuccess" @clickMark="clickMark"></z-map>
         <div class="wrap">
             <div class="loading" v-if="loading">
                 <van-loading color="#1989fa">加载中...</van-loading>
             </div>
-            <ul class="oliList" v-else>
-                <li v-for="(i,index) in resData" :key="index + 'oli'">
-                    <p class="name"><b>{{i.name}}</b><span>1.1km</span></p>
-                    <p class="address">{{i.address}}</p>
-                    <div>
-                        <p><b>E92#</b><strong>6.15元/升</strong></p>
-                        <p><b>E94#</b><strong>6.17元/升</strong></p>
-                    </div>
-                </li>
-            </ul>
+            <div v-else>
+                <h6 v-show="resData.length == 0">没有附近加油站信息</h6>
+                <!-- v-show="!showItem" -->
+                <ul v-show="resData.length != 0" class="oliList">
+                    <li v-for="(i,index) in resData" @click="clickList(i)" :key="index + 'oli'">
+                        <p class="name"><b>{{i.name}}</b><span>1.1km</span></p>
+                        <p class="address">{{i.address}}</p>
+                        <div>
+                            <p><b>E92#</b><strong>6.15元/升</strong></p>
+                            <p><b>E94#</b><strong>6.17元/升</strong></p>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <div v-show="showItem" class="showItem">
+                    showItem
+                </div> -->
+            </div>
         </div>
     </div>
 </template>
@@ -35,7 +42,8 @@ export default {
         let self = this;
         return {
             loading: true,
-            resData: []
+            resData: [],
+            showItem: false
         }
     },
     methods:{
@@ -63,9 +71,24 @@ export default {
                 }
             }).catch(err => {
                 console.log(err)
-                this.err = res.msg
+                this.loading = false
+                this.Toast.fail(err.msg)
             })
-        }
+        },
+        // 点击点
+        clickMark(data){
+            console.log(data)
+            this.showItem = true
+        },
+        // 点击地图
+        clickMap(){
+            this.showItem = false
+        },
+        // 点击列表
+        clickList(i){
+            console.log(i)
+            this.$refs.zmap.changeMark(i.id)
+        },
     },
     mounted(){
         this.$store.commit('changeTitle','加油站查询')
@@ -140,5 +163,10 @@ export default {
             }
         }
     }
+}
+h6{
+    font-size: .5rem;
+    text-align: center;
+    margin-top: .4rem;
 }
 </style>

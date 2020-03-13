@@ -1,6 +1,6 @@
 <template>
     <div class="indextcccx t600">
-        <!-- <z-map ref="zmap" @positionSuccess="positionSuccess"></z-map> -->
+        <z-map ref="zmap" @positionSuccess="positionSuccess"></z-map>
         <div class="wrap">
             <div class="loading" v-if="loading">
                 <van-loading color="#1989fa">加载中...</van-loading>
@@ -43,9 +43,17 @@ export default {
             a.target.style.background = '#2E6BE6'
         },
         // 定位成功
-        positionSuccess(position){
-            let { lat, lng } = position
-            this.$api.apisearch.parkingQueryNearby({ distance: 5000, lat, lng, test: true }).then(async res=>{
+        positionSuccess(position, address){
+            let addresses = address.addresses;
+            if(addresses.indexOf('(') != -1){
+                addresses = addresses.slice(0, addresses.indexOf('('))
+            }
+            let data = {
+                address: addresses,
+                city: address.address.city
+            }
+            console.log('data', data)
+            this.$api.apisearch.queryBusNearby(data).then(async res=>{
                 if(res.code == 200){
                     console.log(res)
                     this.loading = false
@@ -65,23 +73,29 @@ export default {
     },
     mounted(){
         this.$store.commit('changeTitle','公交查询')
-        let lat = 34.768846, lng = 113.733567
-        this.$api.apisearch.parkingQueryNearby({ distance: 5000, lat, lng, test: true }).then(async res=>{
-                if(res.code == 200){
-                    console.log(res)
-                    this.loading = false
-                    this.resData = res.data
-                    this.resData.forEach(i=>{
-                        let bd = bdtogd(i.lng, i.lat)
-                        let olimarker = [bd.lng, bd.lat]
-                        this.$refs.zmap.addMark(olimarker, i)
-                    })
-                    await this.$refs.zmap.setFitView()
-                }
-            }).catch(err => {
-                console.log(err)
-                this.err = res.msg
-            })
+
+        // let data = {
+        //     address: '河南省郑州市金水区商务东四街28号靠近郑州银行',
+        //     city: '郑州市'
+        // }
+        // let lat = 34.768846, lng = 113.733567
+
+        // this.$api.apisearch.queryBusNearby(data).then(async res=>{
+        //     if(res.code == 200){
+        //         console.log(res)
+        //         this.loading = false
+        //         this.resData = res.data
+        //         this.resData.forEach(i=>{
+        //             let bd = bdtogd(i.lng, i.lat)
+        //             let olimarker = [bd.lng, bd.lat]
+        //             this.$refs.zmap.addMark(olimarker, i)
+        //         })
+        //         await this.$refs.zmap.setFitView()
+        //     }
+        // }).catch(err => {
+        //     console.log(err)
+        //     this.err = res.msg
+        // })
     },
     created(){
     },

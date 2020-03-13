@@ -5,13 +5,16 @@
             <div class="loading" v-if="loading">
                 <van-loading color="#1989fa">加载中...</van-loading>
             </div>
-            <ul class="oliList" v-else>
-                <li v-for="(i,index) in resData" :key="index + 'oli'">
-                    <p class="name"><b>{{i.name}}</b><strong>{{i.type}}</strong><span>1.1km</span></p>
-                    <p class="address">{{i.address}}</p>
-                    <p class="residue">剩余<span>{{i.leftnum}}</span>个，共<span>{{i.num}}</span>个车位</p>
-                </li>
-            </ul>
+            <div v-else>
+                <h6 v-show="resData.length == 0">没有附近停车场信息</h6>
+                <ul v-show="resData.length != 0" class="oliList">
+                    <li @click="clickList(i)" v-for="(i,index) in resData" :key="index + 'oli'">
+                        <p class="name"><b>{{i.name}}</b><strong>{{i.type}}</strong><span>1.1km</span></p>
+                        <p class="address">{{i.address}}</p>
+                        <p class="residue">剩余<span>{{i.leftnum}}</span>个，共<span>{{i.num}}</span>个车位</p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -32,6 +35,8 @@ export default {
         return {
             loading: true,
             resData: [],
+            showItem: false,
+            pageNum: 0
         }
     },
     methods:{
@@ -42,12 +47,17 @@ export default {
         up(a){
             a.target.style.background = '#2E6BE6'
         },
+        // 点击列表
+        clickList(i){
+            console.log(i)
+            this.$refs.zmap.changeMark(i.id)
+        },
         // 定位成功
         positionSuccess(position){
             let { lat, lng } = position
-            this.$api.apisearch.parkingQueryNearby({ distance: 5000, lat, lng, test: true }).then(async res=>{
+            this.$api.apisearch.parkingQueryNearby({ distance: 1000, lat, lng }).then(async res=>{
                 if(res.code == 200){
-                    console.log(res)
+                    console.log(res, position)
                     this.loading = false
                     this.resData = res.data
                     this.resData.forEach(i=>{
@@ -59,7 +69,8 @@ export default {
                 }
             }).catch(err => {
                 console.log(err)
-                this.err = res.msg
+                this.loading = false
+                this.Toast.fail(err.msg)
             })
         }
     },
@@ -81,6 +92,7 @@ export default {
         position: absolute;
         top: 6.133333rem;left: 0;right: 0;bottom: 0;
         background: #fff;
+        overflow-y: auto;
         z-index: 99;
         padding-top: .4rem;
         border-top-right-radius: .8rem;
@@ -135,5 +147,10 @@ export default {
             }
         }
     }
+}
+h6{
+    font-size: .5rem;
+    text-align: center;
+    margin-top: .4rem;
 }
 </style>

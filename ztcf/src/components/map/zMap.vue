@@ -13,27 +13,61 @@ export default {
         return {
             markers: [],
             map: null,
+            position: []
         }
     },
     methods: {
+        // 更改点选中
+        changeMark(id){
+            this.markers.forEach(i => {
+                console.log(i.data.id == id)
+                if(i.data.id == id){
+                    this.upMark(i)
+                }
+            })
+        },
+        // 点变红
+        upMark(marker){
+            this.markers.forEach(i => {
+                i.setIcon(require('@/assets/mapicon/markerDefault.png'))
+            })
+            //a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-red.png
+            this.map.panTo(marker.position)
+            marker.setIcon(require('@/assets/mapicon/markerRed.png'))
+        },
         // 自适应点
         setFitView(){
+            this.markers.forEach(i => {
+                i.setIcon(require('@/assets/mapicon/markerDefault.png'))
+            })
             this.map.setFitView()
         },
         // 添加点
         addMark(position, data){
-            console.log(position, data)
+            let _this = this
             var marker;
             marker = new AMap.Marker({
-                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_bs.png",
+                icon: require('@/assets/mapicon/markerDefault.png'),
                 position,
-                offset: new AMap.Pixel(-10, -30)
+                offset: new AMap.Pixel(-13, -30)
             });
             marker.data = data
+            marker.position = position
             marker.on('click', function(e){
-                console.log('点击marker', e)
+                _this.$emit('clickMark', data)
+                _this.upMark(marker)
             })
             marker.setMap(this.map);
+            this.markers.push(marker)
+        },
+        // 点击地图
+        mapClick(e){
+            console.log('点击地图')
+            this.markers.forEach(i => {
+                i.setIcon(require('@/assets/mapicon/markerDefault.png'))
+            })
+            this.$emit('clickMap')
+            this.setFitView()
         },
         // 加载地图
         amapLoad(){
@@ -50,6 +84,7 @@ export default {
                     var lng = p.coords.longitude
                     var lat = p.coords.latitude
                     var position = [lng, lat]
+                    _this.position = position
                     console.log(position)
                     var m1 = new AMap.Marker({
                         position,
@@ -58,7 +93,8 @@ export default {
                     });
                     _this.map.add(m1);
                     _this.map.setZoomAndCenter(14, position);
-                    _this.$emit('positionSuccess', {lng, lat})
+                    _this.map.on('click', _this.mapClick)
+                    _this.$emit('positionSuccess', {lng, lat}, p)
                 }, function(e){
                     alert('Geolocation error: ' + e.message);
                 },{

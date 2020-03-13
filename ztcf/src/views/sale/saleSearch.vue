@@ -1,8 +1,13 @@
 <template>
   <div :class="{ oh }" class="saleSearch">
     <form v-if="isSearch" action="/">
-      <van-search @search="search" placeholder="车辆名称或品牌" v-model="searchData" shape="round"/>
+      <van-search @click.native="inS" @search="search" placeholder="车辆名称或品牌" v-model="searchData" shape="round"/>
     </form>
+    <div class="showHist" v-show="isSearch && showHist">
+      <van-cell clickable v-for="(i, index) in searchHistory" @click.stop="search(i)" :title="i" :key="index"></van-cell>
+        <van-icon @click.stop="delHist(index)" slot="right-icon" name="cross" style="line-height: inherit;" />
+      </van-cell>
+    </div>
     <search-filter @getFilter="getFilter" @getVal="getVal" @getOh="getOh" v-show="!isSearch || showRes"></search-filter>
     <div v-if="!isSearch || showRes" class="container list">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -38,7 +43,9 @@ export default {
       columnFilters: {},
       filter1: {},
       filter2: {},
-      carnameFilter: {}
+      carnameFilter: {},
+      searchHistory: [],
+      showHist: true
     }
   },
   methods:{
@@ -121,7 +128,36 @@ export default {
       this.loading = true
       this.finished = false
       this.pageRequest.columnFilters = Object.assign({}, this.carnameFilter)
+      this.showHist = false
+      this.addHist(value)
       this.onLoad()
+    },
+    inS(){
+      console.log('dianji')
+      this.showRes = false;
+      this.showHist = true
+    },
+    // 添加搜索记录
+    addHist(value){
+      console.log('添加搜索')
+      for(let i = 0;i < this.searchHistory.length; i ++){
+        if(this.searchHistory[i] == value){
+          return
+        }
+      }
+      console.log('添加')
+      if(this.searchHistory.length >= 5){
+        this.searchHistory.pop()
+      }
+      this.searchHistory.unshift(value)
+      localStorage.searchHistory = this.searchHistory
+      console.log(this.searchHistory)
+    },
+    // 删除搜索记录
+    delHist(index){
+      console.log('删除搜索')
+      this.searchHistory.splice(index, 1)
+      localStorage.searchHistory = this.searchHistory
     },
     // 加载
     onLoad(){
@@ -159,6 +195,13 @@ export default {
   },
   mounted(){
     this.$store.commit('changeTitle', '特价车')
+    if(localStorage.searchHistory != undefined){
+      console.log(localStorage.searchHistory)
+      this.searchHistory = localStorage.searchHistory.split(',')
+    }else{
+      this.searchHistory = []
+    }
+    console.log(this.searchHistory)
   },
   computed:{
     isSearch(){
@@ -178,5 +221,11 @@ export default {
 }
 .oh{
   overflow: hidden !important;
+}
+.searchHist{
+  display: flex;
+  height: .533333rem;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

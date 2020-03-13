@@ -89,7 +89,7 @@ export default {
       },{
         name: '公交查询',
         url: require('@/assets/index/find/gjcx.png'),
-        click: _this.gjcx
+        click: _this.expect
       },{
         name: '违章代办',
         url: require('@/assets/index/find/wzdb.png'),

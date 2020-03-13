@@ -67,10 +67,10 @@ export const queryVin = vinCode => {
 }
 
 // 附近站点
-export const queryBusNearby = vinCode => {
+export const queryBusNearby = data => {
     return axios({
-        url: 'api/queryVin',
+        url: 'bus/queryBusNearby',
         method: 'post',
-        params: { vinCode }
+        data
     })
 }
