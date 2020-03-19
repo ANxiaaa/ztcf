@@ -66,6 +66,7 @@ export default {
 <style scoped lang="scss">
 .collect{
   height: 100%;
+  overflow-y: auto;
 }
 .collbx{
   li{

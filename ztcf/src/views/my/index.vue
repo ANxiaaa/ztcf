@@ -17,7 +17,7 @@
         <van-icon name="arrow" size=".4rem" color="#b3b3b3"/>
       </div>
       <div class="shoucang container">
-        <div class="shadow" v-for="i in shoucang" :key="i.name" @click="$router.push(i.router)">
+        <div class="shadow" v-for="i in shoucang" :key="i.name" @click="i.click">
           <img :src="i.url" alt="">
           <p class="t600">{{i.name}}</p>
           <van-icon name="arrow" size=".4rem" color="#b3b3b3"/>
@@ -26,7 +26,7 @@
       <div class="dingdan container shadow">
         <my-title @click="toDingdan" :data="myDingdan"></my-title>
         <ul>
-          <li v-for="i in dingdanList" @click="$router.push(`/order?type=${i.value}`)" :key="i.name">
+          <li v-for="i in dingdanList" @click="toDingdan(i.value)" :key="i.name">
             <img :src="i.pic" alt="">
             <p class="t600">{{i.title}}</p>
           </li>
@@ -83,11 +83,11 @@ export default {
       shoucang: [{
         url: require('@/assets/my/shoucang.png'),
         name: '我的收藏',
-        router: '/collect'
+        click: this.tocollect
       },{
         url: require('@/assets/my/jilu.png'),
         name: '浏览记录',
-        router: '/browsing'
+        click: this.tobrowsing
       }],
       // 订单
       myDingdan: {
@@ -142,27 +142,58 @@ export default {
     }
   },
   methods:{
+    tocollect(){
+      let _this = this
+      this.$login(function(){
+        _this.$router.push('/collect')
+      })
+    },
+    tobrowsing(){
+      let _this = this
+      this.$login(function(){
+        _this.$router.push('/browsing')
+      })
+    },
     // 跳转订单
-    toDingdan(){
+    toDingdan(i){
+      let _this = this
       console.log(1)
-      this.$router.push('/order')
+      let router = '/order'
+      if(i){
+        router = '/order?type=' + i
+      }
+      this.$login(function(){
+        _this.$router.push(router)
+      })
     },
     // 跳转订单
     tonotice(){
+      let _this = this
       console.log(1)
-      this.$router.push('/notice')
+      this.$login(function(){
+        _this.$router.push('/notice')
+      })
     },
     // 跳转设置
     tosetting(){
-      this.$router.push('/setting')
+      let _this = this
+      this.$login(function(){
+        _this.$router.push('/setting')
+      })
     },
     // 跳转咨讯
     toadvisory(){
-      this.$router.push('/toadvisory')
+      let _this = this
+      this.$login(function(){
+        _this.$router.push('/toadvisory')
+      })
     },
     // 跳转车库
     toStore(){
-      this.$router.push('/carStore')
+      let _this = this
+      this.$login(function(){
+        _this.$router.push('/carStore')
+      })
     },
     // 点击反馈
     down(a,b,c){

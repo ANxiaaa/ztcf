@@ -39,7 +39,11 @@ export default {
       this.$api.carList.allTwoCar(params).then(res=>{
         if(res.code == 200){
           this.$store.commit('changeAllCarTwo',res.data)
-          this.$router.push('/insureCarTwo')
+          if(this.$route.query.change == 1){
+            this.$router.push('/insureCarTwo?change=1&brandId=' + data.id)
+          }else{
+            this.$router.push('/insureCarTwo?brandId=' + data.id)
+          }
         }else{
           this.Toast.fail('获取失败, 请重试!')
         }

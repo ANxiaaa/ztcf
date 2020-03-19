@@ -144,7 +144,7 @@ export default {
       //   "remark": "", // 备注
       //   "status": "pending" // 订单状态
       // }
-      if(localStorage.isLogin){
+      this.$login(function () {
         let param = {
           orderProductType: 'special_car',
           productId
@@ -178,14 +178,7 @@ export default {
             this.$router.push('/addSaleOrder')
           })
         })
-      }else{
-        this.Dialog.confirm({
-          title: '请登录',
-          message: '您还未登录，确定要登录吗？'
-        }).then(() => {
-          this.$router.push('/register')
-        })
-      }
+      })
     },
     // 格式化时间
     formatDate(date){

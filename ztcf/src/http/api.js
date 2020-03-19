@@ -8,6 +8,7 @@ import * as sale from './moudules/sale/saleCar' // 特价车模块
 import * as apisearch from './moudules/index/apisearch' // api查询模块
 import * as news from './moudules/information/news' // 资讯查询模块
 import * as order from './moudules/order/order' // 订单相关接口
+import * as insurance from './moudules/insurance/insurance' // 保险接口
 
 // 默认全部导出
 export default {
@@ -17,5 +18,6 @@ export default {
     sale,
     apisearch,
     news,
-    order
+    order,
+    insurance
 }

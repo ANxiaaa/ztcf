@@ -56,11 +56,9 @@ export default {
             this.xieyi = !this.xieyi
         },
         getPhone(data){
-            console.log(data)
             this.phone = data
         },
         getYzm(data){
-            console.log(data)
             this.yzm = data
         },
         sub(){
@@ -69,7 +67,6 @@ export default {
                 sendCode: this.yzm
             }
             this.$api.login.loginOrRegister(data).then(res=>{
-                console.log(res)
                 let _this = this
                 if(res.code == 200){
                     localStorage.isLogin = '1'

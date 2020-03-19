@@ -26,7 +26,6 @@ export default {
       let params = { parentId: data.queryId }
       this.$api.carList.allThreeCar(params).then(res=>{
         if(res.code == 200){
-          console.log(this.brandId)
           this.$store.commit('changeAllCarThree',res.data.list)
           if(this.brandId){
             this.$router.push({path: '/indexThreeBrand', query: {

@@ -21,9 +21,29 @@ export default {
   },
   methods:{
     toMsg(item){
-      console.log(item.name)
-      console.log(this.$router)
-      this.$router.push('./insurance?carName=' + item.name)
+      let path = '/insurance'
+      if(this.$route.query.change == 1){
+        path = '/vague'
+      }
+      this.$router.push({path, query: {
+        brandId: this.brandId,
+        twoBrandId: this.twoBrandId,
+        vehicleId: this.vehicleId,
+        carId: item.queryId,
+        carName: item.name,
+        price: Math.round(Number(item.price.slice(0,-1)) * 10000)
+      }})
+    }
+  },
+  computed: {
+    brandId(){
+      return this.$route.query.brandId
+    },
+    twoBrandId(){
+      return this.$route.query.twoBrandId
+    },
+    vehicleId(){
+      return this.$route.query.vehicleId
     }
   },
   mounted(){

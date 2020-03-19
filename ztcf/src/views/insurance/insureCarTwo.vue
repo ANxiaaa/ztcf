@@ -26,7 +26,18 @@ export default {
       this.$api.carList.allThreeCar(params).then(res=>{
         if(res.code == 200){
           this.$store.commit('changeAllCarThree',res.data.list)
-          this.$router.push('/insureCarThree')
+          let query = {
+            brandId: this.brandId,
+            twoBrandId: data.parentId,
+            vehicleId: data.queryId
+          }
+          if(this.$route.query.change == 1){
+            query.change = 1
+          }
+          this.$router.push({
+            path: '/insureCarThree',
+            query
+          })
         }else{
           this.Toast.fail('获取失败, 请重试!')
         }
@@ -37,6 +48,9 @@ export default {
     this.$store.commit('changeTitle','选择车系')
   },
   computed: {
+    brandId(){
+      return this.$route.query.brandId
+    }
   }
 }
 </script>

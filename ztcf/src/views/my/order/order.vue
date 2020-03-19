@@ -81,8 +81,8 @@ export default {
     load1(){
       setTimeout(()=>{
         this.loading1 = false
+        this.finished1 = true
       }, 0)
-      this.finished1 = true
     },
   },
   mounted(){

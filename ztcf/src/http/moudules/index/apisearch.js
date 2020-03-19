@@ -74,3 +74,11 @@ export const queryBusNearby = data => {
         data
     })
 }
+
+// 车管局
+export const getManagerBureau = () => {
+    return axios({
+        url: 'api/getManagerBureau',
+        method: 'get'
+    })
+}
